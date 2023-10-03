@@ -1,2 +1,5 @@
-# java-backend-2023
-Repository for hometasks from Tinkoff Java Backend course
+![Build Status](https://github.com/sanyarnd/java-course-2023/actions/workflows/build.yml/badge.svg)
+
+Домашние задания курса https://fintech.tinkoff.ru/academy/java
+
+Студент: `ФИО`
