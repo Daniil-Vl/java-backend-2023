@@ -57,15 +57,42 @@ public class Solution1Test {
     }
 
     @Test
-    void throwsNumberFormatException() {
+    void hoursNotInt() {
         String time = "a:00";
-        Assertions.assertThrows(NumberFormatException.class, () -> Solution1.minutesToSeconds(time));
+        int actual = Solution1.minutesToSeconds(time);
+        int expected = -1;
+        Assertions.assertEquals(expected, actual);
     }
 
     @Test
-    void timeWithoutHoursOrMinutes() {
+    void withoutHours() {
         String time = ":10";
-        Assertions.assertThrows(NumberFormatException.class, () -> Solution1.minutesToSeconds(time));
+        int actual = Solution1.minutesToSeconds(time);
+        int expected = -1;
+        Assertions.assertEquals(expected, actual);
+    }
+
+    @Test
+    void minutesNotInt() {
+        String time = "10:b";
+        int actual = Solution1.minutesToSeconds(time);
+        int expected = -1;
+        Assertions.assertEquals(expected, actual);
+    }
+
+    @Test
+    void withoutMinutes() {
+        String time = "10:";
+        int actual = Solution1.minutesToSeconds(time);
+        int expected = -1;
+        Assertions.assertEquals(expected, actual);
+    }
+    @Test
+    void withoutHoursAndMinutes() {
+        String time = ":";
+        int actual = Solution1.minutesToSeconds(time);
+        int expected = -1;
+        Assertions.assertEquals(expected, actual);
     }
 
 }
