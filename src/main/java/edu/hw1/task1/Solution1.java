@@ -22,8 +22,7 @@ public class Solution1 {
         try {
             hours = Integer.parseInt(hoursAndMinutes[0]);
             minutes = Integer.parseInt(hoursAndMinutes[1]);
-        }
-        catch (NumberFormatException e) {
+        } catch (NumberFormatException e) {
             return -1;
         }
 

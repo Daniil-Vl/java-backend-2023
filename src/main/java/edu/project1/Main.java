@@ -24,4 +24,5 @@ public final class Main {
             LOGGER.info("i = {}", i);
         }
     }
+
 }

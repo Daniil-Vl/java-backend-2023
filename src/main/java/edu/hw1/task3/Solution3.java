@@ -1,6 +1,5 @@
 package edu.hw1.task3;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 
 public class Solution3 {
@@ -9,8 +8,6 @@ public class Solution3 {
     }
 
     public static boolean isNestable(int[] inner, int[] outer) {
-        ArrayList<Integer> a = new ArrayList<>();
-
         // Return false if any array is empty
         if (inner.length < 1 || outer.length < 1) {
             return false;
