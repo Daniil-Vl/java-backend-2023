@@ -8,6 +8,7 @@ public final class EvenArrayUtils {
     private final static Logger LOGGER = LogManager.getLogger();
 
     private EvenArrayUtils() {
+        throw new UnsupportedOperationException("This is a utility class and cannot be instantiated");
     }
 
     /**
