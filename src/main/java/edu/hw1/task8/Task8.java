@@ -1,6 +1,6 @@
 package edu.hw1.task8;
 
-public class Solution8 {
+public class Task8 {
 
     private static final int FIELD_SIZE = 8;
     private static final int[][] POSSIBLE_MOVES = {
@@ -15,7 +15,7 @@ public class Solution8 {
         {2, 1},
     };
 
-    public Solution8() {
+    public Task8() {
     }
 
     /**

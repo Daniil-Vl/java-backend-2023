@@ -1,16 +1,15 @@
 package edu.hw1.task1;
 
-public class Solution1 {
+public class Task1 {
 
-    private Solution1() {
-        throw new UnsupportedOperationException("This is a utility class and cannot be instantiated");
+    private Task1() {
     }
 
     @SuppressWarnings("MagicNumber")
     public static int minutesToSeconds(String videoLength) {
         String[] hoursAndMinutes = videoLength.split(":");
 
-        // Return -1 if can't get hours and minutes from inputted string
+        // Return -1 if we can't get hours and minutes from inputted string
         if (hoursAndMinutes.length != 2) {
             return -1;
         }

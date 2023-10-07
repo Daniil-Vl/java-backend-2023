@@ -4,12 +4,12 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
-public class Solution1Test {
+public class Task1Test {
     @Test
     @DisplayName("Tests from task №1")
     void firstTest() {
         String time = "01:00";
-        int actual = Solution1.minutesToSeconds(time);
+        int actual = Task1.minutesToSeconds(time);
         int expected = 60;
         assertThat(actual).isEqualTo(expected);
     }
@@ -18,7 +18,7 @@ public class Solution1Test {
     @DisplayName("Test from task №2")
     void secondTest() {
         String time = "13:56";
-        int actual = Solution1.minutesToSeconds(time);
+        int actual = Task1.minutesToSeconds(time);
         int expected = 836;
         assertThat(actual).isEqualTo(expected);
     }
@@ -27,7 +27,7 @@ public class Solution1Test {
     @DisplayName("Test from task №3")
     void thirdTest() {
         String time = "10:60";
-        int actual = Solution1.minutesToSeconds(time);
+        int actual = Task1.minutesToSeconds(time);
         int expected = -1;
         assertThat(actual).isEqualTo(expected);
     }
@@ -35,7 +35,7 @@ public class Solution1Test {
     @Test
     void negativeMinutes() {
         String time = "10:-50";
-        int actual = Solution1.minutesToSeconds(time);
+        int actual = Task1.minutesToSeconds(time);
         int expected = -1;
         assertThat(actual).isEqualTo(expected);
     }
@@ -43,7 +43,7 @@ public class Solution1Test {
     @Test
     void negativeHours() {
         String time = "-10:50";
-        int actual = Solution1.minutesToSeconds(time);
+        int actual = Task1.minutesToSeconds(time);
         int expected = -1;
         assertThat(actual).isEqualTo(expected);
     }
@@ -51,7 +51,7 @@ public class Solution1Test {
     @Test
     void zeroHoursAndMinutes() {
         String time = "00:00";
-        int actual = Solution1.minutesToSeconds(time);
+        int actual = Task1.minutesToSeconds(time);
         int expected = 0;
         assertThat(actual).isEqualTo(expected);
     }
@@ -59,7 +59,7 @@ public class Solution1Test {
     @Test
     void hoursNotInt() {
         String time = "a:00";
-        int actual = Solution1.minutesToSeconds(time);
+        int actual = Task1.minutesToSeconds(time);
         int expected = -1;
         assertThat(actual).isEqualTo(expected);
     }
@@ -67,7 +67,7 @@ public class Solution1Test {
     @Test
     void withoutHours() {
         String time = ":10";
-        int actual = Solution1.minutesToSeconds(time);
+        int actual = Task1.minutesToSeconds(time);
         int expected = -1;
         assertThat(actual).isEqualTo(expected);
     }
@@ -75,7 +75,7 @@ public class Solution1Test {
     @Test
     void minutesNotInt() {
         String time = "10:b";
-        int actual = Solution1.minutesToSeconds(time);
+        int actual = Task1.minutesToSeconds(time);
         int expected = -1;
         assertThat(actual).isEqualTo(expected);
     }
@@ -83,7 +83,7 @@ public class Solution1Test {
     @Test
     void withoutMinutes() {
         String time = "10:";
-        int actual = Solution1.minutesToSeconds(time);
+        int actual = Task1.minutesToSeconds(time);
         int expected = -1;
         assertThat(actual).isEqualTo(expected);
     }
@@ -91,7 +91,7 @@ public class Solution1Test {
     @Test
     void withoutHoursAndMinutes() {
         String time = ":";
-        int actual = Solution1.minutesToSeconds(time);
+        int actual = Task1.minutesToSeconds(time);
         int expected = -1;
         assertThat(actual).isEqualTo(expected);
     }

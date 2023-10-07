@@ -3,11 +3,11 @@ package edu.hw1.task8;
 import org.junit.jupiter.api.Test;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
-class Solution8Test {
+class Task8Test {
 
     @Test
     void testTrue1() {
-        Solution8 sol = new Solution8();
+        Task8 sol = new Task8();
         int[][] field = {
             {0, 0, 0, 1, 0, 0, 0, 0},
             {0, 0, 0, 0, 0, 0, 0, 0},
@@ -24,7 +24,7 @@ class Solution8Test {
 
     @Test
     void testTrue2() {
-        Solution8 sol = new Solution8();
+        Task8 sol = new Task8();
         int[][] field = {
             {0, 0, 0, 0, 0, 0, 0, 0},
             {0, 0, 0, 0, 0, 0, 0, 0},
@@ -41,7 +41,7 @@ class Solution8Test {
 
     @Test
     void testFalse1() {
-        Solution8 sol = new Solution8();
+        Task8 sol = new Task8();
         int[][] field = {
             {1, 0, 1, 0, 1, 0, 1, 0},
             {0, 1, 0, 1, 0, 1, 0, 1},
@@ -58,7 +58,7 @@ class Solution8Test {
 
     @Test
     void testFalse2() {
-        Solution8 sol = new Solution8();
+        Task8 sol = new Task8();
         int[][] field = {
             {0, 0, 0, 0, 1, 0, 0, 0},
             {0, 0, 0, 0, 0, 1, 0, 0},

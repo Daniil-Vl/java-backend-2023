@@ -1,7 +1,7 @@
 package edu.hw1.task5;
 
-public class Solution5 {
-    private Solution5() {
+public class Task5 {
+    private Task5() {
     }
 
     @SuppressWarnings("MagicNumber")

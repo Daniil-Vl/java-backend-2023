@@ -2,9 +2,9 @@ package edu.hw1.task3;
 
 import java.util.Arrays;
 
-public class Solution3 {
+public class Task3 {
 
-    private Solution3() {
+    private Task3() {
     }
 
     public static boolean isNestable(int[] inner, int[] outer) {

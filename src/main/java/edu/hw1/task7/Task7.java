@@ -1,8 +1,8 @@
 package edu.hw1.task7;
 
-public class Solution7 {
+public class Task7 {
 
-    private Solution7() {
+    private Task7() {
     }
 
     public static int rotateLeft(int num, int shift) {

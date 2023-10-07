@@ -4,11 +4,11 @@ import org.junit.jupiter.api.Test;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-class Solution6Test {
+class Task6Test {
 
     @Test
     void fiveTimes() {
-        Solution6 sol = new Solution6();
+        Task6 sol = new Task6();
         int num = 6621;
         int actual = sol.countK(num);
         int expected = 5;
@@ -17,7 +17,7 @@ class Solution6Test {
 
     @Test
     void fourTimes() {
-        Solution6 sol = new Solution6();
+        Task6 sol = new Task6();
         int num = 6554;
         int actual = sol.countK(num);
         int expected = 4;
@@ -26,7 +26,7 @@ class Solution6Test {
 
     @Test
     void threeTimes() {
-        Solution6 sol = new Solution6();
+        Task6 sol = new Task6();
         int num = 1234;
         int actual = sol.countK(num);
         int expected = 3;
@@ -35,7 +35,7 @@ class Solution6Test {
 
     @Test
     void zeroTimes() {
-        Solution6 sol = new Solution6();
+        Task6 sol = new Task6();
         int num = 6174;
         int actual = sol.countK(num);
         int expected = 0;
@@ -44,14 +44,14 @@ class Solution6Test {
 
     @Test
     void numberHaveMoreThan4Digits() {
-        Solution6 sol = new Solution6();
+        Task6 sol = new Task6();
         int num = 12345;
         assertThrows(IllegalArgumentException.class, () -> sol.countK(num));
     }
 
     @Test
     void numberHaveLessThan4Digits() {
-        Solution6 sol = new Solution6();
+        Task6 sol = new Task6();
         int num = 123;
         assertThrows(IllegalArgumentException.class, () -> sol.countK(num));
     }

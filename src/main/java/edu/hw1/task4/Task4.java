@@ -1,7 +1,7 @@
 package edu.hw1.task4;
 
-public class Solution4 {
-    private Solution4() {
+public class Task4 {
+    private Task4() {
     }
 
     public static String fixString(String uncorrectString) {

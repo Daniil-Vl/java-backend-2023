@@ -3,7 +3,7 @@ package edu.hw1.task6;
 import java.util.Arrays;
 import java.util.Collections;
 
-public class Solution6 {
+public class Task6 {
 
     private int count = 0;
 

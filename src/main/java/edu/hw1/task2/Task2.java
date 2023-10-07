@@ -1,9 +1,8 @@
 package edu.hw1.task2;
 
-public class Solution2 {
+public class Task2 {
 
-    private Solution2() {
-        throw new UnsupportedOperationException("This is a utility class and cannot be instantiated");
+    private Task2() {
     }
 
     @SuppressWarnings("MagicNumber")

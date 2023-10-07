@@ -3,12 +3,12 @@ package edu.hw1.task4;
 import org.junit.jupiter.api.Test;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
-class Solution4Test {
+class Task4Test {
 
     @Test
     void evenLengthString() {
         String uncorrectString = "123456";
-        String actual = Solution4.fixString(uncorrectString);
+        String actual = Task4.fixString(uncorrectString);
         String expected = "214365";
         assertThat(actual).isEqualTo(expected);
     }
@@ -16,7 +16,7 @@ class Solution4Test {
     @Test
     void oddLengthString() {
         String uncorrectString = "badce";
-        String actual = Solution4.fixString(uncorrectString);
+        String actual = Task4.fixString(uncorrectString);
         String expected = "abcde";
         assertThat(actual).isEqualTo(expected);
     }
@@ -24,7 +24,7 @@ class Solution4Test {
     @Test
     void stringWithSeveralWords() {
         String uncorrectString = "hTsii  s aimex dpus rtni.g";
-        String actual = Solution4.fixString(uncorrectString);
+        String actual = Task4.fixString(uncorrectString);
         String expected = "This is a mixed up string.";
         assertThat(actual).isEqualTo(expected);
     }
@@ -32,7 +32,7 @@ class Solution4Test {
     @Test
     void emptyString() {
         String uncorrectString = "";
-        String actual = Solution4.fixString(uncorrectString);
+        String actual = Task4.fixString(uncorrectString);
         String expected = "";
         assertThat(actual).isEqualTo(expected);
     }
@@ -40,7 +40,7 @@ class Solution4Test {
     @Test
     void stringWithOneCharacter() {
         String uncorrectString = "a";
-        String actual = Solution4.fixString(uncorrectString);
+        String actual = Task4.fixString(uncorrectString);
         String expected = "a";
         assertThat(actual).isEqualTo(expected);
     }
