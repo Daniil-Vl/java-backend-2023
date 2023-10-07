@@ -1,7 +1,7 @@
 package edu.hw1.task2;
 
 import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 public class Solution2Test {
 
@@ -9,8 +9,8 @@ public class Solution2Test {
     void numberZero() {
         int num = 0;
         int actual = Solution2.countDigits(num);
-        int expected = 1;
-        assertEquals(expected, actual);
+        int expected = 1; 
+        assertThat(actual).isEqualTo(expected);
     }
 
     @Test
@@ -18,7 +18,7 @@ public class Solution2Test {
         int num = 5;
         int actual = Solution2.countDigits(num);
         int expected = 1;
-        assertEquals(expected, actual);
+        assertThat(actual).isEqualTo(expected);
     }
 
     @Test
@@ -26,7 +26,7 @@ public class Solution2Test {
         int num = 34;
         int actual = Solution2.countDigits(num);
         int expected = 2;
-        assertEquals(expected, actual);
+        assertThat(actual).isEqualTo(expected);
     }
 
     @Test
@@ -34,7 +34,7 @@ public class Solution2Test {
         int num = 544;
         int actual = Solution2.countDigits(num);
         int expected = 3;
-        assertEquals(expected, actual);
+        assertThat(actual).isEqualTo(expected);
     }
 
     @Test
@@ -42,7 +42,7 @@ public class Solution2Test {
         int num = 4666;
         int actual = Solution2.countDigits(num);
         int expected = 4;
-        assertEquals(expected, actual);
+        assertThat(actual).isEqualTo(expected);
     }
 
     @Test
@@ -50,6 +50,6 @@ public class Solution2Test {
         int num = -4666;
         int actual = Solution2.countDigits(num);
         int expected = 4;
-        assertEquals(expected, actual);
+        assertThat(actual).isEqualTo(expected);
     }
 }

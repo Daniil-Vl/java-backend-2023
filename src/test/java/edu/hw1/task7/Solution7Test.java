@@ -1,8 +1,7 @@
 package edu.hw1.task7;
 
 import org.junit.jupiter.api.Test;
-
-import static org.junit.jupiter.api.Assertions.*;
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 class Solution7Test {
 
@@ -12,7 +11,7 @@ class Solution7Test {
         int shift = 1;
         int actual = Solution7.rotateLeft(num, shift);
         int expected = 1;
-        assertEquals(expected, actual);
+        assertThat(actual).isEqualTo(expected);
     }
 
     @Test
@@ -20,8 +19,8 @@ class Solution7Test {
         int num = 17;
         int shift = 2;
         int actual = Solution7.rotateLeft(num, shift);
-        int expected =  6;
-        assertEquals(expected, actual);
+        int expected = 6;
+        assertThat(actual).isEqualTo(expected);
     }
 
     @Test
@@ -29,8 +28,8 @@ class Solution7Test {
         int num = 17;
         int shift = 0;
         int actual = Solution7.rotateLeft(num, shift);
-        int expected =  17;
-        assertEquals(expected, actual);
+        int expected = 17;
+        assertThat(actual).isEqualTo(expected);
     }
 
     @Test
@@ -38,8 +37,8 @@ class Solution7Test {
         int num = 17;
         int shift = 32;
         int actual = Solution7.rotateLeft(num, shift);
-        int expected =  17;
-        assertEquals(expected, actual);
+        int expected = 17;
+        assertThat(actual).isEqualTo(expected);
     }
 
     @Test
@@ -47,8 +46,8 @@ class Solution7Test {
         int num = 0;
         int shift = 13;
         int actual = Solution7.rotateLeft(num, shift);
-        int expected =  0;
-        assertEquals(expected, actual);
+        int expected = 0;
+        assertThat(actual).isEqualTo(expected);
     }
 
     @Test
@@ -56,8 +55,8 @@ class Solution7Test {
         int num = 8;
         int shift = 1;
         int actual = Solution7.rotateRight(num, shift);
-        int expected =  4;
-        assertEquals(expected, actual);
+        int expected = 4;
+        assertThat(actual).isEqualTo(expected);
     }
 
     @Test
@@ -65,7 +64,7 @@ class Solution7Test {
         int num = 6;
         int shift = 2;
         int actual = Solution7.rotateRight(num, shift);
-        int expected =  5;
-        assertEquals(expected, actual);
+        int expected = 5;
+        assertThat(actual).isEqualTo(expected);
     }
 }

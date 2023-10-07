@@ -2,7 +2,7 @@ package edu.hw1.task1;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 public class Solution1Test {
     @Test
@@ -11,7 +11,7 @@ public class Solution1Test {
         String time = "01:00";
         int actual = Solution1.minutesToSeconds(time);
         int expected = 60;
-        assertEquals(expected, actual);
+        assertThat(actual).isEqualTo(expected);
     }
 
     @Test
@@ -20,7 +20,7 @@ public class Solution1Test {
         String time = "13:56";
         int actual = Solution1.minutesToSeconds(time);
         int expected = 836;
-        assertEquals(expected, actual);
+        assertThat(actual).isEqualTo(expected);
     }
 
     @Test
@@ -29,7 +29,7 @@ public class Solution1Test {
         String time = "10:60";
         int actual = Solution1.minutesToSeconds(time);
         int expected = -1;
-        assertEquals(expected, actual);
+        assertThat(actual).isEqualTo(expected);
     }
 
     @Test
@@ -37,7 +37,7 @@ public class Solution1Test {
         String time = "10:-50";
         int actual = Solution1.minutesToSeconds(time);
         int expected = -1;
-        assertEquals(expected, actual);
+        assertThat(actual).isEqualTo(expected);
     }
 
     @Test
@@ -45,7 +45,7 @@ public class Solution1Test {
         String time = "-10:50";
         int actual = Solution1.minutesToSeconds(time);
         int expected = -1;
-        assertEquals(expected, actual);
+        assertThat(actual).isEqualTo(expected);
     }
 
     @Test
@@ -53,7 +53,7 @@ public class Solution1Test {
         String time = "00:00";
         int actual = Solution1.minutesToSeconds(time);
         int expected = 0;
-        assertEquals(expected, actual);
+        assertThat(actual).isEqualTo(expected);
     }
 
     @Test
@@ -61,7 +61,7 @@ public class Solution1Test {
         String time = "a:00";
         int actual = Solution1.minutesToSeconds(time);
         int expected = -1;
-        assertEquals(expected, actual);
+        assertThat(actual).isEqualTo(expected);
     }
 
     @Test
@@ -69,7 +69,7 @@ public class Solution1Test {
         String time = ":10";
         int actual = Solution1.minutesToSeconds(time);
         int expected = -1;
-        assertEquals(expected, actual);
+        assertThat(actual).isEqualTo(expected);
     }
 
     @Test
@@ -77,7 +77,7 @@ public class Solution1Test {
         String time = "10:b";
         int actual = Solution1.minutesToSeconds(time);
         int expected = -1;
-        assertEquals(expected, actual);
+        assertThat(actual).isEqualTo(expected);
     }
 
     @Test
@@ -85,7 +85,7 @@ public class Solution1Test {
         String time = "10:";
         int actual = Solution1.minutesToSeconds(time);
         int expected = -1;
-        assertEquals(expected, actual);
+        assertThat(actual).isEqualTo(expected);
     }
 
     @Test
@@ -93,7 +93,7 @@ public class Solution1Test {
         String time = ":";
         int actual = Solution1.minutesToSeconds(time);
         int expected = -1;
-        assertEquals(expected, actual);
+        assertThat(actual).isEqualTo(expected);
     }
 
 }

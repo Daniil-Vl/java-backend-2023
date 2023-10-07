@@ -1,8 +1,7 @@
 package edu.hw1.task8;
 
 import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 class Solution8Test {
 
@@ -20,7 +19,7 @@ class Solution8Test {
             {0, 0, 0, 0, 1, 0, 0, 0}
         };
 
-        assertTrue(sol.knightBoardCapture(field));
+        assertThat(sol.knightBoardCapture(field)).isTrue();
     }
 
     @Test
@@ -37,7 +36,7 @@ class Solution8Test {
             {0, 0, 0, 0, 0, 0, 0, 0}
         };
 
-        assertTrue(sol.knightBoardCapture(field));
+        assertThat(sol.knightBoardCapture(field)).isTrue();
     }
 
     @Test
@@ -54,7 +53,7 @@ class Solution8Test {
             {0, 0, 0, 1, 0, 1, 0, 1}
         };
 
-        assertFalse(sol.knightBoardCapture(field));
+        assertThat(sol.knightBoardCapture(field)).isFalse();
     }
 
     @Test
@@ -71,8 +70,7 @@ class Solution8Test {
             {1, 0, 0, 0, 0, 0, 0, 0}
         };
 
-        assertFalse(sol.knightBoardCapture(field));
+        assertThat(sol.knightBoardCapture(field)).isFalse();
     }
-
 
 }

@@ -1,8 +1,7 @@
 package edu.hw1.task4;
 
 import org.junit.jupiter.api.Test;
-
-import static org.junit.jupiter.api.Assertions.*;
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 class Solution4Test {
 
@@ -11,7 +10,7 @@ class Solution4Test {
         String uncorrectString = "123456";
         String actual = Solution4.fixString(uncorrectString);
         String expected = "214365";
-        assertEquals(expected, actual);
+        assertThat(actual).isEqualTo(expected);
     }
 
     @Test
@@ -19,7 +18,7 @@ class Solution4Test {
         String uncorrectString = "badce";
         String actual = Solution4.fixString(uncorrectString);
         String expected = "abcde";
-        assertEquals(expected, actual);
+        assertThat(actual).isEqualTo(expected);
     }
 
     @Test
@@ -27,7 +26,7 @@ class Solution4Test {
         String uncorrectString = "hTsii  s aimex dpus rtni.g";
         String actual = Solution4.fixString(uncorrectString);
         String expected = "This is a mixed up string.";
-        assertEquals(expected, actual);
+        assertThat(actual).isEqualTo(expected);
     }
 
     @Test
@@ -35,7 +34,7 @@ class Solution4Test {
         String uncorrectString = "";
         String actual = Solution4.fixString(uncorrectString);
         String expected = "";
-        assertEquals(expected, actual);
+        assertThat(actual).isEqualTo(expected);
     }
 
     @Test
@@ -43,6 +42,6 @@ class Solution4Test {
         String uncorrectString = "a";
         String actual = Solution4.fixString(uncorrectString);
         String expected = "a";
-        assertEquals(expected, actual);
+        assertThat(actual).isEqualTo(expected);
     }
 }
