@@ -41,6 +41,7 @@ public class Task6 {
         return countK(diff);
     }
 
+    @SuppressWarnings("MagicNumber")
     private void checkValidity(int num) throws IllegalArgumentException {
         if (num <= 1000) {
             throw new IllegalArgumentException("Num must be more than 1000");
