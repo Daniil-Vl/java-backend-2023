@@ -55,4 +55,11 @@ class Task6Test {
         int num = 123;
         assertThrows(IllegalArgumentException.class, () -> sol.countK(num));
     }
+
+    @Test
+    void testNumWithSameDigits() {
+        Task6 sol = new Task6();
+        int num = 1111;
+        assertThrows(IllegalArgumentException.class, () -> sol.countK(num));
+    }
 }
