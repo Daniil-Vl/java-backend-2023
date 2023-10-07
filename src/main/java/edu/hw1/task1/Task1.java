@@ -14,8 +14,8 @@ public class Task1 {
             return -1;
         }
 
-        int hours = 0;
-        int minutes = 0;
+        int hours;
+        int minutes;
 
         // Return -1 if hours and minutes not int
         try {
