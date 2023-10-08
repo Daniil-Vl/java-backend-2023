@@ -6,9 +6,9 @@ public class Task2 {
     }
 
     @SuppressWarnings("MagicNumber")
-    public static int countDigits(int number) {
+    public static int countDigits(long number) {
         int resultCount = 1;
-        int n = number;
+        long n = number;
 
         while (n / 10 != 0) {
             resultCount++;
