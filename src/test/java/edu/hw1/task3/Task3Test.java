@@ -34,6 +34,20 @@ class Task3Test {
     }
 
     @Test
+    void innerMinLessThanOuterMin() {
+        int[] inner = {1, 4};
+        int[] outer = {2, 3, 5};
+        assertThat(Task3.isNestable(inner, outer)).isFalse();
+    }
+
+    @Test
+    void innerMaxMoreThanOuterMax() {
+        int[] inner = {1, 4};
+        int[] outer = {2, 3};
+        assertThat(Task3.isNestable(inner, outer)).isFalse();
+    }
+
+    @Test
     void innerEmpty() {
         int[] inner = {};
         int[] outer = {2, 3};

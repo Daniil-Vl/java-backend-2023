@@ -13,8 +13,8 @@ public class Task3 {
             return false;
         }
 
-        // Return true if min(inner) > min(outer) or max(inner) < max(outer) like in task condition
+        // Return true if min(inner) > min(outer) and max(inner) < max(outer) like in task condition
         return Arrays.stream(inner).min().getAsInt() > Arrays.stream(outer).min().getAsInt()
-            || Arrays.stream(inner).max().getAsInt() < Arrays.stream(outer).max().getAsInt();
+            && Arrays.stream(inner).max().getAsInt() < Arrays.stream(outer).max().getAsInt();
     }
 }
