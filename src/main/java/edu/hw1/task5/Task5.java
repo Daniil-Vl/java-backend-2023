@@ -1,5 +1,7 @@
 package edu.hw1.task5;
 
+import static edu.hw1.task2.Task2.countDigits;
+
 public class Task5 {
     private Task5() {
     }
@@ -21,14 +23,17 @@ public class Task5 {
         }
         boolean isPalindrome = reverse == num;
 
-        // Get descendant
-        long descendant = 0;
-        String numStr = String.valueOf(num);
-        for (int i = 0; i + 1 < numStr.length(); i += 2) {
-            descendant = descendant * 10 + Character.getNumericValue(numStr.charAt(i))
-                + Character.getNumericValue(numStr.charAt(i + 1));
+        if (countDigits(num) % 2 == 0) {
+            // Get descendant if the num has an even number of digits
+            long descendant = 0;
+            String numStr = String.valueOf(num);
+            for (int i = 0; i + 1 < numStr.length(); i += 2) {
+                descendant = descendant * 10 + Character.getNumericValue(numStr.charAt(i))
+                    + Character.getNumericValue(numStr.charAt(i + 1));
+            }
+            return isPalindrome || isPalindromeDescendant(descendant);
+        } else {
+            return isPalindrome;
         }
-
-        return isPalindrome || isPalindromeDescendant(descendant);
     }
 }
