@@ -14,7 +14,10 @@ public class Task6 {
             return this.count;
         }
 
-        checkValidity(num);
+        // Validate num only at the first step of the recursion
+        if (this.count == 0) {
+            checkValidity(num);
+        }
 
         Integer[] increasingOrder = new Integer[4];
         Integer[] decreasingOrder = new Integer[4];
@@ -48,17 +51,18 @@ public class Task6 {
         }
 
         if (num / 10000 != 0) {
-            throw new IllegalArgumentException("Num must have only 4 digits");
+            throw new IllegalArgumentException("Num must have no more than 4 digits");
         }
 
         int[] digits = new int[4];
-        int index = 0;
-        for (int div = 1000; div >= 1; div /= 10) {
+        int div = 1000;
+        for (int index = 0; index < 4; index++) {
             digits[index] = num / div % 10;
+            div /= 10;
         }
 
         if (digits[0] == digits[1] && digits[1] == digits[2] && digits[2] == digits[3]) {
-            throw new IllegalArgumentException("Num cannot have same digits in all positions");
+            throw new IllegalArgumentException("A number cannot have all the same digits");
         }
     }
 }

@@ -50,16 +50,19 @@ class Task6Test {
     }
 
     @Test
+    void testNumWithThreeSameDigits() {
+        Task6 sol = new Task6();
+        int num = 2221;
+        int actual = sol.countK(num);
+        int expected = 5;
+        assertThat(actual).isEqualTo(expected);
+    }
+
+    @Test
     void numberHaveLessThan4Digits() {
         Task6 sol = new Task6();
         int num = 123;
         assertThrows(IllegalArgumentException.class, () -> sol.countK(num));
     }
 
-    @Test
-    void testNumWithSameDigits() {
-        Task6 sol = new Task6();
-        int num = 1111;
-        assertThrows(IllegalArgumentException.class, () -> sol.countK(num));
-    }
 }
