@@ -3,6 +3,7 @@ package edu.hw1.task7;
 import org.junit.jupiter.api.Test;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
+import static org.junit.jupiter.api.Assertions.assertThrows;
 class Task7Test {
 
     @Test
@@ -45,9 +46,7 @@ class Task7Test {
     void rotateLeftZero() {
         int num = 0;
         int shift = 13;
-        int actual = Task7.rotateLeft(num, shift);
-        int expected = 0;
-        assertThat(actual).isEqualTo(expected);
+        assertThrows(IllegalArgumentException.class, () -> Task7.rotateLeft(num, shift));
     }
 
     @Test
@@ -66,5 +65,19 @@ class Task7Test {
         int actual = Task7.rotateRight(num, shift);
         int expected = 5;
         assertThat(actual).isEqualTo(expected);
+    }
+
+    @Test
+    void negativeNumberLeftRotation() {
+        int num = -10;
+        int shift = 2;
+        assertThrows(IllegalArgumentException.class, () -> Task7.rotateLeft(num, shift));
+    }
+
+    @Test
+    void negativeNumberRightRotation() {
+        int num = -10;
+        int shift = 2;
+        assertThrows(IllegalArgumentException.class, () -> Task7.rotateRight(num, shift));
     }
 }
