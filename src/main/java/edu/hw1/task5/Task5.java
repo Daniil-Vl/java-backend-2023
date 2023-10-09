@@ -23,17 +23,23 @@ public class Task5 {
         }
         boolean isPalindrome = reverse == num;
 
-        if (countDigits(num) % 2 == 0) {
-            // Get descendant if the num has an even number of digits
-            long descendant = 0;
-            String numStr = String.valueOf(num);
-            for (int i = 0; i + 1 < numStr.length(); i += 2) {
-                descendant = descendant * 10 + Character.getNumericValue(numStr.charAt(i))
-                    + Character.getNumericValue(numStr.charAt(i + 1));
-            }
-            return isPalindrome || isPalindromeDescendant(descendant);
-        } else {
-            return isPalindrome;
+        if (isPalindrome) {
+            return true;
         }
+
+        long descendant = 0;
+        String numStr = String.valueOf(num);
+        for (int i = 0; i + 1 < numStr.length(); i += 2) {
+            descendant = descendant * 10 + Character.getNumericValue(numStr.charAt(i))
+                + Character.getNumericValue(numStr.charAt(i + 1));
+        }
+
+        // If num have odd number of digits, then we should add last digits manually
+        if (countDigits(num) % 2 != 0) {
+            descendant = descendant * 10 + Character.getNumericValue(numStr.charAt(numStr.length() - 1));
+        }
+
+        return isPalindromeDescendant(descendant);
+
     }
 }

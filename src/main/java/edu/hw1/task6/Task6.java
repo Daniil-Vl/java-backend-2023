@@ -1,7 +1,6 @@
 package edu.hw1.task6;
 
 import java.util.Arrays;
-import java.util.Collections;
 
 public class Task6 {
 
@@ -16,25 +15,21 @@ public class Task6 {
 
         // Validate num only at the first step of the recursion
         if (this.count == 0) {
-            checkValidity(num);
+            validate(num);
         }
 
-        Integer[] increasingOrder = new Integer[4];
-        Integer[] decreasingOrder = new Integer[4];
+        Integer[] digits = new Integer[4];
         int temp = num;
 
         for (int i = 0; i < 4; i++) {
-            increasingOrder[i] = temp % 10;
-            decreasingOrder[i] = temp % 10;
+            digits[i] = temp % 10;
             temp /= 10;
         }
 
-        Arrays.sort(increasingOrder);
-        Arrays.sort(decreasingOrder, Collections.reverseOrder());
+        Arrays.sort(digits);
 
-        int first = increasingOrder[0] * 1000 + increasingOrder[1] * 100 + increasingOrder[2] * 10 + increasingOrder[3];
-        int second =
-            decreasingOrder[0] * 1000 + decreasingOrder[1] * 100 + decreasingOrder[2] * 10 + decreasingOrder[3];
+        int first = digits[0] * 1000 + digits[1] * 100 + digits[2] * 10 + digits[3];
+        int second = digits[3] * 1000 + digits[2] * 100 + digits[1] * 10 + digits[0];
 
         int min = Math.min(first, second);
         int max = first + second - min;
@@ -44,8 +39,14 @@ public class Task6 {
         return countK(diff);
     }
 
+    /**
+     * Checks that num have only 4 digits, and that all digits are not the same
+     *
+     * @param num - input number
+     * @throws IllegalArgumentException if num have more or less than 4 digits or if all digits are the same
+     */
     @SuppressWarnings("MagicNumber")
-    private void checkValidity(int num) throws IllegalArgumentException {
+    private void validate(int num) throws IllegalArgumentException {
         if (num <= 1000) {
             throw new IllegalArgumentException("Num must be more than 1000");
         }

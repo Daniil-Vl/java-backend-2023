@@ -14,22 +14,22 @@ public class Task1 {
             return -1;
         }
 
-        int hours;
         int minutes;
+        int seconds;
 
         // Return -1 if hours and minutes not int
         try {
-            hours = Integer.parseInt(hoursAndMinutes[0]);
-            minutes = Integer.parseInt(hoursAndMinutes[1]);
+            minutes = Integer.parseInt(hoursAndMinutes[0]);
+            seconds = Integer.parseInt(hoursAndMinutes[1]);
         } catch (NumberFormatException e) {
             return -1;
         }
 
         // Return -1 if hours or minutes out of range
-        if (minutes >= 60 || minutes < 0 || hours < 0) {
+        if (seconds >= 60 || seconds < 0 || minutes < 0) {
             return -1;
         }
 
-        return 60 * hours + minutes;
+        return 60 * minutes + seconds;
     }
 }

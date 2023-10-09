@@ -50,7 +50,7 @@ class Task5Test {
     @Test
     void numWithDescendantHavingOddNumberOfDigits() {
         long num = 112233;
-        assertThat(Task5.isPalindromeDescendant(num)).isFalse();
+        assertThat(Task5.isPalindromeDescendant(num)).isTrue();
     }
 
 }
