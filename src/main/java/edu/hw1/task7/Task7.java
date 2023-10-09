@@ -11,6 +11,11 @@ public class Task7 {
         if (num <= 0) {
             throw new IllegalArgumentException(NON_POSITIVE_INPUT_NUMBER_EXCEPTION_MESSAGE);
         }
+
+        if (shift < 0) {
+            return rotateRight(num, -shift);
+        }
+
         int bitNumber = getBitNumber(num);
         int leftMostDiv = Math.round(Math.round(Math.pow(2, bitNumber)));
         return ((num << shift) % leftMostDiv) | (num >> (bitNumber - shift));
@@ -20,6 +25,11 @@ public class Task7 {
         if (num <= 0) {
             throw new IllegalArgumentException(NON_POSITIVE_INPUT_NUMBER_EXCEPTION_MESSAGE);
         }
+
+        if (shift < 0) {
+            return rotateLeft(num, -shift);
+        }
+
         int bitNumber = getBitNumber(num);
         int leftMostDiv = Math.round(Math.round(Math.pow(2, bitNumber)));
         return (num >> shift) | ((num << (bitNumber - shift)) % leftMostDiv);
