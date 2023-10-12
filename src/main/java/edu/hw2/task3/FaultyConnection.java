@@ -21,7 +21,7 @@ public class FaultyConnection implements Connection {
     }
 
     @Override
-    public void close() throws Exception {
+    public void close() {
         LOGGER.info("Faulty connection successfully closed");
     }
 }
