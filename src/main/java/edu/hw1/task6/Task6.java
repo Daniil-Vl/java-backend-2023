@@ -32,7 +32,7 @@ public class Task6 {
         int second = digits[3] * 1000 + digits[2] * 100 + digits[1] * 10 + digits[0];
 
         int min = Math.min(first, second);
-        int max = first + second - min;
+        int max = Math.max(first, second);
         int diff = max - min;
 
         this.count++;
