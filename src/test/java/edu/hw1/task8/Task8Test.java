@@ -7,7 +7,6 @@ class Task8Test {
 
     @Test
     void testTrue1() {
-        Task8 sol = new Task8();
         int[][] field = {
             {0, 0, 0, 1, 0, 0, 0, 0},
             {0, 0, 0, 0, 0, 0, 0, 0},
@@ -19,12 +18,11 @@ class Task8Test {
             {0, 0, 0, 0, 1, 0, 0, 0}
         };
 
-        assertThat(sol.knightBoardCapture(field)).isTrue();
+        assertThat(Task8.knightBoardCapture(field)).isTrue();
     }
 
     @Test
     void testTrue2() {
-        Task8 sol = new Task8();
         int[][] field = {
             {0, 0, 0, 0, 0, 0, 0, 0},
             {0, 0, 0, 0, 0, 0, 0, 0},
@@ -36,12 +34,11 @@ class Task8Test {
             {0, 0, 0, 0, 0, 0, 0, 0}
         };
 
-        assertThat(sol.knightBoardCapture(field)).isTrue();
+        assertThat(Task8.knightBoardCapture(field)).isTrue();
     }
 
     @Test
     void testFalse1() {
-        Task8 sol = new Task8();
         int[][] field = {
             {1, 0, 1, 0, 1, 0, 1, 0},
             {0, 1, 0, 1, 0, 1, 0, 1},
@@ -53,12 +50,11 @@ class Task8Test {
             {0, 0, 0, 1, 0, 1, 0, 1}
         };
 
-        assertThat(sol.knightBoardCapture(field)).isFalse();
+        assertThat(Task8.knightBoardCapture(field)).isFalse();
     }
 
     @Test
     void testFalse2() {
-        Task8 sol = new Task8();
         int[][] field = {
             {0, 0, 0, 0, 1, 0, 0, 0},
             {0, 0, 0, 0, 0, 1, 0, 0},
@@ -70,7 +66,7 @@ class Task8Test {
             {1, 0, 0, 0, 0, 0, 0, 0}
         };
 
-        assertThat(sol.knightBoardCapture(field)).isFalse();
+        assertThat(Task8.knightBoardCapture(field)).isFalse();
     }
 
 }

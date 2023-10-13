@@ -15,7 +15,7 @@ public class Task8 {
         {2, 1},
     };
 
-    public Task8() {
+    private Task8() {
     }
 
     /**
@@ -25,7 +25,7 @@ public class Task8 {
      * @param knightPosition - position of current knight
      * @return true, if knight can defeat, otherwise false
      */
-    private boolean canDefeatKnight(int[][] field, Position knightPosition) {
+    private static boolean canDefeatKnight(int[][] field, Position knightPosition) {
         Position nextPos;
         for (int[] move : POSSIBLE_MOVES) {
             nextPos = new Position(knightPosition.x() + move[0], knightPosition.y() + move[1]);
@@ -42,12 +42,13 @@ public class Task8 {
      * @param field - field
      * @return false, if some knight can defeat another, otherwise true
      */
-    public boolean knightBoardCapture(int[][] field) {
+    public static boolean knightBoardCapture(int[][] field) {
         for (int y = 0; y < FIELD_SIZE; y++) {
             for (int x = 0; x < FIELD_SIZE; x++) {
 
                 // Found new knight
                 if (field[y][x] == 1) {
+
                     Position knight = new Position(x, y);
 
                     // Return false, if during move meet another knight
