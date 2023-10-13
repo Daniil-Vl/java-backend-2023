@@ -1,5 +1,7 @@
 package edu.hw1.task3;
 
+import java.util.Arrays;
+
 public class Task3 {
 
     private Task3() {
@@ -11,27 +13,7 @@ public class Task3 {
             return false;
         }
 
-        // Return true if min(inner) > min(outer) and max(inner) < max(outer) like in task condition
-        return getMin(inner) > getMin(outer) && getMax(inner) < getMax(outer);
-    }
-
-    private static int getMin(int[] array) {
-        int min = array[0];
-        for (int i = 1; i < array.length; i++) {
-            if (array[i] < min) {
-                min = array[i];
-            }
-        }
-        return min;
-    }
-
-    private static int getMax(int[] array) {
-        int max = array[0];
-        for (int i = 1; i < array.length; i++) {
-            if (array[i] > max) {
-                max = array[i];
-            }
-        }
-        return max;
+        return Arrays.stream(inner).min().getAsInt() > Arrays.stream(outer).min().getAsInt()
+            && Arrays.stream(inner).max().getAsInt() < Arrays.stream(outer).max().getAsInt();
     }
 }
