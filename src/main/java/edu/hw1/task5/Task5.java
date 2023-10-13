@@ -10,7 +10,7 @@ public class Task5 {
     public static boolean isPalindromeDescendant(long num) {
 
         // Return false if num have only one digit
-        if (num / 10 == 0) {
+        if (num < 10) {
             return false;
         }
 
@@ -29,9 +29,17 @@ public class Task5 {
 
         long descendant = 0;
         String numStr = String.valueOf(num);
+        int twoAdjacentDigitsSum;
+
         for (int i = 0; i + 1 < numStr.length(); i += 2) {
-            descendant = descendant * 10 + Character.getNumericValue(numStr.charAt(i))
-                + Character.getNumericValue(numStr.charAt(i + 1));
+            twoAdjacentDigitsSum = Character.getNumericValue(numStr.charAt(i)) +
+                Character.getNumericValue(numStr.charAt(i + 1));
+
+            if (twoAdjacentDigitsSum >= 10) {
+                descendant *= 10;
+            }
+
+            descendant = descendant * 10 + twoAdjacentDigitsSum;
         }
 
         // If num have odd number of digits, then we should add last digits manually
