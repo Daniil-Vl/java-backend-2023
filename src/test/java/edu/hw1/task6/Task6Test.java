@@ -8,61 +8,54 @@ class Task6Test {
 
     @Test
     void fiveTimes() {
-        Task6 sol = new Task6();
         int num = 6621;
-        int actual = sol.countK(num);
+        int actual = Task6.countK(num);
         int expected = 5;
         assertThat(actual).isEqualTo(expected);
     }
 
     @Test
     void fourTimes() {
-        Task6 sol = new Task6();
         int num = 6554;
-        int actual = sol.countK(num);
+        int actual = Task6.countK(num);
         int expected = 4;
         assertThat(actual).isEqualTo(expected);
     }
 
     @Test
     void threeTimes() {
-        Task6 sol = new Task6();
         int num = 1234;
-        int actual = sol.countK(num);
+        int actual = Task6.countK(num);
         int expected = 3;
         assertThat(actual).isEqualTo(expected);
     }
 
     @Test
     void zeroTimes() {
-        Task6 sol = new Task6();
         int num = 6174;
-        int actual = sol.countK(num);
+        int actual = Task6.countK(num);
         int expected = 0;
         assertThat(actual).isEqualTo(expected);
     }
 
     @Test
     void numberHaveMoreThan4Digits() {
-        Task6 sol = new Task6();
         int num = 12345;
-        assertThrows(IllegalArgumentException.class, () -> sol.countK(num));
+        assertThrows(IllegalArgumentException.class, () -> Task6.countK(num));
     }
 
     @Test
     void testNumWithThreeSameDigits() {
-        Task6 sol = new Task6();
         int num = 2221;
-        int actual = sol.countK(num);
+        int actual = Task6.countK(num);
         int expected = 5;
         assertThat(actual).isEqualTo(expected);
     }
 
     @Test
     void numberHaveLessThan4Digits() {
-        Task6 sol = new Task6();
         int num = 123;
-        assertThrows(IllegalArgumentException.class, () -> sol.countK(num));
+        assertThrows(IllegalArgumentException.class, () -> Task6.countK(num));
     }
 
 }

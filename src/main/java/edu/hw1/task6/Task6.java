@@ -4,18 +4,21 @@ import java.util.Arrays;
 
 public class Task6 {
 
-    private int count = 0;
+//    private int count = 0;
+
+    private Task6() {
+    }
+
+    public static int countK(int num) {
+        validate(num);
+        return countK(num, 0);
+    }
 
     @SuppressWarnings("MagicNumber")
-    public int countK(int num) {
+    private static int countK(int num, int count) {
 
         if (num == 6174) {
-            return this.count;
-        }
-
-        // Validate num only at the first step of the recursion
-        if (this.count == 0) {
-            validate(num);
+            return count;
         }
 
         Integer[] digits = new Integer[4];
@@ -35,8 +38,7 @@ public class Task6 {
         int max = Math.max(first, second);
         int diff = max - min;
 
-        this.count++;
-        return countK(diff);
+        return countK(diff, count + 1);
     }
 
     /**
@@ -46,12 +48,12 @@ public class Task6 {
      * @throws IllegalArgumentException if num have more or less than 4 digits or if all digits are the same
      */
     @SuppressWarnings("MagicNumber")
-    private void validate(int num) throws IllegalArgumentException {
+    private static void validate(int num) throws IllegalArgumentException {
         if (num <= 1000) {
             throw new IllegalArgumentException("Num must be more than 1000");
         }
 
-        if (num / 10000 != 0) {
+        if (num > 9999) {
             throw new IllegalArgumentException("Num must have no more than 4 digits");
         }
 
