@@ -22,8 +22,8 @@ class Task7Test {
 
     private static Stream<Arguments> invalidNumbers() {
         return Stream.of(
-            Arguments.of(0, 13, 0),
-            Arguments.of(-10, 2, 0)
+            Arguments.of(0, 13),
+            Arguments.of(-10, 2)
         );
     }
 
@@ -49,7 +49,7 @@ class Task7Test {
 
     @ParameterizedTest
     @MethodSource("invalidNumbers")
-    void testInvalidNumbers(int num, int shift, int expected) {
+    void testInvalidNumbers(int num, int shift) {
         assertThrows(IllegalArgumentException.class, () -> Task7.rotateLeft(num, shift));
     }
 }
