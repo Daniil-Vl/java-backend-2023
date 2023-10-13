@@ -1,55 +1,27 @@
 package edu.hw1.task2;
 
-import org.junit.jupiter.api.Test;
+import java.util.stream.Stream;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 public class Task2Test {
 
-    @Test
-    void numberZero() {
-        long num = 0;
-        int actual = Task2.countDigits(num);
-        int expected = 1;
-        assertThat(actual).isEqualTo(expected);
+    private static Stream<Arguments> numbersForTest() {
+        return Stream.of(
+            Arguments.of(0, 1),
+            Arguments.of(5, 1),
+            Arguments.of(34, 2),
+            Arguments.of(544, 3),
+            Arguments.of(4666, 4),
+            Arguments.of(-4666, 4)
+        );
     }
 
-    @Test
-    void oneDigit() {
-        long num = 5;
-        int actual = Task2.countDigits(num);
-        int expected = 1;
-        assertThat(actual).isEqualTo(expected);
-    }
-
-    @Test
-    void twoDigits() {
-        long num = 34;
-        int actual = Task2.countDigits(num);
-        int expected = 2;
-        assertThat(actual).isEqualTo(expected);
-    }
-
-    @Test
-    void threeDigits() {
-        long num = 544;
-        int actual = Task2.countDigits(num);
-        int expected = 3;
-        assertThat(actual).isEqualTo(expected);
-    }
-
-    @Test
-    void fourDigits() {
-        long num = 4666;
-        int actual = Task2.countDigits(num);
-        int expected = 4;
-        assertThat(actual).isEqualTo(expected);
-    }
-
-    @Test
-    void negativeNumber() {
-        long num = -4666;
-        int actual = Task2.countDigits(num);
-        int expected = 4;
-        assertThat(actual).isEqualTo(expected);
+    @ParameterizedTest
+    @MethodSource("numbersForTest")
+    void testDigitCount(int num, int expected) {
+        assertThat(Task2.countDigits(num)).isEqualTo(expected);
     }
 }

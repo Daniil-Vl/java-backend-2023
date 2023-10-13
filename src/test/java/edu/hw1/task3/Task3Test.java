@@ -1,70 +1,43 @@
 package edu.hw1.task3;
 
-import org.junit.jupiter.api.Test;
+import java.util.stream.Stream;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 class Task3Test {
 
-    @Test
-    void nestable1() {
-        int[] inner = {1, 2, 3, 4};
-        int[] outer = {0, 6};
+    private static Stream<Arguments> nestableArrays() {
+        return Stream.of(
+            Arguments.of(new int[] {1, 2, 3, 4}, new int[] {0, 6}),
+            Arguments.of(new int[] {3, 1}, new int[] {4, 0})
+        );
+    }
+
+    private static Stream<Arguments> notNestableArrays() {
+        return Stream.of(
+            Arguments.of(new int[] {9, 9, 8}, new int[] {8, 9}),
+            Arguments.of(new int[] {1, 2, 3, 4}, new int[] {2, 3}),
+            Arguments.of(new int[] {1, 4}, new int[] {2, 3, 5}),
+            Arguments.of(new int[] {1, 4}, new int[] {2, 3, 5}),
+            Arguments.of(new int[] {1, 4}, new int[] {2, 3}),
+            Arguments.of(new int[] {1, 4}, new int[] {2, 3}),
+            Arguments.of(new int[] {}, new int[] {2, 3}),
+            Arguments.of(new int[] {1, 2, 3, 4}, new int[] {}),
+            Arguments.of(new int[] {}, new int[] {})
+        );
+    }
+
+    @ParameterizedTest
+    @MethodSource("nestableArrays")
+    void testNestableArrays(int[] inner, int[] outer) {
         assertThat(Task3.isNestable(inner, outer)).isTrue();
     }
 
-    @Test
-    void nestable2() {
-        int[] inner = {3, 1};
-        int[] outer = {4, 0};
-        assertThat(Task3.isNestable(inner, outer)).isTrue();
-    }
-
-    @Test
-    void notNestable1() {
-        int[] inner = {9, 9, 8};
-        int[] outer = {8, 9};
-        assertThat(Task3.isNestable(inner, outer)).isFalse();
-    }
-
-    @Test
-    void notNestable2() {
-        int[] inner = {1, 2, 3, 4};
-        int[] outer = {2, 3};
-        assertThat(Task3.isNestable(inner, outer)).isFalse();
-    }
-
-    @Test
-    void innerMinLessThanOuterMin() {
-        int[] inner = {1, 4};
-        int[] outer = {2, 3, 5};
-        assertThat(Task3.isNestable(inner, outer)).isFalse();
-    }
-
-    @Test
-    void innerMaxMoreThanOuterMax() {
-        int[] inner = {1, 4};
-        int[] outer = {2, 3};
-        assertThat(Task3.isNestable(inner, outer)).isFalse();
-    }
-
-    @Test
-    void innerEmpty() {
-        int[] inner = {};
-        int[] outer = {2, 3};
-        assertThat(Task3.isNestable(inner, outer)).isFalse();
-    }
-
-    @Test
-    void outerEmpty() {
-        int[] inner = {1, 2, 3, 4};
-        int[] outer = {};
-        assertThat(Task3.isNestable(inner, outer)).isFalse();
-    }
-
-    @Test
-    void bothEmpty() {
-        int[] inner = {};
-        int[] outer = {};
+    @ParameterizedTest
+    @MethodSource("notNestableArrays")
+    void testNotNestableArrays(int[] inner, int[] outer) {
         assertThat(Task3.isNestable(inner, outer)).isFalse();
     }
 

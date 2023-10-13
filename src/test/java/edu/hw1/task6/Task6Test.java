@@ -1,60 +1,42 @@
 package edu.hw1.task6;
 
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
+import java.util.stream.Stream;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class Task6Test {
 
-    @Test
-    void fiveTimes() {
-        int num = 6621;
-        int actual = Task6.countK(num);
-        int expected = 5;
-        assertThat(actual).isEqualTo(expected);
+    private static Stream<Arguments> validNumbers() {
+        return Stream.of(
+            Arguments.of(6621, 5),
+            Arguments.of(6554, 4),
+            Arguments.of(1234, 3),
+            Arguments.of(1234, 3),
+            Arguments.of(6174, 0),
+            Arguments.of(2221, 5)
+        );
     }
 
-    @Test
-    void fourTimes() {
-        int num = 6554;
-        int actual = Task6.countK(num);
-        int expected = 4;
-        assertThat(actual).isEqualTo(expected);
+    private static Stream<Arguments> invalidNumbers() {
+        return Stream.of(
+            Arguments.of(12345),
+            Arguments.of(123),
+            Arguments.of(1000)
+        );
     }
 
-    @Test
-    void threeTimes() {
-        int num = 1234;
-        int actual = Task6.countK(num);
-        int expected = 3;
-        assertThat(actual).isEqualTo(expected);
+    @ParameterizedTest
+    @MethodSource("validNumbers")
+    void testValidNumbers(int num, int expected) {
+        assertThat(Task6.countK(num)).isEqualTo(expected);
     }
 
-    @Test
-    void zeroTimes() {
-        int num = 6174;
-        int actual = Task6.countK(num);
-        int expected = 0;
-        assertThat(actual).isEqualTo(expected);
-    }
-
-    @Test
-    void numberHaveMoreThan4Digits() {
-        int num = 12345;
-        assertThrows(IllegalArgumentException.class, () -> Task6.countK(num));
-    }
-
-    @Test
-    void testNumWithThreeSameDigits() {
-        int num = 2221;
-        int actual = Task6.countK(num);
-        int expected = 5;
-        assertThat(actual).isEqualTo(expected);
-    }
-
-    @Test
-    void numberHaveLessThan4Digits() {
-        int num = 123;
+    @ParameterizedTest
+    @MethodSource("invalidNumbers")
+    void testInvalidNumbers(int num) {
         assertThrows(IllegalArgumentException.class, () -> Task6.countK(num));
     }
 

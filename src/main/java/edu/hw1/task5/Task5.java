@@ -32,8 +32,8 @@ public class Task5 {
         int twoAdjacentDigitsSum;
 
         for (int i = 0; i + 1 < numStr.length(); i += 2) {
-            twoAdjacentDigitsSum = Character.getNumericValue(numStr.charAt(i)) +
-                Character.getNumericValue(numStr.charAt(i + 1));
+            twoAdjacentDigitsSum = Character.getNumericValue(numStr.charAt(i))
+                + Character.getNumericValue(numStr.charAt(i + 1));
 
             if (twoAdjacentDigitsSum >= 10) {
                 descendant *= 10;

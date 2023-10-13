@@ -1,47 +1,26 @@
 package edu.hw1.task4;
 
-import org.junit.jupiter.api.Test;
+import java.util.stream.Stream;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 class Task4Test {
 
-    @Test
-    void evenLengthString() {
-        String uncorrectString = "123456";
-        String actual = Task4.fixString(uncorrectString);
-        String expected = "214365";
-        assertThat(actual).isEqualTo(expected);
+    private static Stream<Arguments> incorrectStrings() {
+        return Stream.of(
+            Arguments.of("123456", "214365"),
+            Arguments.of("badce", "abcde"),
+            Arguments.of("hTsii  s aimex dpus rtni.g", "This is a mixed up string."),
+            Arguments.of("a", "a"),
+            Arguments.of("", "")
+        );
     }
 
-    @Test
-    void oddLengthString() {
-        String uncorrectString = "badce";
-        String actual = Task4.fixString(uncorrectString);
-        String expected = "abcde";
-        assertThat(actual).isEqualTo(expected);
-    }
-
-    @Test
-    void stringWithSeveralWords() {
-        String uncorrectString = "hTsii  s aimex dpus rtni.g";
-        String actual = Task4.fixString(uncorrectString);
-        String expected = "This is a mixed up string.";
-        assertThat(actual).isEqualTo(expected);
-    }
-
-    @Test
-    void emptyString() {
-        String uncorrectString = "";
-        String actual = Task4.fixString(uncorrectString);
-        String expected = "";
-        assertThat(actual).isEqualTo(expected);
-    }
-
-    @Test
-    void stringWithOneCharacter() {
-        String uncorrectString = "a";
-        String actual = Task4.fixString(uncorrectString);
-        String expected = "a";
-        assertThat(actual).isEqualTo(expected);
+    @ParameterizedTest
+    @MethodSource("incorrectStrings")
+    void testRepairingIncorrectWords(String incorrectString, String expected) {
+        assertThat(Task4.fixString(incorrectString)).isEqualTo(expected);
     }
 }

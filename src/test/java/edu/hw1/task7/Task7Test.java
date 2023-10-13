@@ -1,101 +1,55 @@
 package edu.hw1.task7;
 
-import org.junit.jupiter.api.Test;
+import java.util.stream.Stream;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class Task7Test {
 
-    @Test
-    void rotateLeft1() {
-        int num = 16;
-        int shift = 1;
-        int actual = Task7.rotateLeft(num, shift);
-        int expected = 1;
-        assertThat(actual).isEqualTo(expected);
+    private static Stream<Arguments> numbersForLeftRotation() {
+        return Stream.of(
+            Arguments.of(16, 1, 1),
+            Arguments.of(17, 2, 6),
+            Arguments.of(17, 0, 17),
+            Arguments.of(17, 32, 17),
+            Arguments.of(17, 32, 17),
+            Arguments.of(10, -1, 5)
+        );
     }
 
-    @Test
-    void rotateLeft2() {
-        int num = 17;
-        int shift = 2;
-        int actual = Task7.rotateLeft(num, shift);
-        int expected = 6;
-        assertThat(actual).isEqualTo(expected);
+    private static Stream<Arguments> invalidNumbers() {
+        return Stream.of(
+            Arguments.of(0, 13, 0),
+            Arguments.of(-10, 2, 0)
+        );
     }
 
-    @Test
-    void rotateLeftZeroShift() {
-        int num = 17;
-        int shift = 0;
-        int actual = Task7.rotateLeft(num, shift);
-        int expected = 17;
-        assertThat(actual).isEqualTo(expected);
+    private static Stream<Arguments> numbersForRightRotation() {
+        return Stream.of(
+            Arguments.of(8, 1, 4),
+            Arguments.of(6, 2, 5),
+            Arguments.of(5, -1, 3)
+        );
     }
 
-    @Test
-    void rotateLeft32() {
-        int num = 17;
-        int shift = 32;
-        int actual = Task7.rotateLeft(num, shift);
-        int expected = 17;
-        assertThat(actual).isEqualTo(expected);
+    @ParameterizedTest
+    @MethodSource("numbersForLeftRotation")
+    void testLeftRotation(int num, int shift, int expected) {
+        assertThat(Task7.rotateLeft(num, shift)).isEqualTo(expected);
     }
 
-    @Test
-    void rotateLeftZero() {
-        int num = 0;
-        int shift = 13;
+    @ParameterizedTest
+    @MethodSource("numbersForRightRotation")
+    void testRightRotation(int num, int shift, int expected) {
+        assertThat(Task7.rotateRight(num, shift)).isEqualTo(expected);
+    }
+
+    @ParameterizedTest
+    @MethodSource("invalidNumbers")
+    void testInvalidNumbers(int num, int shift, int expected) {
         assertThrows(IllegalArgumentException.class, () -> Task7.rotateLeft(num, shift));
-    }
-
-    @Test
-    void rotateRight1() {
-        int num = 8;
-        int shift = 1;
-        int actual = Task7.rotateRight(num, shift);
-        int expected = 4;
-        assertThat(actual).isEqualTo(expected);
-    }
-
-    @Test
-    void rotateRight2() {
-        int num = 6;
-        int shift = 2;
-        int actual = Task7.rotateRight(num, shift);
-        int expected = 5;
-        assertThat(actual).isEqualTo(expected);
-    }
-
-    @Test
-    void negativeNumberLeftRotation() {
-        int num = -10;
-        int shift = 2;
-        assertThrows(IllegalArgumentException.class, () -> Task7.rotateLeft(num, shift));
-    }
-
-    @Test
-    void negativeNumberRightRotation() {
-        int num = -10;
-        int shift = 2;
-        assertThrows(IllegalArgumentException.class, () -> Task7.rotateRight(num, shift));
-    }
-
-    @Test
-    void negativeShiftRotateLeft() {
-        int num = 10;
-        int shift = -1;
-        int actual = Task7.rotateLeft(num, shift);
-        int expected = 5;
-        assertThat(actual).isEqualTo(expected);
-    }
-
-    @Test
-    void negativeShiftRotateRight() {
-        int num = 5;
-        int shift = -1;
-        int actual = Task7.rotateRight(num, shift);
-        int expected = 3;
-        assertThat(actual).isEqualTo(expected);
     }
 }

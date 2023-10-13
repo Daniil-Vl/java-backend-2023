@@ -4,8 +4,6 @@ import java.util.Arrays;
 
 public class Task6 {
 
-//    private int count = 0;
-
     private Task6() {
     }
 
@@ -33,10 +31,7 @@ public class Task6 {
 
         int first = digits[0] * 1000 + digits[1] * 100 + digits[2] * 10 + digits[3];
         int second = digits[3] * 1000 + digits[2] * 100 + digits[1] * 10 + digits[0];
-
-        int min = Math.min(first, second);
-        int max = Math.max(first, second);
-        int diff = max - min;
+        int diff = Math.max(first, second) - Math.min(first, second);
 
         return countK(diff, count + 1);
     }
