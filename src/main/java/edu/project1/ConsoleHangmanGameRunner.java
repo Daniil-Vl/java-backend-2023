@@ -38,7 +38,7 @@ public class ConsoleHangmanGameRunner {
 
             LOGGER.info(GAME.getFeedbackMessage());
 
-            LOGGER.info(GAME.getWordCurrentState());
+            LOGGER.info("The word: " + GAME.getWordCurrentState());
 
             if (GAME.isPlayerWin()) {
                 LOGGER.info(GAME.getWinMessage());
@@ -55,6 +55,7 @@ public class ConsoleHangmanGameRunner {
     // This is entry point to console game
 //    public static void main(String[] args) {
 //        LOGGER.info("Hangman game starts...");
+//        LOGGER.info("You can stop game by pressing Ctrl + D");
 //        run();
 //        LOGGER.info("Hangman game ends...");
 //    }
