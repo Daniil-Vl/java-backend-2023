@@ -9,7 +9,6 @@ import edu.hw2.task1.Negate;
 import org.junit.jupiter.api.Test;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
-// TODO Add test for edge cases for some operators
 class ExprTest {
     @Test
     void Addition() {
