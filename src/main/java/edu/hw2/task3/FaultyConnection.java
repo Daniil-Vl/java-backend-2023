@@ -7,12 +7,21 @@ import org.apache.logging.log4j.Logger;
 public class FaultyConnection implements Connection {
 
     private static final Random RAND = new Random();
-    private static final double PROBABILITY_OF_CONNECTION_EXCEPTION = 0.6;
     private final static Logger LOGGER = LogManager.getLogger();
+    private final double probabilityOfConnectionException;
+
+    @SuppressWarnings("MagicNumber")
+    public FaultyConnection() {
+        this.probabilityOfConnectionException = 0.6;
+    }
+
+    public FaultyConnection(double probabilityOfConnectionException) {
+        this.probabilityOfConnectionException = probabilityOfConnectionException;
+    }
 
     @Override
     public void execute(String command) {
-        if (RAND.nextDouble() < PROBABILITY_OF_CONNECTION_EXCEPTION) {
+        if (RAND.nextDouble() <= probabilityOfConnectionException) {
             throw new ConnectionException(
                 "Exception in faulty connection, when trying to execute command - " + command);
         } else {

