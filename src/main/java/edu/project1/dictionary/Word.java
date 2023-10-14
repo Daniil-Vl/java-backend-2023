@@ -11,7 +11,6 @@ public class Word {
     private final char[] stringCurrentState;
     private boolean isSolved = false;
 
-    // TODO add here input string validation
     public Word(String value) {
 
         if (value.isEmpty()) {
