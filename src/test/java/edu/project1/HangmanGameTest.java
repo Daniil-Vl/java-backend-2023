@@ -1,5 +1,6 @@
 package edu.project1;
 
+import edu.project1.dictionary.Dictionary;
 import edu.project1.dictionary.Word;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -7,6 +8,11 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class HangmanGameTest {
+
+    @Test
+    void testCreatingNewWordInDictionary() {
+        assertThrows(IllegalArgumentException.class, () -> Dictionary.addWord(""));
+    }
 
     @Test
     void testGameWithInvalidWord() {
