@@ -73,4 +73,40 @@ public class HangmanGameTest {
         assertThat(wordState.toString()).isEqualTo("th*s");
     }
 
+    @Test
+    void testWinScenario() {
+        HangmanGame game = new HangmanGame(new Word("ab"), 2);
+        game.guessLetter('a');
+        game.guessLetter('b');
+        assertThat(game.isPlayerWin()).isTrue();
+    }
+
+    @Test
+    void testLoseScenario() {
+        HangmanGame game = new HangmanGame(new Word("ab"), 2);
+        game.guessLetter('c');
+        game.guessLetter('d');
+        assertThat(game.isGameOver()).isTrue();
+    }
+
+    @Test
+    @DisplayName("Test, that you cannot guess letters after game ends")
+    void testEndGameWithGameOver() {
+        HangmanGame game = new HangmanGame(new Word("this"), 2);
+        game.guessLetter('a');
+        game.guessLetter('b');
+        assertThrows(EndOfTheGameException.class, () -> game.guessLetter('c'));
+    }
+
+    @Test
+    @DisplayName("Test, that you cannot guess letters after game ends")
+    void testEndGameWithPlayerWin() {
+        HangmanGame game = new HangmanGame(new Word("this"), 2);
+        game.guessLetter('t');
+        game.guessLetter('h');
+        game.guessLetter('i');
+        game.guessLetter('s');
+        assertThrows(EndOfTheGameException.class, () -> game.guessLetter('c'));
+    }
+
 }

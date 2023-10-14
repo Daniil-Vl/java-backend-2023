@@ -39,7 +39,12 @@ public class HangmanGame {
      * @param letter - letter to open
      * @return false, if no attempts left, otherwise true
      */
-    public boolean guessLetter(char letter) {
+    public boolean guessLetter(char letter) throws EndOfTheGameException {
+
+        if (this.isGameOver() || this.isPlayerWin()) {
+            throw new EndOfTheGameException("You cannot play after game end");
+        }
+
         if (!this.wordToFind.openLetter(letter)) {
             this.numberOfMistakes++;
             this.feedbackMessage = "Missed, mistake %d out of %d.\n".formatted(
@@ -50,7 +55,7 @@ public class HangmanGame {
             this.feedbackMessage = "Hit!\n";
         }
 
-        return this.numberOfMistakes != this.maxNumberOfMistakes;
+        return this.numberOfMistakes < this.maxNumberOfMistakes;
     }
 
     public Word getWordToFind() {
