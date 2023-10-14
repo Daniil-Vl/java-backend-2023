@@ -9,6 +9,7 @@ import edu.hw2.task1.Negate;
 import org.junit.jupiter.api.Test;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
+// TODO Add test for edge cases for some operators
 class ExprTest {
     @Test
     void Addition() {
@@ -42,4 +43,23 @@ class ExprTest {
         );
         assertThat(exp.evaluate()).isEqualTo(Math.pow(1 + 2, 4 * 3));
     }
+
+    @Test
+    void testDivisionByZero() {
+        Expr expr = new Exponent(
+            new Constant(0),
+            new Constant(-1)
+        );
+        assertThat(expr.evaluate()).isInfinite();
+    }
+
+    @Test
+    void testSquareRootFromNegativeNumber() {
+        Expr expr = new Exponent(
+            new Constant(-1),
+            new Constant(0.5)
+        );
+        assertThat(expr.evaluate()).isNaN();
+    }
+
 }
