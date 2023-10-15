@@ -44,7 +44,6 @@ public class ConnectionTest {
     @Test
     void testSuccessExecution() {
         PopularCommandExecutor commandExecutor = new PopularCommandExecutor(new StableConnectionManager(), 10);
-        assertDoesNotThrow(commandExecutor::makeMoney);
         assertDoesNotThrow(commandExecutor::updatePackages);
     }
 
@@ -58,7 +57,6 @@ public class ConnectionTest {
             10
         );
 
-        assertThrows(ConnectionException.class, commandExecutor::makeMoney);
         assertThrows(ConnectionException.class, commandExecutor::updatePackages);
     }
 }

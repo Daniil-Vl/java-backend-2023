@@ -14,12 +14,7 @@ public class DefaultConnectionManager implements ConnectionManager {
      */
     @Override
     public Connection getConnection() {
-        Connection result;
-        if (RAND.nextDouble() < PROBABILITY_OF_FAULTY_CONNECTION) {
-            result = new FaultyConnection();
-        } else {
-            result = new StableConnection();
-        }
-        return result;
+        return RAND.nextDouble() < PROBABILITY_OF_FAULTY_CONNECTION
+            ? new FaultyConnection() : new StableConnection();
     }
 }
