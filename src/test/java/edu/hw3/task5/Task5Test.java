@@ -38,6 +38,18 @@ class Task5Test {
                 ))
             ),
             Arguments.of(
+                new String[] {
+                    "Carl", "Rene Descartes", "Thomas Aquinas", "Brad"
+                },
+                "ASC",
+                new ArrayList<>(List.of(
+                    new Contact("Thomas", "Aquinas"),
+                    new Contact("Brad"),
+                    new Contact("Carl"),
+                    new Contact("Rene", "Descartes")
+                ))
+            ),
+            Arguments.of(
                 new String[] {},
                 "DESC",
                 new ArrayList<>()

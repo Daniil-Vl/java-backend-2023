@@ -9,6 +9,10 @@ public record Contact(String name, String surname) implements Comparable<Contact
         this.surname = surname;
     }
 
+    public Contact(@NotNull String name) {
+        this(name, null);
+    }
+
     @Override
     public int compareTo(@NotNull Contact o) {
         if (this.surname != null && o.surname != null) {

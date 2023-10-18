@@ -19,20 +19,32 @@ public class Task5 {
             return new ArrayList<>();
         }
 
-        ArrayList<Contact> result = new ArrayList<>(names.length);
+        ArrayList<Contact> resultContacts = new ArrayList<>(names.length);
         String[] nameAndSurname;
+
         for (String person : names) {
-            nameAndSurname = person.split(" ");
-            result.add(new Contact(nameAndSurname[0], nameAndSurname[1]));
+            nameAndSurname = person.trim().split(" ");
+
+            switch (nameAndSurname.length) {
+                case 2:
+                    resultContacts.add(new Contact(nameAndSurname[0], nameAndSurname[1]));
+                    break;
+                case 1:
+                    resultContacts.add(new Contact(nameAndSurname[0]));
+                    break;
+                default:
+                    throw new IllegalArgumentException(
+                        "Input strings must contain name and surname or name without surname");
+            }
         }
 
         switch (order) {
-            case ASCENDING -> result.sort(COMPARATOR);
-            case DESCENDING -> result.sort(COMPARATOR.reversed());
+            case ASCENDING -> resultContacts.sort(COMPARATOR);
+            case DESCENDING -> resultContacts.sort(COMPARATOR.reversed());
             default -> throw new IllegalArgumentException("Order must be 'ASC' or 'DESC'");
         }
 
-        return result;
+        return resultContacts;
     }
 
 }
