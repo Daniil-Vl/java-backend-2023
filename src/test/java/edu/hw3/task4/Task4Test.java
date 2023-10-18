@@ -1,8 +1,6 @@
 package edu.hw3.task4;
 
 import java.util.stream.Stream;
-
-import edu.hw3.task4.Task4;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
