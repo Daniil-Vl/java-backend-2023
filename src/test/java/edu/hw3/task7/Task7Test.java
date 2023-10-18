@@ -11,4 +11,16 @@ public class Task7Test {
         tree.put(null, "test");
         assertThat(tree.containsKey(null)).isTrue();
     }
+
+    @Test
+    void testWithCommonKeys() {
+        TreeMap<String, String> tree = new TreeMap<>(new NullTreeComparator());
+
+        tree.put("first", "first");
+        tree.put("second", "second");
+
+        assertThat(tree.containsKey("first")).isTrue();
+        assertThat(tree.containsKey("second")).isTrue();
+        assertThat(tree.containsKey("third")).isFalse();
+    }
 }
