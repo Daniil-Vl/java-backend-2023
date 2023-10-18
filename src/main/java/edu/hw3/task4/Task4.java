@@ -1,4 +1,4 @@
-package edu.hw3;
+package edu.hw3.task4;
 
 import java.util.HashMap;
 import java.util.Map;

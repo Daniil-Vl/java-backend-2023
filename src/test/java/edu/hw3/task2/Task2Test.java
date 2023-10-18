@@ -1,8 +1,10 @@
-package edu.hw3;
+package edu.hw3.task2;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Stream;
+
+import edu.hw3.task2.Task2;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;

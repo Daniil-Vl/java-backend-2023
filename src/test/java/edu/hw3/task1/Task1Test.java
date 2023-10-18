@@ -1,6 +1,7 @@
-package edu.hw3;
+package edu.hw3.task1;
 
 import java.util.stream.Stream;
+import edu.hw3.task1.Task1;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
