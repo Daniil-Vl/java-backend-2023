@@ -207,9 +207,12 @@ class AnimalUtilitiesTest {
     void testGetSumWeight() {
         assertThat(
             AnimalUtilities.getSumWeight(animalList(), 2, 10))
-            .isEqualTo(
-                cat1.weight() + cat2.weight() + spider2.weight() + fish1.weight() + bird.weight() + fish2.weight()
-            );
+            .isEqualTo(Map.of(
+                Animal.Type.CAT, cat1.weight() + cat2.weight(),
+                Animal.Type.FISH, fish1.weight() + fish2.weight(),
+                Animal.Type.SPIDER, spider2.weight(),
+                Animal.Type.BIRD, bird.weight()
+            ));
     }
 
     // 16

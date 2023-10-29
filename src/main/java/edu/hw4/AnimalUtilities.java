@@ -145,11 +145,14 @@ public class AnimalUtilities {
     /**
      * 15
      */
-    public static Integer getSumWeight(List<Animal> animals, int k, int i) {
+    public static Map<Animal.Type, Integer> getSumWeight(List<Animal> animals, int k, int i) {
         return animals.stream()
             .filter(an -> an.age() >= k && an.age() <= i)
-            .mapToInt(Animal::weight)
-            .sum();
+            .collect(Collectors.toMap(
+                Animal::type,
+                Animal::weight,
+                Integer::sum
+            ));
     }
 
     /**
