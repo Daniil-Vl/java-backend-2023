@@ -1,5 +1,6 @@
 package edu.project2.maze;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public final class Maze {
@@ -66,6 +67,32 @@ public final class Maze {
                         + "nextCell must not have bottom wall");
             }
         }
+    }
+
+    /**
+     * Get list of neighbours of cell in given position
+     *
+     * @param pos - cell's position
+     * @return list of neighbours
+     */
+    public List<Position> getNeighbours(Position pos) {
+        Cell currCell = grid[pos.y()][pos.x()];
+        List<Position> neighbours = new ArrayList<>();
+
+        if (!currCell.hasLeftWall()) {
+            neighbours.add(new Position(pos.x() - 1, pos.y()));
+        }
+        if (!currCell.hasTopWall()) {
+            neighbours.add(new Position(pos.x(), pos.y() - 1));
+        }
+        if (!currCell.hasRightWall()) {
+            neighbours.add(new Position(pos.x() + 1, pos.y()));
+        }
+        if (!currCell.hasBottomWall()) {
+            neighbours.add(new Position(pos.x(), pos.y() + 1));
+        }
+
+        return neighbours;
     }
 
     public Cell[][] getGrid() {

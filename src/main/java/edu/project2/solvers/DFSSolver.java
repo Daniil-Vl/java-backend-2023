@@ -3,7 +3,6 @@ package edu.project2.solvers;
 import edu.project2.maze.Cell;
 import edu.project2.maze.Maze;
 import edu.project2.maze.Position;
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
@@ -33,11 +32,11 @@ public class DFSSolver implements Solver {
             return List.of();
         }
 
-        return this.solve(grid, start, end, new LinkedList<>());
+        return this.solve(maze, start, end, new LinkedList<>());
     }
 
     @SuppressWarnings("MagicNumber")
-    private List<Position> solve(Cell[][] grid, Position start, Position end, LinkedList<Position> path) {
+    private List<Position> solve(Maze maze, Position start, Position end, LinkedList<Position> path) {
         path.add(start);
         visitedNodes.add(start);
 
@@ -46,39 +45,13 @@ public class DFSSolver implements Solver {
             return path;
         }
 
-        Cell currCell = grid[start.y()][start.x()];
-        Position nextCellCoordinates;
         List<Position> pathFromNeighbour;
-
-        ArrayList<Position> notVisitedNeighbours = new ArrayList<>(4);
-
-        // Get left neighbour
-        nextCellCoordinates = new Position(start.x() - 1, start.y());
-        if (!currCell.hasLeftWall() && !visitedNodes.contains(nextCellCoordinates)) {
-            notVisitedNeighbours.add(nextCellCoordinates);
-        }
-
-        // Get top neighbour
-        nextCellCoordinates = new Position(start.x(), start.y() - 1);
-        if (!currCell.hasTopWall() && !visitedNodes.contains(nextCellCoordinates)) {
-            notVisitedNeighbours.add(nextCellCoordinates);
-        }
-
-        // Get right neighbour
-        nextCellCoordinates = new Position(start.x() + 1, start.y());
-        if (!currCell.hasRightWall() && !visitedNodes.contains(nextCellCoordinates)) {
-            notVisitedNeighbours.add(nextCellCoordinates);
-        }
-
-        // Get bottom neighbour
-        nextCellCoordinates = new Position(start.x(), start.y() + 1);
-        if (!currCell.hasBottomWall() && !visitedNodes.contains(nextCellCoordinates)) {
-            notVisitedNeighbours.add(nextCellCoordinates);
-        }
+        List<Position> notVisitedNeighbours =
+            maze.getNeighbours(start).stream().filter(el -> !this.visitedNodes.contains(el)).toList();
 
         // Try to find path using each neighbour cell
         for (Position neighbour : notVisitedNeighbours) {
-            pathFromNeighbour = solve(grid, neighbour, end, new LinkedList<>(path));
+            pathFromNeighbour = solve(maze, neighbour, end, new LinkedList<>(path));
 
             // Return path, if it contains end point
             if (!pathFromNeighbour.isEmpty() && pathFromNeighbour.getLast().equals(end)) {

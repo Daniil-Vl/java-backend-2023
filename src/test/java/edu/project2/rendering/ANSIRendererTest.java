@@ -21,10 +21,10 @@ class ANSIRendererTest {
     private static final String START_OR_END = ANSI_GREEN + " ! " + ANSI_RESET;
 
     private final static Logger LOGGER = LogManager.getLogger();
+    private final static Renderer ANSI_RENDERER = new ANSIRenderer();
 
     @Test
     void testRenderOnlyMaze() {
-        Renderer renderer = new ANSIRenderer();
         Maze maze = StaticMaze.getMaze();
 
         // Maze 3x3 have 7 wall block on the boundaries
@@ -36,7 +36,7 @@ class ANSIRendererTest {
             + WALL + PASSAGE + PASSAGE + PASSAGE + PASSAGE + PASSAGE + WALL + "\n"
             + WALL.repeat(7) + "\n";
 
-        String actual = renderer.render(maze);
+        String actual = ANSI_RENDERER.render(maze);
 
         LOGGER.info("testRenderOnlyMaze");
         LOGGER.info("Expected maze rendering\n" + expectedRenderResult);
@@ -47,7 +47,6 @@ class ANSIRendererTest {
 
     @Test
     void testRenderWithPath() {
-        Renderer renderer = new ANSIRenderer();
         Maze maze = StaticMaze.getMaze();
         List<Position> path = List.of(
             new Position(0, 0),
@@ -68,7 +67,7 @@ class ANSIRendererTest {
             + WALL + PASSAGE + PASSAGE + PATH_PASSAGE + PATH_PASSAGE + PATH_PASSAGE + WALL + "\n"
             + WALL.repeat(7) + "\n";
 
-        String actual = renderer.render(maze, path);
+        String actual = ANSI_RENDERER.render(maze, path);
 
         LOGGER.info("testRenderWithPath");
         LOGGER.info("Expected maze rendering\n" + expectedRenderResult);
@@ -79,7 +78,6 @@ class ANSIRendererTest {
 
     @Test
     void testRenderPathWithOneCell() {
-        Renderer renderer = new ANSIRenderer();
         Maze maze = StaticMaze.getMaze();
         List<Position> path = List.of(
             new Position(0, 0)
@@ -94,7 +92,7 @@ class ANSIRendererTest {
             + WALL + PASSAGE + PASSAGE + PASSAGE + PASSAGE + PASSAGE + WALL + "\n"
             + WALL.repeat(7) + "\n";
 
-        String actual = renderer.render(maze, path);
+        String actual = ANSI_RENDERER.render(maze, path);
 
         LOGGER.info("testRenderPathWithOneCell");
         LOGGER.info("Expected maze rendering\n" + expectedRenderResult);
@@ -105,7 +103,6 @@ class ANSIRendererTest {
 
     @Test
     void testRenderMazeWithUnreachableCells() {
-        Renderer renderer = new ANSIRenderer();
         Maze maze = StaticMaze.getMazeWithUnreachableCells();
         String expectedRenderResult = WALL.repeat(7) + "\n"
             + WALL + PASSAGE.repeat(3) + WALL + PASSAGE + WALL + "\n"
@@ -115,7 +112,7 @@ class ANSIRendererTest {
             + WALL + PASSAGE + PASSAGE + PASSAGE + PASSAGE + PASSAGE + WALL + "\n"
             + WALL.repeat(7) + "\n";
 
-        String actual = renderer.render(maze);
+        String actual = ANSI_RENDERER.render(maze);
 
         LOGGER.info("testRenderMazeWithUnreachableCells");
         LOGGER.info("Expected maze rendering\n" + expectedRenderResult);
@@ -125,8 +122,7 @@ class ANSIRendererTest {
     }
 
     @Test
-    void testRenderingInvalidMaze() {
-        Renderer renderer = new ANSIRenderer();
+    void renderingInvalidMaze() {
         Maze maze = StaticMaze.getMazeWithUnreachableCells();
         List<Position> path = List.of(
             new Position(0, 0),
@@ -139,9 +135,20 @@ class ANSIRendererTest {
         );
 
         LOGGER.info("testRenderingInvalidMaze");
-        LOGGER.info("Maze\n" + renderer.render(maze));
+        LOGGER.info("Maze\n" + ANSI_RENDERER.render(maze));
         LOGGER.info("Path: " + path);
 
-        assertThrows(IllegalArgumentException.class, () -> renderer.render(maze, path));
+        assertThrows(IllegalArgumentException.class, () -> ANSI_RENDERER.render(maze, path));
+    }
+
+    @Test
+    void renderingInvalidPath() {
+        Maze maze = StaticMaze.getMaze();
+        List<Position> path = List.of(
+            new Position(0, 0),
+            new Position(0, 0)
+        );
+
+        assertThrows(IllegalArgumentException.class, () -> ANSI_RENDERER.render(maze, path));
     }
 }

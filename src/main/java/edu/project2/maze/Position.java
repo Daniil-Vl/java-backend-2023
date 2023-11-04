@@ -1,5 +1,11 @@
 package edu.project2.maze;
 
+/**
+ * Represents position of cell on maze grid
+ *
+ * @param x - cell's column
+ * @param y - cell's row
+ */
 public record Position(int x, int y) {
     @Override
     public boolean equals(Object obj) {

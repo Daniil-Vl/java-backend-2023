@@ -3,12 +3,14 @@ package edu.project2.solvers;
 import edu.project2.maze.Cell;
 import edu.project2.maze.Maze;
 import edu.project2.maze.Position;
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
+/**
+ * Find path between two points, using Dead end filler algorithm
+ */
 public class DeadEndFillerSolver implements Solver {
 
     /**
@@ -50,18 +52,18 @@ public class DeadEndFillerSolver implements Solver {
 
         // 2) Fill all paths to the dead ends
         HashSet<Position> filled = new HashSet<>();
-        List<Position> reachableAndUnFilledNeighbours;
+        List<Position> unfilledNeighbours;
         for (Position deadEndPos : deadEnds) {
             currPos = deadEndPos;
             while (true) {
-                reachableAndUnFilledNeighbours = getReachableAndUnfilledNeighbours(currPos, grid, filled);
+                unfilledNeighbours = getUnfilledNeighbours(currPos, maze, filled);
 
                 // If current cell have only one reachable unfilled neighbour,
                 // then it is passage to the dead end, and it should be filled
                 // Otherwise, we have reached fork cell, and here we can stop cycle
-                if (reachableAndUnFilledNeighbours.size() == 1) {
+                if (unfilledNeighbours.size() == 1) {
                     filled.add(currPos);
-                    currPos = reachableAndUnFilledNeighbours.get(0);
+                    currPos = unfilledNeighbours.get(0);
                 } else {
                     break;
                 }
@@ -76,15 +78,15 @@ public class DeadEndFillerSolver implements Solver {
         visited.add(start);
         while (!currPos.equals(end)) {
 
-            reachableAndUnFilledNeighbours = getReachableAndUnfilledNeighbours(currPos, grid, filled);
+            unfilledNeighbours = getUnfilledNeighbours(currPos, maze, filled);
 
             // Return empty list, if path doesn't exist
-            if (reachableAndUnFilledNeighbours.isEmpty()) {
+            if (unfilledNeighbours.isEmpty()) {
                 return new LinkedList<>();
             }
 
             // Get reachable unfilled and unvisited neighbour
-            currPos = reachableAndUnFilledNeighbours.stream()
+            currPos = unfilledNeighbours.stream()
                 .filter(el -> !visited.contains(el)).findFirst().orElseThrow();
 
             path.add(currPos);
@@ -94,39 +96,10 @@ public class DeadEndFillerSolver implements Solver {
         return path;
     }
 
-    private List<Position> getReachableNeighbours(Position pos, Cell[][] grid) {
-        ArrayList<Position> neighbours = new ArrayList<>();
-        Cell currCell = grid[pos.y()][pos.x()];
-
-        if (!currCell.hasLeftWall()) {
-            neighbours.add(new Position(pos.x() - 1, pos.y()));
-        }
-        if (!currCell.hasTopWall()) {
-            neighbours.add(new Position(pos.x(), pos.y() - 1));
-        }
-        if (!currCell.hasRightWall()) {
-            neighbours.add(new Position(pos.x() + 1, pos.y()));
-        }
-        if (!currCell.hasBottomWall()) {
-            neighbours.add(new Position(pos.x(), pos.y() + 1));
-        }
-
-        return neighbours;
-    }
-
     /**
      * Returns a reachable and unfilled neighbor, if such exist, otherwise returns empty list
      */
-    private List<Position> getReachableAndUnfilledNeighbours(Position pos, Cell[][] grid, Set<Position> filled) {
-        List<Position> neighbours = getReachableNeighbours(pos, grid);
-        List<Position> result = new ArrayList<>();
-
-        for (Position neighbour : neighbours) {
-            if (!filled.contains(neighbour)) {
-                result.add(neighbour);
-            }
-        }
-
-        return result;
+    private List<Position> getUnfilledNeighbours(Position pos, Maze maze, Set<Position> filled) {
+        return maze.getNeighbours(pos).stream().filter(el -> !filled.contains(el)).toList();
     }
 }

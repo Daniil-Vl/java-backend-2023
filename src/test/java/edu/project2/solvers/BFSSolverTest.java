@@ -17,7 +17,7 @@ public class BFSSolverTest extends SolverImplementationTest<BFSSolver> {
      *
      */
     @Override
-    void testPathInMazeWithCycles() {
+    void findPathInMazeWithCycles() {
         Solver solver = new BFSSolver();
         Position start = new Position(0, 0);
         Position end = new Position(2, 1);

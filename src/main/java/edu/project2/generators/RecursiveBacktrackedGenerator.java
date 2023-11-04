@@ -32,6 +32,8 @@ public class RecursiveBacktrackedGenerator implements MazeGenerator {
     @Override
     public Maze generate(int height, int width) {
         HashSet<Position> visitedNodes = new HashSet<>(width * height);
+
+        // Stack for depth-first search algorithm
         ArrayDeque<Position> cellsStack = new ArrayDeque<>(width * height);
 
         Position currPosition;
@@ -42,7 +44,7 @@ public class RecursiveBacktrackedGenerator implements MazeGenerator {
         Cell[][] grid = new Cell[height][width];
         for (int y = 0; y < height; y++) {
             for (int x = 0; x < width; x++) {
-                grid[y][x] = new Cell(x, y);
+                grid[y][x] = new Cell();
             }
         }
 
@@ -60,7 +62,7 @@ public class RecursiveBacktrackedGenerator implements MazeGenerator {
                     currPosition.y() + move.y()
                 );
 
-                // Validate next position and check if it visited
+                // Add nextPosition, if it has valid coordinates and non-visited
                 if (nextPosition.x() >= 0
                     && nextPosition.x() < width
                     && nextPosition.y() >= 0

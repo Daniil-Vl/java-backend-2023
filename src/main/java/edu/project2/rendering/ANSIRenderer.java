@@ -5,6 +5,9 @@ import edu.project2.maze.Maze;
 import edu.project2.maze.Position;
 import java.util.List;
 
+/**
+ * Render maze, using ansi escape codes
+ */
 public class ANSIRenderer implements Renderer {
 
     public static final String ANSI_GREEN = "\u001B[32m";
@@ -27,7 +30,7 @@ public class ANSIRenderer implements Renderer {
     }
 
     /**
-     * Render maze with path
+     * Render maze with given path
      *
      * @param maze - maze to render
      * @param path - path to render
@@ -50,7 +53,7 @@ public class ANSIRenderer implements Renderer {
 
     /**
      * Get grid of strings for maze
-     * Here each element is passage, path_passage or wall
+     * Here each element is passage, path_passage or wall string representation
      *
      * @param maze - maze to render
      * @param path - path to render
@@ -105,6 +108,14 @@ public class ANSIRenderer implements Renderer {
     }
 
     /**
+     * Return cell's position on graphic grid
+     * It needed, because grid contain walls, which also took place on grid
+     */
+    private Position getPositionOnGraphicGrid(int x, int y) {
+        return new Position(2 * x + 1, 2 * y + 1);
+    }
+
+    /**
      * Add path on already built maze grid
      *
      * @param grid - matrix, containing string representations of grid elements
@@ -119,15 +130,15 @@ public class ANSIRenderer implements Renderer {
         // Render path, if there are only one cell
         if (path.size() == 1) {
             currPosition = path.get(0);
-            x = 2 * currPosition.x() + 1;
-            y = 2 * currPosition.y() + 1;
+            x = getPositionOnGraphicGrid(currPosition.x(), currPosition.y()).x();
+            y = getPositionOnGraphicGrid(currPosition.x(), currPosition.y()).y();
             grid[y][x] = START_OR_END;
         }
 
         for (int i = 0; i < path.size() - 1; i++) {
             currPosition = path.get(i);
-            x = 2 * currPosition.x() + 1;
-            y = 2 * currPosition.y() + 1;
+            x = getPositionOnGraphicGrid(currPosition.x(), currPosition.y()).x();
+            y = getPositionOnGraphicGrid(currPosition.x(), currPosition.y()).y();
 
             // If this is first
             grid[y][x] = i == 0 ? START_OR_END : PATH_PASSAGE;
@@ -147,8 +158,8 @@ public class ANSIRenderer implements Renderer {
                 throw new IllegalArgumentException("Invalid path, two points have same x or y coordinate");
             }
 
-            x = 2 * nextPosition.x() + 1;
-            y = 2 * nextPosition.y() + 1;
+            x = getPositionOnGraphicGrid(nextPosition.x(), nextPosition.y()).x();
+            y = getPositionOnGraphicGrid(nextPosition.x(), nextPosition.y()).y();
             grid[y][x] = START_OR_END;
         }
     }

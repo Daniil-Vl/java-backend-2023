@@ -1,10 +1,8 @@
 package edu.project2.solvers;
 
-import edu.project2.maze.Cell;
 import edu.project2.maze.Maze;
 import edu.project2.maze.Position;
 import java.util.ArrayDeque;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -29,62 +27,41 @@ public class BFSSolver implements Solver {
         ArrayDeque<Position> queue = new ArrayDeque<>();
         HashMap<Position, Position> parents = new HashMap<>();
         HashSet<Position> visited = new HashSet<>();
-        ArrayList<Position> notVisitedNeighbours = new ArrayList<>();
-        Cell[][] grid = maze.getGrid();
-
+        List<Position> notVisitedNeighbours;
         Position currPos;
-        Cell currCell;
-        Position nextPos;
 
         queue.addLast(start);
-
         while (!queue.isEmpty()) {
             currPos = queue.pollFirst();
 
+            // If we reached end position, then we can start collecting path
             if (currPos.equals(end)) {
                 return backtrackPath(parents, start, end);
             }
 
-            currCell = grid[currPos.y()][currPos.x()];
             visited.add(currPos);
 
-            // Get left neighbour
-            nextPos = new Position(currPos.x() - 1, currPos.y());
-            if (!currCell.hasLeftWall() && !visited.contains(nextPos)) {
-                notVisitedNeighbours.add(nextPos);
-            }
+            // Get all unvisited neighbours
+            notVisitedNeighbours = maze.getNeighbours(currPos).stream().filter(el -> !visited.contains(el)).toList();
 
-            // Get top neighbour
-            nextPos = new Position(currPos.x(), currPos.y() - 1);
-            if (!currCell.hasTopWall() && !visited.contains(nextPos)) {
-                notVisitedNeighbours.add(nextPos);
-            }
-
-            // Get right neighbour
-            nextPos = new Position(currPos.x() + 1, currPos.y());
-            if (!currCell.hasRightWall() && !visited.contains(nextPos)) {
-                notVisitedNeighbours.add(nextPos);
-            }
-
-            // Get bottom neighbour
-            nextPos = new Position(currPos.x(), currPos.y() + 1);
-            if (!currCell.hasBottomWall() && !visited.contains(nextPos)) {
-                notVisitedNeighbours.add(nextPos);
-            }
-
+            // Add them to queue an give them parent
             for (Position neighbour : notVisitedNeighbours) {
                 queue.addLast(neighbour);
-
-                // Mark currPos as parent of neighbour
                 parents.put(neighbour, currPos);
             }
-
-            notVisitedNeighbours.clear();
         }
 
         return new LinkedList<>();
     }
 
+    /**
+     * Collect path from parents mapping
+     *
+     * @param parents - parents mapping
+     * @param start   - start of path
+     * @param end     - end of path
+     * @return path
+     */
     private List<Position> backtrackPath(Map<Position, Position> parents, Position start, Position end) {
         LinkedList<Position> path = new LinkedList<>(List.of(end));
         Position currPos = end;
