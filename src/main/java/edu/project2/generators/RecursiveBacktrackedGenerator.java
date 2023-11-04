@@ -13,13 +13,14 @@ import java.util.Random;
  */
 public class RecursiveBacktrackedGenerator implements MazeGenerator {
 
-    private final Random randomizer = new Random();
     private static final Position[] POSSIBLE_NEIGHBOURS_POSITIONS = {
         new Position(-1, 0),
         new Position(1, 0),
         new Position(0, -1),
         new Position(0, 1)
     };
+
+    private final Random randomizer = new Random();
 
     /**
      * Generate maze, using backtracker algorithm (depth-first search)
@@ -69,7 +70,7 @@ public class RecursiveBacktrackedGenerator implements MazeGenerator {
                 }
             }
 
-            // 2) Randomly select one of these neighbours, if have any
+            // 2) Randomly select one of these neighbours, if it has any
             if (!neighbours.isEmpty()) {
                 nextPosition = neighbours.get(randomizer.nextInt(0, neighbours.size()));
 
