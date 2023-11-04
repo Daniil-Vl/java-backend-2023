@@ -7,6 +7,7 @@ import java.util.List;
 public interface Solver {
     /**
      * Find path between two points
+     * If path doesn't exist returns empty list
      *
      * @param maze  - maze
      * @param start - starting point
