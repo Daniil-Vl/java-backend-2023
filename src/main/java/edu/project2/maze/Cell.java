@@ -66,4 +66,16 @@ public class Cell {
     public CellType getType() {
         return type;
     }
+
+    /**
+     * Return number of available passes
+     */
+    public int countPasses() {
+        int count = 0;
+        count += leftWall ? 0 : 1;
+        count += topWall ? 0 : 1;
+        count += rightWall ? 0 : 1;
+        count += bottomWall ? 0 : 1;
+        return count;
+    }
 }
