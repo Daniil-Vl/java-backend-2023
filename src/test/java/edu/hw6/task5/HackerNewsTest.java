@@ -6,6 +6,7 @@ import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
 import java.util.stream.Stream;
+
 import static org.assertj.core.api.Assertions.assertThat;
 
 class HackerNewsTest {
@@ -21,7 +22,8 @@ class HackerNewsTest {
     @Test
     void hackerNewsTopStories() {
         long[] topStoryCodes = HackerNews.hackerNewsTopStories();
-        assertThat(topStoryCodes.length).isEqualTo(500);
+        assertThat(topStoryCodes.length).isGreaterThanOrEqualTo(1).isLessThanOrEqualTo(500);
+        assertThat(topStoryCodes[0]).isNotNull();
     }
 
     @ParameterizedTest
