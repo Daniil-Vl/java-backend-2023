@@ -43,12 +43,16 @@ public class Task2 {
     @SuppressWarnings("MagicNumber")
     public static LocalDate findNearestFriday13(LocalDate date) {
         return date.with(TemporalAdjusters.ofDateAdjuster(currentDate -> {
-            // While currentDate not friday 13
-            LocalDate result = currentDate;
-            while (!(result.getDayOfMonth() == 13 && result.getDayOfWeek().equals(DayOfWeek.FRIDAY))) {
-                result = result.with(TemporalAdjusters.next(DayOfWeek.FRIDAY));
+            // Try to find nearest friday 13 in current year
+            List<LocalDate> fridays = getFridays13(date.getYear());
+            for (LocalDate friday13 : fridays) {
+                if (date.isBefore(friday13) || date.isEqual(friday13)) {
+                    return friday13;
+                }
             }
-            return result;
+
+            // If not found this year, then return first friday 13 of the next year
+            return getFridays13(date.getYear() + 1).get(0);
         }));
     }
 }
