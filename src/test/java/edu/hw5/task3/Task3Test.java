@@ -1,6 +1,5 @@
 package edu.hw5.task3;
 
-import java.time.DateTimeException;
 import java.time.LocalDate;
 import java.util.Optional;
 import java.util.stream.Stream;
@@ -9,7 +8,6 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class Task3Test {
 
@@ -79,6 +77,6 @@ class Task3Test {
     @Test
     void testInvalidDate() {
         String date = "2020-50-1";
-        assertThrows(DateTimeException.class, () -> Task3.parseDate(date));
+        assertThat(Task3.parseDate(date)).isNotPresent();
     }
 }

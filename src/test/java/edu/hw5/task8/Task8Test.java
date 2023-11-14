@@ -120,6 +120,10 @@ class Task8Test {
                 "101",
                 true
             ),
+            Arguments.of(
+                "111",
+                true
+            ),
 
             Arguments.of(
                 "0101010",

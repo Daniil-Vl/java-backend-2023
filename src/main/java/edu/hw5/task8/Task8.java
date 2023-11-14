@@ -21,7 +21,7 @@ public class Task8 {
     /**
      * Strings in which each odd character is equal to 1
      */
-    private static final Pattern FIFTH_PATTERN = Pattern.compile("(10)*1?");
+    private static final Pattern FIFTH_PATTERN = Pattern.compile("(1[01])*1?");
 
     private Task8() {
     }

@@ -46,7 +46,7 @@ public class Task2 {
             // Try to find nearest friday 13 in current year
             List<LocalDate> fridays = getFridays13(date.getYear());
             for (LocalDate friday13 : fridays) {
-                if (date.isBefore(friday13) || date.isEqual(friday13)) {
+                if (!date.isAfter(friday13)) {
                     return friday13;
                 }
             }

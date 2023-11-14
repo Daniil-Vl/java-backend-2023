@@ -1,10 +1,14 @@
 package edu.hw5.task3;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.Optional;
 
 public class DayMonthYearParser implements DateParser {
+    private static final DateTimeFormatter FULL_YEAR_FORMATTER = DateTimeFormatter.ofPattern("d/M/yyyy");
+    private static final DateTimeFormatter TRUNCATED_YEAR_FORMATTER = DateTimeFormatter.ofPattern("d/M/yy");
+
     /**
      * Parse date from string of this format "DD/MM/YYYY"
      *
@@ -14,35 +18,18 @@ public class DayMonthYearParser implements DateParser {
     @SuppressWarnings("MagicNumber")
     @Override
     public Optional<LocalDate> parseDate(String string) {
-        String[] parts = string.split("/");
-
-        if (parts.length == 3) {
-            ArrayList<Integer> dayMonthYear = new ArrayList<>(3);
-
+        try {
+            return Optional.of(
+                LocalDate.parse(string, FULL_YEAR_FORMATTER)
+            );
+        } catch (DateTimeParseException firstExc) {
             try {
-                for (String part : parts) {
-                    dayMonthYear.add(Integer.parseInt(part));
-                }
-            } catch (NumberFormatException exc) {
+                return Optional.of(
+                    LocalDate.parse(string, TRUNCATED_YEAR_FORMATTER)
+                );
+            } catch (DateTimeParseException secondExc) {
                 return Optional.empty();
             }
-
-            // Example:
-            // If year is presented like 20
-            // Then we should interpret it like 2020 year
-            if (dayMonthYear.get(2) < 1000) {
-                dayMonthYear.add(2, dayMonthYear.get(2) + 2000);
-            }
-
-            return Optional.of(
-                LocalDate.of(
-                    dayMonthYear.get(2),
-                    dayMonthYear.get(1),
-                    dayMonthYear.get(0)
-                )
-            );
         }
-
-        return Optional.empty();
     }
 }
