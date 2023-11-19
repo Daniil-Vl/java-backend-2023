@@ -2,13 +2,13 @@ package edu.project3.processing;
 
 import edu.project3.commandLine.LogProcessorArguments;
 import edu.project3.commandLine.OutputFormat;
-import org.junit.jupiter.api.Test;
-
 import java.io.IOException;
+import java.nio.file.Path;
 import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.Map;
 import java.util.PriorityQueue;
+import org.junit.jupiter.api.Test;
 import static org.assertj.core.api.Assertions.assertThat;
 
 class LogProcessorTest {
@@ -39,7 +39,7 @@ class LogProcessorTest {
         ).entrySet());
 
         LogReport expected = new LogReport(
-            List.of("src\\test\\resources\\project3\\logs\\logs_example.txt"),
+            List.of(Path.of("src\\test\\resources\\project3\\logs\\logs_example.txt").toString()),
             OffsetDateTime.MIN,
             OffsetDateTime.MAX,
             3,
