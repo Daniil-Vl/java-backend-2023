@@ -39,7 +39,7 @@ class LogProcessorTest {
         ).entrySet());
 
         LogReport expected = new LogReport(
-            List.of(Path.of("src\\test\\resources\\project3\\logs\\logs_example.txt").toString()),
+            List.of(Path.of("src/test/resources/project3/logs/logs_example.txt").toString()),
             OffsetDateTime.MIN,
             OffsetDateTime.MAX,
             3,
