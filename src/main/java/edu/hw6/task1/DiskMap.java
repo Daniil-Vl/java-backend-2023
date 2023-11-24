@@ -18,95 +18,83 @@ import org.jetbrains.annotations.Nullable;
 
 public class DiskMap implements Map<String, String>, Externalizable {
 
-    private final HashMap<String, String> map;
+    private final HashMap<String, String> delegatedMap;
 
     public DiskMap() {
-        this.map = new HashMap<>();
+        delegatedMap = new HashMap<>();
     }
 
     public DiskMap(Map<String, String> map) {
-        this.map = new HashMap<>(map);
+        this.delegatedMap = new HashMap<>(map);
     }
 
-    /**
-     * Returns the number of key-value mappings in this map.  If the
-     * map contains more than {@code Integer.MAX_VALUE} elements, returns
-     * {@code Integer.MAX_VALUE}.
-     *
-     * @return the number of key-value mappings in this map
-     */
     @Override
     public int size() {
-        return this.map.size();
+        return delegatedMap.size();
     }
 
-    /**
-     * Returns {@code true} if this map contains no key-value mappings.
-     *
-     * @return {@code true} if this map contains no key-value mappings
-     */
     @Override
     public boolean isEmpty() {
-        return this.map.isEmpty();
+        return delegatedMap.isEmpty();
     }
 
     @Override
     public boolean containsKey(Object key) {
-        return this.map.containsKey(key);
+        return delegatedMap.containsKey(key);
     }
 
     @Override
     public boolean containsValue(Object value) {
-        return this.map.containsValue(value);
+        return delegatedMap.containsValue(value);
     }
 
     @Override
     public String get(Object key) {
-        return this.map.get(key);
+        return delegatedMap.get(key);
     }
 
     @Nullable
     @Override
     public String put(String key, String value) {
-        return this.map.put(key, value);
+        return delegatedMap.put(key, value);
     }
 
     @Override
     public String remove(Object key) {
-        return this.map.remove(key);
+        return delegatedMap.remove(key);
     }
 
     @Override
     public void putAll(@NotNull Map<? extends String, ? extends String> m) {
-        this.map.putAll(m);
+        delegatedMap.putAll(m);
     }
 
     @Override
     public void clear() {
-        this.map.clear();
+        delegatedMap.clear();
     }
 
     @NotNull
     @Override
     public Set<String> keySet() {
-        return this.map.keySet();
+        return delegatedMap.keySet();
     }
 
     @NotNull
     @Override
     public Collection<String> values() {
-        return this.map.values();
+        return delegatedMap.values();
     }
 
     @NotNull
     @Override
     public Set<Entry<String, String>> entrySet() {
-        return this.map.entrySet();
+        return delegatedMap.entrySet();
     }
 
     @Override
     public void writeExternal(ObjectOutput out) throws IOException {
-        for (Map.Entry<String, String> elem : this.map.entrySet()) {
+        for (Map.Entry<String, String> elem : delegatedMap.entrySet()) {
             out.writeBytes(elem.getKey() + ":" + elem.getValue() + "\n");
         }
         out.close();
@@ -114,14 +102,11 @@ public class DiskMap implements Map<String, String>, Externalizable {
 
     @Override
     public void readExternal(ObjectInput in) throws IOException {
+        delegatedMap.clear();
         String line = in.readLine();
-        String key;
-        String value;
-        this.map.clear();
         while (line != null) {
-            key = line.split(":")[0];
-            value = line.split(":")[1];
-            this.map.put(key, value);
+            String[] keyValue = line.split(":");
+            this.delegatedMap.put(keyValue[0], keyValue[1]);
             line = in.readLine();
         }
         in.close();
@@ -136,11 +121,13 @@ public class DiskMap implements Map<String, String>, Externalizable {
         this.readExternal(new ObjectInputStream(new FileInputStream(file)));
     }
 
-    @Override public String toString() {
-        return map.toString();
+    @Override
+    public String toString() {
+        return delegatedMap.toString();
     }
 
-    @Override public boolean equals(Object o) {
+    @Override
+    public boolean equals(Object o) {
         if (this == o) {
             return true;
         }
@@ -148,11 +135,11 @@ public class DiskMap implements Map<String, String>, Externalizable {
             return false;
         }
         DiskMap diskMap = (DiskMap) o;
-        return this.map.equals(diskMap.map);
+        return delegatedMap.equals(diskMap.delegatedMap);
     }
 
     @Override
     public int hashCode() {
-        return this.map.hashCode();
+        return delegatedMap.hashCode();
     }
 }
