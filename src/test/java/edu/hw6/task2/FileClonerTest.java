@@ -4,8 +4,11 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.stream.Stream;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -15,12 +18,9 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class FileClonerTest {
 
-    private static final Path BASE_PATH = Path.of("src", "test", "resources", "task2");
+    private static final Path BASE_PATH = Path.of("src", "test", "resources", "hw6", "task2");
 
-    /**
-     * Return stream of arguments (pairs like this (originalFileName, expectedCopiedFileName) )
-     */
-    private static Stream<Arguments> filenames() {
+    private static Stream<Arguments> provideFilenames() {
         return Stream.of(
             Arguments.of(
                 "first.txt", "first — копия.txt"
@@ -31,19 +31,34 @@ class FileClonerTest {
         );
     }
 
+    @BeforeEach
+    @AfterEach
+    void removeOldTempFiles() throws IOException {
+        // Remove files in arguments stream
+        Stream<Arguments> filenames = provideFilenames();
+        filenames.forEach(args -> {
+            Object[] strings = args.get();
+            String expectedCopiedFileName = (String) strings[1];
+            try {
+                Files.deleteIfExists(BASE_PATH.resolve(expectedCopiedFileName));
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        });
+
+        // Remove nonexistent_file.txt
+        Files.deleteIfExists(BASE_PATH.resolve("nonexistent_file.txt"));
+    }
+
     @Test
-    void testCloneNonExistentFile() {
-        Path path = BASE_PATH.resolve("nonexistentfile.txt");
+    void cloneNonExistentFile() {
+        Path path = BASE_PATH.resolve("nonexistent_file.txt");
         assertThrows(FileNotFoundException.class, () -> FileCloner.cloneFile(path));
     }
 
     @ParameterizedTest
-    @MethodSource("filenames")
-    void testFirstClone(String originalFileName, String expectedCopiedFileName) throws IOException {
-        // Remove old files
-        BASE_PATH.resolve(expectedCopiedFileName).toFile().delete();
-
-        // Check that file creation
+    @MethodSource("provideFilenames")
+    void cloneFile(String originalFileName, String expectedCopiedFileName) throws IOException {
         Path originalFilePath = BASE_PATH.resolve(originalFileName);
         FileCloner.cloneFile(originalFilePath);
 
@@ -53,16 +68,12 @@ class FileClonerTest {
         checkFileEquality(originalFilePath.toFile(), copiedFilePath.toFile());
     }
 
-    /**
-     * Checks, that files content equality
-     */
     void checkFileEquality(File originalFile, File copiedFile) throws IOException {
-        FileInputStream originalFileIn = new FileInputStream(originalFile);
-        FileInputStream copiedFileIn = new FileInputStream(copiedFile);
-
-        assertThat(copiedFileIn.readAllBytes()).isEqualTo(originalFileIn.readAllBytes());
-
-        originalFileIn.close();
-        copiedFileIn.close();
+        try (
+            FileInputStream originalFileIn = new FileInputStream(originalFile);
+            FileInputStream copiedFileIn = new FileInputStream(copiedFile)
+        ) {
+            assertThat(copiedFileIn.readAllBytes()).isEqualTo(originalFileIn.readAllBytes());
+        }
     }
 }

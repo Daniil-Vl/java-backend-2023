@@ -1,56 +1,71 @@
 package edu.hw6.task2;
 
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.file.Path;
+import org.jetbrains.annotations.NotNull;
 
 public class FileCloner {
     private FileCloner() {
     }
 
-    @SuppressWarnings("MultipleStringLiterals")
-    public static void cloneFile(Path path) throws IOException {
-        File originalFile = path.toFile();
-        if (!originalFile.exists()) {
+    public static void cloneFile(Path originalFile) throws IOException {
+        if (!originalFile.toFile().exists()) {
             throw new FileNotFoundException("Cannot clone file, that doesn't exist");
         }
 
-        // Check if file haven't first copy, then create it
-        File copiedFile;
-        String filenameWithoutExtension = path.getFileName().toString().split("\\.")[0];
-        String extension = path.getFileName().toString().split("\\.")[1];
+        Path copiedFile = createEmptyFileCopy(originalFile);
+        copyFileContent(originalFile, copiedFile);
+    }
 
-        Path pathOfCopied = path.resolveSibling(
+    private static void copyFileContent(Path originalFile, Path copiedFile) throws IOException {
+        try (
+            FileInputStream in = new FileInputStream(originalFile.toFile());
+            FileOutputStream out = new FileOutputStream(copiedFile.toFile())
+        ) {
+            out.write(in.readAllBytes());
+        }
+    }
+
+    /**
+     * Create new empty file with appropriate name (like copy of original file)
+     * Examples:
+     * 1) First copy of file "data.txt" - return file with name "data - копия.txt"
+     * 2) Second copy of file "data.txt" - return file with name "data - копия (2).txt"
+     *
+     * @param path - path of file to be copied
+     * @return path of empty file with appropriate name
+     */
+    @NotNull
+    @SuppressWarnings("MultipleStringLiterals")
+    private static Path createEmptyFileCopy(Path path) throws IOException {
+        String fullFileName = path.getFileName().toString();
+        String filenameWithoutExtension = fullFileName.substring(0, fullFileName.lastIndexOf("."));
+        String extension = fullFileName.substring(fullFileName.lastIndexOf(".") + 1);
+
+        Path pathOfCopiedFile = path.resolveSibling(
             filenameWithoutExtension
                 + " — копия"
                 + "."
                 + extension
         );
-        copiedFile = pathOfCopied.toFile();
 
-        if (!copiedFile.createNewFile()) {
-            // If file already have first clone, then we should find version to create
+        // If file already has first copy, then we try to find correct version number
+        if (!pathOfCopiedFile.toFile().createNewFile()) {
             int copyNumber = 2;
             do {
-                pathOfCopied = path.resolveSibling(
+                pathOfCopiedFile = path.resolveSibling(
                     filenameWithoutExtension
                         + " — копия (%d)".formatted(copyNumber)
                         + "."
                         + extension
                 );
                 copyNumber++;
-            } while (pathOfCopied.toFile().exists());
-            copiedFile = pathOfCopied.toFile();
+            } while (pathOfCopiedFile.toFile().exists());
         }
 
-        // Copy content from original file to copied file
-        FileInputStream in = new FileInputStream(originalFile);
-        FileOutputStream out = new FileOutputStream(copiedFile);
-        out.write(in.readAllBytes());
-        in.close();
-        out.close();
+        return pathOfCopiedFile;
     }
 }
