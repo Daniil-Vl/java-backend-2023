@@ -20,7 +20,7 @@ class HackerNewsTest {
     }
 
     @Test
-    void hackerNewsTopStories() {
+    void hackerNewsTopStories() throws InterruptedException {
         long[] topStoryCodes = HackerNews.hackerNewsTopStories();
         assertThat(topStoryCodes.length).isGreaterThanOrEqualTo(1).isLessThanOrEqualTo(500);
         assertThat(topStoryCodes[0]).isNotNull();
@@ -28,7 +28,7 @@ class HackerNewsTest {
 
     @ParameterizedTest
     @MethodSource("newsId")
-    void testNews(long id, String expectedTitle) {
+    void testNews(long id, String expectedTitle) throws InterruptedException {
         String actualTitle = HackerNews.news(id);
         assertThat(actualTitle).isEqualTo(expectedTitle);
     }

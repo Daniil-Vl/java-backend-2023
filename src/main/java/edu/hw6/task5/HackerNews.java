@@ -2,7 +2,6 @@ package edu.hw6.task5;
 
 import java.io.IOException;
 import java.net.URI;
-import java.net.URISyntaxException;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
@@ -12,25 +11,16 @@ import java.util.regex.Pattern;
 
 public class HackerNews {
 
-    private static final int TIMEOUT = 10;
+    private static final int TIMEOUT_SECONDS = 10;
+    private static final String TOP_STORIES_URL_STRING = "https://hacker-news.firebaseio.com/v0/topstories.json";
+    private static final String NEWS_URL_STRING = "https://hacker-news.firebaseio.com/v0/item/%d.json";
+    private static final Pattern TITLE_PATTERN = Pattern.compile("\"" + "title" + "\"" + ":" + "\"" + "[^\"]*" + "\"");
 
     private HackerNews() {
     }
 
-    public static long[] hackerNewsTopStories() {
-        String urlString = "https://hacker-news.firebaseio.com/v0/topstories.json";
-
-        // Create http request
-        HttpRequest request;
-        try {
-            request = HttpRequest.newBuilder()
-                .uri(new URI(urlString))
-                .GET()
-                .timeout(Duration.ofSeconds(TIMEOUT))
-                .build();
-        } catch (URISyntaxException e) {
-            throw new RuntimeException(e);
-        }
+    public static long[] hackerNewsTopStories() throws InterruptedException {
+        HttpRequest request = buildGetRequest(TOP_STORIES_URL_STRING);
 
         // Create httpclient, send request and parse body response
         try (var httpClient = HttpClient.newHttpClient()) {
@@ -44,40 +34,39 @@ public class HackerNews {
             }
 
             return result;
-        } catch (IOException | InterruptedException e) {
+        } catch (IOException e) {
             return new long[] {};
         }
     }
 
-    public static String news(long id) {
-        String urlString = "https://hacker-news.firebaseio.com/v0/item/%d.json".formatted(id);
-
-        HttpRequest request;
-        try {
-            request = HttpRequest.newBuilder()
-                .uri(new URI(urlString))
-                .GET()
-                .timeout(Duration.ofSeconds(TIMEOUT))
-                .build();
-        } catch (URISyntaxException e) {
-            throw new RuntimeException(e);
-        }
+    public static String news(long id) throws InterruptedException {
+        HttpRequest request = buildGetRequest(
+            NEWS_URL_STRING.formatted(id)
+        );
 
         try (var httpClient = HttpClient.newHttpClient()) {
             HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
             String responseBody = response.body();
 
             // Get title using regexp
-            Pattern pattern = Pattern.compile("\"" + "title" + "\"" + ":" + "\"" + "[^\"]*" + "\"");
-            Matcher matcher = pattern.matcher(responseBody);
+            Matcher matcher = TITLE_PATTERN.matcher(responseBody);
             if (matcher.find()) {
                 // Get value of "title" and remove double quotes
                 String temp = matcher.group().split(":")[1];
                 return temp.substring(1, temp.length() - 1);
             }
-            return pattern.matcher(responseBody).group(1);
-        } catch (IOException | InterruptedException e) {
+            return TITLE_PATTERN.matcher(responseBody).group(1);
+
+        } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    private static HttpRequest buildGetRequest(String urlString) {
+        return HttpRequest.newBuilder()
+            .uri(URI.create(urlString))
+            .GET()
+            .timeout(Duration.ofSeconds(TIMEOUT_SECONDS))
+            .build();
     }
 }
