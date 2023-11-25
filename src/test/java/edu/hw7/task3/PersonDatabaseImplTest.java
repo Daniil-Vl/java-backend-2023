@@ -1,45 +1,57 @@
 package edu.hw7.task3;
 
-import java.util.concurrent.atomic.AtomicReference;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.RepeatedTest;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 
 class PersonDatabaseImplTest {
 
     private final static Logger LOGGER = LogManager.getLogger();
-    private final static Person PERSON = new Person(1, "Boris", "Saint-Petersburg", "79999999999");
+    private final static Person TARGET_PERSON = new Person(1, "Boris", "Saint-Petersburg", "79999999999");
     private static Thread addThread;
     private static PersonDatabase database = new PersonDatabaseImpl();
 
-    /**
-     * Refresh database and addThread before each test
-     */
     @BeforeEach
     void refreshData() {
         database = new PersonDatabaseImpl();
         addThread = new Thread(() -> {
+            List<Person> personList = List.of(
+                TARGET_PERSON,
+                new Person(2, "Denis", "Moscow", "78888888888"),
+                new Person(3, "Igor", "Moscow", "78888888887")
+            );
             try {
-                database.add(PERSON);
+                for (Person person : personList) {
+                    database.add(person);
+                }
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }
         }, "AddThread");
     }
 
-    @Test
-    void getPersonFromEmptyDatabase() {
-        assertThat(database.findByName("Boris")).isNull();
-    }
+    @RepeatedTest(100)
+    void availabilityByAllFields() throws InterruptedException {
+        List<Person> foundedByName = new ArrayList<>();
+        List<Person> foundedByAddress = new ArrayList<>();
+        List<Person> foundedByPhone = new ArrayList<>();
 
-    @Test
-    void testAddSynchronization() throws InterruptedException {
-        AtomicReference<Person> foundedPerson = new AtomicReference<>();
-
+        // Shuffle search attributes, to search by attributes in random order
         Thread searchThread = new Thread(() -> {
-            foundedPerson.set(database.findByName("Boris").get(0));
+            List<SearchAttribute> searchAttributes = new ArrayList<>(List.of(SearchAttribute.values()));
+            Collections.shuffle(searchAttributes);
+            for (SearchAttribute attribute : searchAttributes) {
+                switch (attribute) {
+                    case name -> foundedByName.addAll(database.findByName(TARGET_PERSON.name()));
+                    case address -> foundedByAddress.addAll(database.findByAddress(TARGET_PERSON.address()));
+                    case phone -> foundedByPhone.addAll(database.findByPhone(TARGET_PERSON.phoneNumber()));
+                }
+            }
         }, "SearchThread");
 
         addThread.start();
@@ -48,41 +60,21 @@ class PersonDatabaseImplTest {
         addThread.join();
         searchThread.join();
 
-        assertThat(foundedPerson.get()).isEqualTo(PERSON);
-        LOGGER.info("Founded person in testAddSynchronization - " + foundedPerson.get().toString());
+        if (foundedByName.isEmpty()) {
+            assertThat(foundedByAddress).isEmpty();
+            assertThat(foundedByPhone).isEmpty();
+            LOGGER.info("Each list empty");
+        } else if (foundedByName.contains(TARGET_PERSON)) {
+            assertThat(foundedByAddress).contains(TARGET_PERSON);
+            assertThat(foundedByPhone).contains(TARGET_PERSON);
+            LOGGER.info("Each list contains target person");
+        } else {
+            LOGGER.error("Test failed");
+            assertThat(false).isTrue();
+        }
     }
 
-    /**
-     *
-     */
-    @Test
-    void testAvailabilityByAllFields() throws InterruptedException {
-        LOGGER.info("testAvailabilityByAllFields =======================================");
-
-        AtomicReference<Person> foundedByName = new AtomicReference<>();
-        AtomicReference<Person> foundedByAddress = new AtomicReference<>();
-        AtomicReference<Person> foundedByPhoneNumber = new AtomicReference<>();
-
-        Thread searchThread = new Thread(() -> {
-            foundedByName.set(database.findByName("Boris").get(0));
-            foundedByAddress.set(database.findByAddress("Saint-Petersburg").get(0));
-            foundedByPhoneNumber.set(database.findByPhone("79999999999").get(0));
-        });
-
-        addThread.start();
-        searchThread.start();
-
-        addThread.join();
-        searchThread.join();
-
-        LOGGER.info("Founded by: ");
-        LOGGER.info("Name: " + foundedByName.get().toString());
-        LOGGER.info("Address: " + foundedByAddress.get().toString());
-        LOGGER.info("Phone: " + foundedByPhoneNumber.get().toString());
-
-        assertThat(foundedByName.get()).isEqualTo(PERSON);
-        assertThat(foundedByAddress.get()).isEqualTo(PERSON);
-        assertThat(foundedByPhoneNumber.get()).isEqualTo(PERSON);
-        LOGGER.info("===================================================================");
+    private enum SearchAttribute {
+        name, address, phone;
     }
 }
