@@ -1,5 +1,11 @@
 package edu.hw6.task2;
 
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -7,14 +13,9 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.stream.Stream;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.Arguments;
-import org.junit.jupiter.params.provider.MethodSource;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.params.provider.Arguments.arguments;
 
 class FileClonerTest {
 
@@ -22,12 +23,8 @@ class FileClonerTest {
 
     private static Stream<Arguments> provideFilenames() {
         return Stream.of(
-            Arguments.of(
-                "first.txt", "first — копия.txt"
-            ),
-            Arguments.of(
-                "second.txt", "second — копия (2).txt"
-            )
+            arguments("first.txt", "first — копия.txt"),
+            arguments("second.txt", "second — копия (2).txt")
         );
     }
 
