@@ -29,8 +29,7 @@ public class PortChecker {
         80, "HTTP",
         123, "NTP",
         143, "IMAP",
-        443, "HTTPS",
-        5000, "Flask"
+        443, "HTTPS"
     ));
 
     private PortChecker() {
@@ -38,28 +37,31 @@ public class PortChecker {
 
     public static void checkPorts() throws UnknownHostException {
         LOGGER.info("Протокол  Порт   Сервис");
+        int count = 0;
 
         for (int portNumber = FIRST_PORT; portNumber <= LAST_PORT; portNumber++) {
 
             // TCP connections
             try (Socket client = new Socket(InetAddress.getByName(LOCALHOST), portNumber)) {
+                count++;
+            } catch (IOException ignored) {
                 if (PORT_APPS.containsKey(portNumber)) {
                     LOGGER.info("TCP       %-6d %s".formatted(portNumber, PORT_APPS.get(portNumber)));
+                } else {
+                    LOGGER.info("TCP       %-6d N/A".formatted(portNumber));
                 }
-            } catch (IOException ignored) {
             }
 
             // UDP connections
             try (DatagramSocket client = new DatagramSocket(portNumber, InetAddress.getByName(LOCALHOST))) {
+                count++;
+            } catch (SocketException ignored) {
                 if (PORT_APPS.containsKey(portNumber)) {
                     LOGGER.info("UDP       %-6d %s".formatted(portNumber, PORT_APPS.get(portNumber)));
+                } else {
+                    LOGGER.info("UDP       %-6d N/A".formatted(portNumber));
                 }
-            } catch (SocketException ignored) {
             }
         }
     }
-
-//    public static void main(String[] args) throws UnknownHostException {
-//        checkPorts();
-//    }
 }
