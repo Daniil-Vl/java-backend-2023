@@ -9,7 +9,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 public class ReadWriteLockPersonDatabase implements PersonDatabase {
-    private final static Logger LOGGER = LogManager.getLogger();
     private final HashMap<Integer, Person> idMap = new HashMap<>();
     private final HashMap<String, List<Person>> nameMap = new HashMap<>();
     private final HashMap<String, List<Person>> addressMap = new HashMap<>();

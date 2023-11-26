@@ -32,11 +32,11 @@ class PIApproximatorTest {
 
         LOGGER.info("Approximation with %d points\n".formatted(numberOfPoints));
 
-        double singleThreadedPI = getApproximationResults(singleThreadedPIApproximator, numberOfPoints);
-        double twoThreadedPI = getApproximationResults(twoThreadedPIApproximator, numberOfPoints);
-        double fourThreadedPI = getApproximationResults(fourThreadedPIApproximator, numberOfPoints);
-        double eightThreadedPI = getApproximationResults(eightThreadedPIApproximator, numberOfPoints);
-        double sixteenThreadedPI = getApproximationResults(sixteenThreadedPIApproximator, numberOfPoints);
+        double singleThreadedPI = getApproximationResults(singleThreadedPIApproximator);
+        double twoThreadedPI = getApproximationResults(twoThreadedPIApproximator);
+        double fourThreadedPI = getApproximationResults(fourThreadedPIApproximator);
+        double eightThreadedPI = getApproximationResults(eightThreadedPIApproximator);
+        double sixteenThreadedPI = getApproximationResults(sixteenThreadedPIApproximator);
 
         assertThat(singleThreadedPI).isCloseTo(Math.PI, Offset.offset(0.01));
         assertThat(twoThreadedPI).isCloseTo(Math.PI, Offset.offset(0.01));
@@ -45,7 +45,7 @@ class PIApproximatorTest {
         assertThat(sixteenThreadedPI).isCloseTo(Math.PI, Offset.offset(0.01));
     }
 
-    private double getApproximationResults(AbstractPIApproximator approximator, long numberOfPoints) {
+    private double getApproximationResults(AbstractPIApproximator approximator) {
         long startTIme = System.nanoTime();
         double resultPI = approximator.approximate();
         long endTime = System.nanoTime();

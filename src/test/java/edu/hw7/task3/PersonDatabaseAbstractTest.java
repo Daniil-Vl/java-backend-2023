@@ -78,6 +78,6 @@ abstract class PersonDatabaseAbstractTest {
     }
 
     private enum SearchAttribute {
-        name, address, phone;
+        name, address, phone
     }
 }
