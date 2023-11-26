@@ -6,7 +6,7 @@ import java.util.List;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-public class PersonDatabaseImpl implements PersonDatabase {
+public class SynchronizedPersonDatabase implements PersonDatabase {
     private final static Logger LOGGER = LogManager.getLogger();
     private final HashMap<Integer, Person> idMap = new HashMap<>();
     private final HashMap<String, List<Person>> nameMap = new HashMap<>();
@@ -24,6 +24,7 @@ public class PersonDatabaseImpl implements PersonDatabase {
     @Override
     public synchronized void delete(int id) {
         Person person = idMap.get(id);
+        idMap.remove(id);
         nameMap.get(person.name()).remove(person);
         addressMap.get(person.address()).remove(person);
         phoneMap.get(person.phoneNumber()).remove(person);

@@ -9,21 +9,24 @@ import java.util.Collections;
 import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 
-class PersonDatabaseImplTest {
+abstract class PersonDatabaseAbstractTest {
 
     private final static Logger LOGGER = LogManager.getLogger();
     private final static Person TARGET_PERSON = new Person(1, "Boris", "Saint-Petersburg", "79999999999");
     private static Thread addThread;
-    private static PersonDatabase database = new PersonDatabaseImpl();
+    private static PersonDatabase database;
+
+    abstract protected PersonDatabase getInstance();
 
     @BeforeEach
     void refreshData() {
-        database = new PersonDatabaseImpl();
+        database = getInstance();
         addThread = new Thread(() -> {
             List<Person> personList = List.of(
                 TARGET_PERSON,
                 new Person(2, "Denis", "Moscow", "78888888888"),
-                new Person(3, "Igor", "Moscow", "78888888887")
+                new Person(3, "Igor", "Moscow", "78888888887"),
+                new Person(4, "a", "a", "a")
             );
             try {
                 for (Person person : personList) {
