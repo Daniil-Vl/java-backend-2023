@@ -3,8 +3,6 @@ package edu.hw7.task3;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 public class SynchronizedPersonDatabase implements PersonDatabase {
     private final HashMap<Integer, Person> idMap = new HashMap<>();
