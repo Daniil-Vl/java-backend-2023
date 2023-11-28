@@ -14,6 +14,14 @@ public record LogReport(
     PriorityQueue<Map.Entry<String, Integer>> requestedSources,
     PriorityQueue<Map.Entry<Integer, Integer>> statusCodes
 ) {
+    public PriorityQueue<Map.Entry<String, Integer>> requestedSources() {
+        return new PriorityQueue<>(requestedSources);
+    }
+
+    public PriorityQueue<Map.Entry<Integer, Integer>> statusCodes() {
+        return new PriorityQueue<>(statusCodes);
+    }
+
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {
@@ -33,6 +41,7 @@ public record LogReport(
             new PriorityQueue<>(this.requestedSources);
         PriorityQueue<Map.Entry<String, Integer>> tempRequestedSourcesOther =
             new PriorityQueue<>(temp.requestedSources);
+
         while (!tempRequestedSourcesOriginal.isEmpty()) {
             if (!tempRequestedSourcesOriginal.poll().equals(tempRequestedSourcesOther.poll())) {
                 return false;
