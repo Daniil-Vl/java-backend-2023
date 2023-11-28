@@ -16,45 +16,63 @@ public class ReadWriteLockPersonDatabase implements PersonDatabase {
     @Override
     public void add(Person person) throws InterruptedException {
         lock.writeLock().lock();
-        idMap.put(person.id(), person);
-        nameMap.computeIfAbsent(person.name(), key -> new ArrayList<>()).add(person);
-        addressMap.computeIfAbsent(person.address(), key -> new ArrayList<>()).add(person);
-        phoneMap.computeIfAbsent(person.phoneNumber(), key -> new ArrayList<>()).add(person);
-        lock.writeLock().unlock();
+        try {
+            idMap.put(person.id(), person);
+            nameMap.computeIfAbsent(person.name(), key -> new ArrayList<>()).add(person);
+            addressMap.computeIfAbsent(person.address(), key -> new ArrayList<>()).add(person);
+            phoneMap.computeIfAbsent(person.phoneNumber(), key -> new ArrayList<>()).add(person);
+        } finally {
+            lock.writeLock().unlock();
+        }
     }
 
     @Override
     public void delete(int id) {
         lock.writeLock().lock();
-        Person person = idMap.get(id);
-        idMap.remove(id);
-        nameMap.get(person.name()).remove(person);
-        addressMap.get(person.address()).remove(person);
-        phoneMap.get(person.phoneNumber()).remove(person);
-        lock.writeLock().unlock();
+        try {
+            Person person = idMap.get(id);
+            idMap.remove(id);
+            nameMap.get(person.name()).remove(person);
+            addressMap.get(person.address()).remove(person);
+            phoneMap.get(person.phoneNumber()).remove(person);
+        } finally {
+            lock.writeLock().unlock();
+        }
     }
 
     @Override
     public List<Person> findByName(String name) {
+        List<Person> searchResult;
         lock.readLock().lock();
-        List<Person> searchResult = nameMap.get(name);
-        lock.readLock().unlock();
+        try {
+            searchResult = nameMap.get(name);
+        } finally {
+            lock.readLock().unlock();
+        }
         return searchResult;
     }
 
     @Override
     public List<Person> findByAddress(String address) {
+        List<Person> searchResult;
         lock.readLock().lock();
-        List<Person> searchResult = addressMap.get(address);
-        lock.readLock().unlock();
+        try {
+            searchResult = addressMap.get(address);
+        } finally {
+            lock.readLock().unlock();
+        }
         return searchResult;
     }
 
     @Override
     public List<Person> findByPhone(String phone) {
+        List<Person> searchResult;
         lock.readLock().lock();
-        List<Person> searchResult = phoneMap.get(phone);
-        lock.readLock().unlock();
+        try {
+            searchResult = phoneMap.get(phone);
+        } finally {
+            lock.readLock().unlock();
+        }
         return searchResult;
     }
 }
