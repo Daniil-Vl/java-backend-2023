@@ -1,18 +1,23 @@
 package edu.hw8.task2;
 
-import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.LinkedBlockingQueue;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 public class FixedThreadPool implements ThreadPool {
     private static final Logger LOGGER = LogManager.getLogger();
     private static final int TIMEOUT = 100;
-    private final BlockingQueue<Runnable> tasksQueue = new ArrayBlockingQueue<>(8);
-    private Thread[] threads;
+    private final BlockingQueue<Runnable> tasksQueue = new LinkedBlockingQueue<>(8);
+    private final Thread[] threads;
 
     private FixedThreadPool(int nThreads) {
+        if (nThreads <= 0) {
+            throw new IllegalArgumentException("Number of thread must be positive");
+        }
+
         this.threads = new Thread[nThreads];
+
         for (int i = 0; i < nThreads; i++) {
             this.threads[i] = new Worker();
         }
@@ -24,7 +29,6 @@ public class FixedThreadPool implements ThreadPool {
 
     @Override
     public void start() {
-        LOGGER.info("FixedThreadPool starts working...");
         for (Thread thread : threads) {
             thread.start();
         }
@@ -35,8 +39,6 @@ public class FixedThreadPool implements ThreadPool {
         synchronized (tasksQueue) {
             try {
                 tasksQueue.put(runnable);
-                LOGGER.info("New task was putted to queue");
-                tasksQueue.notify();
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }
@@ -54,7 +56,7 @@ public class FixedThreadPool implements ThreadPool {
             thread.interrupt();
         }
 
-        LOGGER.info("FixedThreadPool closing...");
+        LOGGER.info("FixedThreadPool stops...");
     }
 
     private class Worker extends Thread {
@@ -63,7 +65,7 @@ public class FixedThreadPool implements ThreadPool {
             while (true) {
                 try {
                     Runnable task = tasksQueue.take();
-                    LOGGER.info("Worker %s starts executing new task".formatted(Thread.currentThread().getName()));
+                    LOGGER.info("Worker starts executing task");
                     task.run();
                 } catch (InterruptedException e) {
                     throw new RuntimeException(e);
