@@ -1,6 +1,9 @@
 package edu.hw8.task3;
 
+import java.time.Duration;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ConcurrentHashMap;
@@ -12,62 +15,48 @@ import org.apache.logging.log4j.Logger;
 public class MultiThreadCracker implements MD5PasswordCracker {
     private static final Logger LOGGER = LogManager.getLogger();
     private static final int N_THREADS = Runtime.getRuntime().availableProcessors();
-    //    private final PasswordGenerator passwordGenerator = new PasswordGenerator();
-    private final NewPasswordGenerator newPasswordGenerator = new NewPasswordGenerator();
+    private final PasswordGenerator passwordGenerator = new PasswordGenerator();
     private final ExecutorService executorService = Executors.newFixedThreadPool(N_THREADS);
-//    private final ExecutorService executorService = new ThreadPoolExecutor(
-//        N_THREADS, N_THREADS,
-//        0L, TimeUnit.MILLISECONDS,
-//        new LinkedBlockingQueue<Runnable>(4*N_THREADS)
-//    );
 
     @Override
     public Map<String, String> crackPasswords(Map<String, String> hashPersonMap) {
         ConcurrentHashMap<String, String> tempHashPersonMap = new ConcurrentHashMap<>(hashPersonMap);
         ConcurrentHashMap<String, String> resultPersonPasswordMap = new ConcurrentHashMap<>();
+        List<CompletableFuture<Void>> tasks = new ArrayList<>();
+
+        final long startTime = System.nanoTime();
 
         while (!tempHashPersonMap.isEmpty()) {
-//        while (resultPersonPasswordMap.size() < hashPersonMap.size()) {
-            String password = newPasswordGenerator.getNextPassword();
+            List<String> passwordsBatch = passwordGenerator.getNextPasswordBatch();
 
-            if (password == null) {
-                continue;
+            if (passwordsBatch == null) {
+                break;
             }
 
-            CompletableFuture.supplyAsync(() -> {
-                String hash = MD5HashConverter.getHexPasswordString(password);
-                if (tempHashPersonMap.containsKey(hash)) {
-//                    LOGGER.info("Found : " + hash);
-                    resultPersonPasswordMap.put(tempHashPersonMap.get(hash), password);
-                    tempHashPersonMap.remove(hash);
-                }
-                return null;
-            });
+            tasks.add(
+                CompletableFuture.runAsync(() -> {
+                    if (tempHashPersonMap.isEmpty()) {
+                        return;
+                    }
+
+                    for (String password : passwordsBatch) {
+                        String hash = MD5HashConverter.getHashHexString(password);
+                        if (tempHashPersonMap.containsKey(hash)) {
+                            resultPersonPasswordMap.put(tempHashPersonMap.get(hash), password);
+                            tempHashPersonMap.remove(hash);
+                            LOGGER.info(
+                                "Found {} password with time - {} milliseconds",
+                                password,
+                                Duration.ofNanos(System.nanoTime() - startTime).toMillis()
+                            );
+                        }
+                    }
+                }, executorService)
+            );
+
         }
 
-        // Version with old password generator
-//        for (int i = 0; i < PasswordGenerator.MAX_PASSWORD_LENGTH; i++) {
-//            List<String> passwordsBatch = passwordGenerator.generateNextPasswordsBatch();
-//            for (String password : passwordsBatch) {
-//                executorService.submit(() -> {
-//                    String hash = MD5HashConverter.getHexPasswordString(password);
-//
-//                    if (tempHashPersonMap.containsKey(hash)) {
-//                        resultPersonPasswordMap.put(tempHashPersonMap.get(hash), password);
-//                        tempHashPersonMap.remove(hash);
-//                    }
-//
-//                    if (tempHashPersonMap.isEmpty()) {
-//                        notifyAll();
-//                    }
-//                });
-//            }
-//        }
-
-//        while (!tempHashPersonMap.isEmpty()) {
-//        }
-
-        executorService.shutdown();
+        tasks.forEach(CompletableFuture::join);
 
         return new HashMap<>(resultPersonPasswordMap);
     }

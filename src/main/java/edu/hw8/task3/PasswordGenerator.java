@@ -1,41 +1,42 @@
 package edu.hw8.task3;
 
+import java.util.ArrayDeque;
 import java.util.ArrayList;
+import java.util.Deque;
 import java.util.List;
 
 public class PasswordGenerator {
-    public static final int MAX_PASSWORD_LENGTH = 4;
+    public static final int MAX_PASSWORD_LENGTH = 5;
     private static final char[] ALPHABET = "abcdefghijklmnopqrstuvwxyz0123456789".toCharArray();
-    private List<String> currentPasswords = new ArrayList<>(List.of(""));
-    private int currentPasswordLength = 0;
+    private final Deque<String> currentPasswords = new ArrayDeque<>();
+    private final static int BATCH_SIZE = 36;
 
-    private List<String> generate(String currPassword) {
-        List<String> result = new ArrayList<>();
-        for (char c : ALPHABET) {
-            result.add(currPassword + c);
-        }
-        return result;
+    public PasswordGenerator() {
+        this.currentPasswords.add("");
     }
 
     /**
-     * Create list of passwords if can
-     * This method cannot create new batch of passwords
-     * if and only if length of passwords in current batch more than max password length (5)
+     * Returns batches with 36 passwords
      *
-     * @return list with new batch of passwords, if cannot create new batch returns null
+     * @return batch of passwords
      */
-    public List<String> generateNextPasswordsBatch() {
-        if (currentPasswordLength > MAX_PASSWORD_LENGTH) {
+    public List<String> getNextPasswordBatch() {
+        String currentPassword = currentPasswords.pollFirst();
+
+        if (currentPassword == null) {
             return null;
         }
 
-        List<String> newBatchOfPasswords = new ArrayList<>();
-        for (String currPassword : currentPasswords) {
-            newBatchOfPasswords.addAll(generate(currPassword));
+        List<String> result = new ArrayList<>(BATCH_SIZE);
+
+        if (currentPassword.length() < MAX_PASSWORD_LENGTH) {
+            for (char c : ALPHABET) {
+                String temp = currentPassword + c;
+                currentPasswords.add(temp);
+                result.add(temp);
+            }
         }
 
-        currentPasswords = newBatchOfPasswords;
-        currentPasswordLength++;
-        return newBatchOfPasswords;
+        return result;
     }
 }

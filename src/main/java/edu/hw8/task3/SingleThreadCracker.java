@@ -1,54 +1,43 @@
 package edu.hw8.task3;
 
+import java.time.Duration;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class SingleThreadCracker implements MD5PasswordCracker {
-    //    private final PasswordGenerator passwordGenerator = new PasswordGenerator();
-    private final NewPasswordGenerator newPasswordGenerator = new NewPasswordGenerator();
+    private static final Logger LOGGER = LogManager.getLogger();
+    private final PasswordGenerator passwordGenerator = new PasswordGenerator();
 
-    @Override
-    public Map<String, String> crackPasswords(Map<String, String> hashPersonMap) {
+    @Override public Map<String, String> crackPasswords(Map<String, String> hashPersonMap) {
         HashMap<String, String> tempHashPersonMap = new HashMap<>(hashPersonMap);
         HashMap<String, String> resultPersonPasswordMap = new HashMap<>();
 
-        while (!tempHashPersonMap.isEmpty()) {
-            String password = newPasswordGenerator.getNextPassword();
+        final long startTime = System.nanoTime();
 
-            if (password == null) {
+        while (!tempHashPersonMap.isEmpty()) {
+            List<String> passwordsBatch = passwordGenerator.getNextPasswordBatch();
+
+            if (passwordsBatch == null) {
                 break;
             }
 
-            String hash = MD5HashConverter.getHexPasswordString(password);
-            if (tempHashPersonMap.containsKey(hash)) {
-                resultPersonPasswordMap.put(tempHashPersonMap.get(hash), password);
-                tempHashPersonMap.remove(hash);
+            for (String password : passwordsBatch) {
+                String hash = MD5HashConverter.getHashHexString(password);
+                if (tempHashPersonMap.containsKey(hash)) {
+                    resultPersonPasswordMap.put(tempHashPersonMap.get(hash), password);
+                    tempHashPersonMap.remove(hash);
+                    LOGGER.info(
+                        "Found {} password with time - {} milliseconds",
+                        password,
+                        Duration.ofNanos(System.nanoTime() - startTime).toMillis()
+                    );
+                }
             }
         }
 
         return resultPersonPasswordMap;
     }
-
-//    @Override
-//    public Map<String, String> crackPasswords(Map<String, String> hashPersonMap) throws NoSuchAlgorithmException {
-//        Map<String, String> tempHashPersonMap = new HashMap<>(hashPersonMap);
-//        Map<String, String> resultPersonPasswordMap = new HashMap<>();
-//        MessageDigest md = MessageDigest.getInstance("MD5");
-//        int currentLength = 0;
-//
-//        while (!tempHashPersonMap.isEmpty() && currentLength < PasswordGenerator.MAX_PASSWORD_LENGTH) {
-//
-//            List<String> passwords = passwordGenerator.generateNextPasswordsBatch();
-//            for (String password : passwords) {
-//                String hash = MD5HashConverter.getHexPasswordString(password);
-//                if (tempHashPersonMap.containsKey(hash)) {
-//                    resultPersonPasswordMap.put(tempHashPersonMap.get(hash), password);
-//                }
-//            }
-//
-//            currentLength++;
-//        }
-//
-//        return resultPersonPasswordMap;
-//    }
 }
