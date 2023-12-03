@@ -27,16 +27,16 @@ public class PasswordGenerator {
             return null;
         }
 
-        List<String> result = new ArrayList<>(BATCH_SIZE);
-
         if (currentPassword.length() < MAX_PASSWORD_LENGTH) {
+            List<String> result = new ArrayList<>(BATCH_SIZE);
             for (char c : ALPHABET) {
                 String temp = currentPassword + c;
                 currentPasswords.add(temp);
                 result.add(temp);
             }
+            return result;
         }
 
-        return result;
+        return List.of(currentPassword);
     }
 }

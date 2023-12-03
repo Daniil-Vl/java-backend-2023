@@ -4,7 +4,6 @@ import java.time.Duration;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -15,7 +14,7 @@ public class MultiThreadCracker implements MD5PasswordCracker {
     private static final Logger LOGGER = LogManager.getLogger();
     private static final int N_THREADS = Runtime.getRuntime().availableProcessors();
     private final PasswordGenerator passwordGenerator = new PasswordGenerator();
-    private final ExecutorService executorService = Executors.newFixedThreadPool(N_THREADS);
+        private final ExecutorService executorService = Executors.newFixedThreadPool(N_THREADS);
 
     @Override
     public Map<String, String> crackPasswords(Map<String, String> hashPersonMap) {
@@ -31,7 +30,7 @@ public class MultiThreadCracker implements MD5PasswordCracker {
                 break;
             }
 
-            CompletableFuture.runAsync(() -> {
+            executorService.submit(() -> {
                 if (tempHashPersonMap.isEmpty()) {
                     return;
                 }
@@ -48,7 +47,7 @@ public class MultiThreadCracker implements MD5PasswordCracker {
                         );
                     }
                 }
-            }, executorService);
+            });
         }
 
         executorService.shutdown();
