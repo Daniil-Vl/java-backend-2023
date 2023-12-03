@@ -1,7 +1,6 @@
 package edu.hw8.task3;
 
 import java.time.Duration;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -22,7 +21,6 @@ public class MultiThreadCracker implements MD5PasswordCracker {
     public Map<String, String> crackPasswords(Map<String, String> hashPersonMap) {
         ConcurrentHashMap<String, String> tempHashPersonMap = new ConcurrentHashMap<>(hashPersonMap);
         ConcurrentHashMap<String, String> resultPersonPasswordMap = new ConcurrentHashMap<>();
-        List<CompletableFuture<Void>> tasks = new ArrayList<>();
 
         final long startTime = System.nanoTime();
 
@@ -33,30 +31,27 @@ public class MultiThreadCracker implements MD5PasswordCracker {
                 break;
             }
 
-            tasks.add(
-                CompletableFuture.runAsync(() -> {
-                    if (tempHashPersonMap.isEmpty()) {
-                        return;
-                    }
+            CompletableFuture.runAsync(() -> {
+                if (tempHashPersonMap.isEmpty()) {
+                    return;
+                }
 
-                    for (String password : passwordsBatch) {
-                        String hash = MD5HashConverter.getHashHexString(password);
-                        if (tempHashPersonMap.containsKey(hash)) {
-                            resultPersonPasswordMap.put(tempHashPersonMap.get(hash), password);
-                            tempHashPersonMap.remove(hash);
-                            LOGGER.info(
-                                "Found {} password with time - {} milliseconds",
-                                password,
-                                Duration.ofNanos(System.nanoTime() - startTime).toMillis()
-                            );
-                        }
+                for (String password : passwordsBatch) {
+                    String hash = MD5HashConverter.getHashHexString(password);
+                    if (tempHashPersonMap.containsKey(hash)) {
+                        resultPersonPasswordMap.put(tempHashPersonMap.get(hash), password);
+                        tempHashPersonMap.remove(hash);
+                        LOGGER.info(
+                            "Found {} password with time - {} milliseconds",
+                            password,
+                            Duration.ofNanos(System.nanoTime() - startTime).toMillis()
+                        );
                     }
-                }, executorService)
-            );
-
+                }
+            }, executorService);
         }
 
-        tasks.forEach(CompletableFuture::join);
+        executorService.shutdown();
 
         return new HashMap<>(resultPersonPasswordMap);
     }
