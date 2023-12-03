@@ -11,9 +11,9 @@ public class MD5HashConverter {
     @SuppressWarnings("MagicNumber")
     private static String convertToHexString(byte[] arrayBytes) {
         StringBuilder stringBuilder = new StringBuilder();
-        for (int i = 0; i < arrayBytes.length; i++) {
+        for (byte arrayByte : arrayBytes) {
             stringBuilder.append(
-                Integer.toString((arrayBytes[i] & 0xff) + 0x100, 16).substring(1)
+                    Integer.toString((arrayByte & 0xff) + 0x100, 16).substring(1)
             );
         }
         return stringBuilder.toString();

@@ -1,6 +1,5 @@
 package edu.hw8.task3;
 
-import java.security.NoSuchAlgorithmException;
 import java.util.Map;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
