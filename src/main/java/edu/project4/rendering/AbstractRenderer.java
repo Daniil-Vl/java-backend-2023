@@ -2,8 +2,8 @@ package edu.project4.rendering;
 
 import edu.project4.image.FractalImage;
 import edu.project4.image.Pixel;
-import edu.project4.transformations.AffineTransformation;
-import edu.project4.transformations.Transformation;
+import edu.project4.transformation.AffineTransformation;
+import edu.project4.transformation.Transformation;
 import java.util.List;
 
 public abstract class AbstractRenderer implements Renderer {
