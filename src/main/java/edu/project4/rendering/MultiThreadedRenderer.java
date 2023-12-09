@@ -46,17 +46,15 @@ public class MultiThreadedRenderer extends AbstractRenderer {
         int pointsPerThread = pointsNumber / nThreads;
 
         for (int i = 0; i < nThreads; i++) {
-            executorService.submit(() -> {
-                this.renderTask(
-                    resultImage,
-                    pointsPerThread,
-                    iterationNumber,
-                    imageWidth,
-                    imageHeight,
-                    affineTransformations,
-                    nonLinearTransformation
-                );
-            });
+            executorService.submit(() -> this.renderTask(
+                resultImage,
+                pointsPerThread,
+                iterationNumber,
+                imageWidth,
+                imageHeight,
+                affineTransformations,
+                nonLinearTransformation
+            ));
         }
 
         executorService.shutdown();

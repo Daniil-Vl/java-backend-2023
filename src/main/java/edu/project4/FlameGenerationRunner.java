@@ -8,12 +8,12 @@ import edu.project4.transformations.AffineTransformation;
 import edu.project4.transformations.SphericalTransformation;
 import edu.project4.utils.ImageFormat;
 import edu.project4.utils.ImageUtils;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import java.awt.*;
+import java.awt.Desktop;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.util.List;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class FlameGenerationRunner {
     private static final Logger LOGGER = LogManager.getLogger();
