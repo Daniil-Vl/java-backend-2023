@@ -6,10 +6,6 @@ import edu.project4.image.Pixel;
 public class LogGammaCorrection implements ImageProcessor {
     private final double gamma;
 
-    public LogGammaCorrection() {
-        this.gamma = 2.5;
-    }
-
     public LogGammaCorrection(double gamma) {
         this.gamma = gamma;
     }

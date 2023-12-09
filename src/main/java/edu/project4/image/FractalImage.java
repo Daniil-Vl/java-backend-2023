@@ -1,7 +1,5 @@
 package edu.project4.image;
 
-import java.util.Objects;
-
 public final class FractalImage {
     private final Pixel[][] field;
     private final int width;
@@ -12,7 +10,6 @@ public final class FractalImage {
         this.width = width;
         this.height = height;
     }
-
 
     /**
      * Create FractalImage with black background
@@ -52,28 +49,4 @@ public final class FractalImage {
     public int height() {
         return height;
     }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (obj == this) return true;
-        if (obj == null || obj.getClass() != this.getClass()) return false;
-        var that = (FractalImage) obj;
-        return Objects.equals(this.field, that.field) &&
-                this.width == that.width &&
-                this.height == that.height;
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(field, width, height);
-    }
-
-    @Override
-    public String toString() {
-        return "FractalImage[" +
-                "field=" + field + ", " +
-                "width=" + width + ", " +
-                "height=" + height + ']';
-    }
-
 }

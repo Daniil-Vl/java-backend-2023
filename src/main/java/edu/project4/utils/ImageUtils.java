@@ -26,13 +26,4 @@ public final class ImageUtils {
 
         ImageIO.write(imageToSave, format.getStringFormat(), filename.toFile());
     }
-
-    public static void main(String[] args) throws IOException {
-        Path filename = Path.of("src", "main", "resources", "project4", "temp_image.png");
-        ImageFormat format = ImageFormat.PNG;
-
-        FractalImage image = FractalImage.create(10, 10);
-
-        ImageUtils.save(image, filename, format);
-    }
 }
