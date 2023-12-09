@@ -19,8 +19,8 @@ public class MultiThreadedRenderer extends AbstractRenderer {
     private static final int RENDER_STEP_THRESHOLD = 20;
     private static final double X_MIN = -1.777;
     private static final double X_MAX = 1.777;
-    private static final double Y_MIN = -1;
-    private static final double Y_MAX = 1;
+    private static final double Y_MIN = -1.0;
+    private static final double Y_MAX = 1.0;
     private final ExecutorService executorService;
     private final int nThreads;
 
