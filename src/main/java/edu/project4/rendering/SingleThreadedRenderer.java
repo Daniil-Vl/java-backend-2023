@@ -11,11 +11,10 @@ import java.util.Random;
 
 public class SingleThreadedRenderer implements Renderer {
 
-    // TODO remove this constants and use instead given imageWidth and imageHeight
-    private static final double XMIN = -1.777;
-    private static final double XMAX = 1.777;
-    private static final double YMIN = -1;
-    private static final double YMAX = 1;
+    private static final double X_MIN = -1.777;
+    private static final double X_MAX = 1.777;
+    private static final double Y_MIN = -1;
+    private static final double Y_MAX = 1;
 
     @Override
     public FractalImage render(
@@ -27,13 +26,13 @@ public class SingleThreadedRenderer implements Renderer {
         List<AffineTransformation> affineTransformations,
         Transformation nonLinearTransformation
     ) {
-        Random random = new Random();
-        Rect biUnitRect = new Rect(XMIN, YMIN, XMAX - XMIN, YMAX - YMIN);
+        Random random = new Random(seed);
+        Rect biUnitRect = new Rect(X_MIN, Y_MIN, X_MAX - X_MIN, Y_MAX - Y_MIN);
         FractalImage resultImage = FractalImage.create(imageWidth, imageHeight);
 
         for (int num = 0; num < pointsNumber; num++) {
-            double newX = random.nextDouble(XMIN, XMAX);
-            double newY = random.nextDouble(YMIN, YMAX);
+            double newX = random.nextDouble(X_MIN, X_MAX);
+            double newY = random.nextDouble(Y_MIN, Y_MAX);
             Point point = new Point(newX, newY);
 
             for (int step = -20; step < iterationNumber; step++) {
@@ -45,10 +44,10 @@ public class SingleThreadedRenderer implements Renderer {
 
                 if (step >= 0 && biUnitRect.contains(point)) {
                     int x1 = imageWidth - (int) Math.floor(
-                        imageWidth * ((XMAX - point.x()) / (XMAX - XMIN))
+                        imageWidth * ((X_MAX - point.x()) / (X_MAX - X_MIN))
                     );
                     int y1 = imageHeight - (int) Math.floor(
-                        imageHeight * ((YMAX - point.y()) / (YMAX - YMIN))
+                        imageHeight * ((Y_MAX - point.y()) / (Y_MAX - Y_MIN))
                     );
 
                     if (resultImage.contains(x1, y1)) {
