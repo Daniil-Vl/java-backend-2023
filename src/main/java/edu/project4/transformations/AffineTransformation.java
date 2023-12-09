@@ -2,9 +2,9 @@ package edu.project4.transformations;
 
 import edu.project4.colors.Color;
 import edu.project4.image.Point;
+import org.jetbrains.annotations.Range;
 import java.util.List;
 import java.util.Random;
-import org.jetbrains.annotations.Range;
 
 /**
  * Transforms point like this:
@@ -31,6 +31,10 @@ public class AffineTransformation implements Transformation {
      */
     public AffineTransformation() {
         this(System.nanoTime(), List.of(Color.WHITE));
+    }
+
+    public AffineTransformation(List<Color> colors) {
+        this(System.nanoTime(), colors);
     }
 
     /**

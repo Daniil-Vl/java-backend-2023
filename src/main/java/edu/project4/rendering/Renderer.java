@@ -20,6 +20,6 @@ public interface Renderer {
     );
 
     default List<AffineTransformation> generateAffineTransformations(int n, List<Color> colors) {
-        return Stream.generate(AffineTransformation::new).limit(n).toList();
+        return Stream.generate(() -> new AffineTransformation(colors)).limit(n).toList();
     }
 }

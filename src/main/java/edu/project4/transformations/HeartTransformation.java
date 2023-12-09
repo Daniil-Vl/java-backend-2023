@@ -9,7 +9,6 @@ public class HeartTransformation implements Transformation {
         double y = point.y();
         double r = Math.sqrt(x * x + y * y);
         double teta = Math.atan(x / y);
-        double phi = Math.atan(y / x);
 
         return new Point(
             r * Math.sin(teta * r),
