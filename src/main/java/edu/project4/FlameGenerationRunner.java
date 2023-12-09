@@ -8,12 +8,12 @@ import edu.project4.transformations.AffineTransformation;
 import edu.project4.transformations.SphericalTransformation;
 import edu.project4.utils.ImageFormat;
 import edu.project4.utils.ImageUtils;
-import java.awt.Desktop;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import java.awt.*;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.util.List;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 public class FlameGenerationRunner {
     private static final Logger LOGGER = LogManager.getLogger();
@@ -21,8 +21,7 @@ public class FlameGenerationRunner {
     private FlameGenerationRunner() {
     }
 
-    @SuppressWarnings("MagicNumber")
-    static void generateFractalFlame() throws IOException {
+    @SuppressWarnings("MagicNumber") static void generateFractalFlame() throws IOException {
         int pointsNumber = 10_000;
         int iterationNumber = 10_000;
         int affineNumber = 5;
@@ -30,11 +29,10 @@ public class FlameGenerationRunner {
 
         MultiThreadedRenderer renderer = new MultiThreadedRenderer();
         List<AffineTransformation> affineTransformationList =
-            renderer.generateAffineTransformations(affineNumber, List.of(Color.RED, Color.WHITE));
+            renderer.generateAffineTransformations(affineNumber, List.of(Color.RED, Color.GREEN));
 
         long startTime = System.nanoTime();
-        FractalImage image = renderer.render(
-            pointsNumber,
+        FractalImage image = renderer.render(pointsNumber,
             iterationNumber,
             1920,
             1080,
@@ -47,11 +45,7 @@ public class FlameGenerationRunner {
         correction.process(image);
 
         Path filename = Path.of("src", "main", "resources", "project4", "single_threaded_fractal.png");
-        ImageUtils.save(
-            image,
-            filename,
-            ImageFormat.PNG
-        );
+        ImageUtils.save(image, filename, ImageFormat.PNG);
 
         Desktop.getDesktop().open(filename.toFile());
     }
