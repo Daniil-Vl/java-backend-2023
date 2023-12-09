@@ -9,5 +9,5 @@ public enum NonLinearTransformationType {
     SINUSOIDAL,
     SPHERICAL,
     SWIRL,
-    TANGENT;
+    TANGENT
 }
