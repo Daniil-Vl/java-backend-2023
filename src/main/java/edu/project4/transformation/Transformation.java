@@ -1,4 +1,4 @@
-package edu.project4.transformations;
+package edu.project4.transformation;
 
 import edu.project4.image.Point;
 import java.util.function.Function;
