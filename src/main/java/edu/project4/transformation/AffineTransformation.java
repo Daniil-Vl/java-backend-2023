@@ -1,4 +1,4 @@
-package edu.project4.transformations;
+package edu.project4.transformation;
 
 import edu.project4.colors.Color;
 import edu.project4.image.Point;

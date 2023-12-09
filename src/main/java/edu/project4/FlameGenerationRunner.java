@@ -4,11 +4,10 @@ import edu.project4.colors.Color;
 import edu.project4.image.FractalImage;
 import edu.project4.imageprocessing.LogGammaCorrection;
 import edu.project4.rendering.MultiThreadedRenderer;
-import edu.project4.transformations.AffineTransformation;
-import edu.project4.transformations.ExponentialTransformation;
-import edu.project4.transformations.SphericalTransformation;
-import edu.project4.transformations.TangentTransformation;
-import edu.project4.transformations.Transformation;
+import edu.project4.transformation.AffineTransformation;
+import edu.project4.transformation.NonLinearTransformationType;
+import edu.project4.transformation.NonLinearTransformationsFactory;
+import edu.project4.transformation.Transformation;
 import edu.project4.utils.ImageFormat;
 import edu.project4.utils.ImageUtils;
 import java.io.IOException;
@@ -71,10 +70,23 @@ public class FlameGenerationRunner {
         int upperColorNumberEdge = 6;
         double lowerGammaEdge = 0.3;
         double upperGammaEdge = 1.0;
+
         List<Color> availableColors =
-            List.of(Color.RED, Color.GREEN, Color.BLUE, Color.ORANGE, Color.PURPLE, Color.WHITE);
-        List<Transformation> availableNonLinearTransformations =
-            List.of(new SphericalTransformation(), new ExponentialTransformation(), new TangentTransformation());
+            List.of(
+                Color.RED,
+                Color.GREEN,
+                Color.BLUE,
+                Color.ORANGE,
+                Color.PURPLE,
+                Color.WHITE
+            );
+
+        List<Transformation> availableNonLinearTransformations = List.of(
+            NonLinearTransformationsFactory.createTransformation(NonLinearTransformationType.SPHERICAL),
+            NonLinearTransformationsFactory.createTransformation(NonLinearTransformationType.EXPONENTIAL),
+            NonLinearTransformationsFactory.createTransformation(NonLinearTransformationType.TANGENT)
+        );
+
         Random random = new Random();
 
         long startTime = System.nanoTime();
