@@ -15,8 +15,8 @@ import org.jetbrains.annotations.Range;
 public class AffineTransformation implements Transformation {
     private static final double LINEAR_TRANSFORMATION_BOTTOM_EDGE = -1.0;
     private static final double LINEAR_TRANSFORMATION_UPPER_EDGE = 1.0;
-    private static final double TRANSLATION_TRANSFORMATION_BOTTOM_EDGE = -1;
-    private static final double TRANSLATION_TRANSFORMATION_UPPER_EDGE = 1;
+    private static final double TRANSLATION_TRANSFORMATION_BOTTOM_EDGE = -1.0;
+    private static final double TRANSLATION_TRANSFORMATION_UPPER_EDGE = 1.0;
     @Range(from = 0, to = 255)
     private final int red, green, blue;
     private final double c;

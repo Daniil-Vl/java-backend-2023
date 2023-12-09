@@ -6,7 +6,8 @@ public enum Color {
     BLUE(0, 0, 255),
     WHITE(255, 255, 255),
     BLACK(0, 0, 0),
-    PURPLE(158, 103, 210);
+    PURPLE(158, 103, 210),
+    ORANGE(227, 101, 29);
 
     private final int red;
     private final int green;
