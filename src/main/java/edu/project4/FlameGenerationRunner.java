@@ -1,8 +1,9 @@
 package edu.project4;
 
+import edu.project4.colors.Color;
 import edu.project4.image.FractalImage;
 import edu.project4.imageprocessing.LogGammaCorrection;
-import edu.project4.rendering.SingleThreadedRenderer;
+import edu.project4.rendering.MultiThreadedRenderer;
 import edu.project4.transformations.AffineTransformation;
 import edu.project4.transformations.SphericalTransformation;
 import edu.project4.utils.ImageFormat;
@@ -11,17 +12,25 @@ import java.awt.Desktop;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.util.List;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
-public class Main {
+public class FlameGenerationRunner {
+    private static final Logger LOGGER = LogManager.getLogger();
 
-    static void generateWithSingleThreadedRenderer() throws IOException {
-        int pointsNumber = 50_000;
-        int iterationNumber = 15_000;
+    private FlameGenerationRunner() {
+    }
+
+    @SuppressWarnings("MagicNumber")
+    static void generateFractalFlame() throws IOException {
+        int pointsNumber = 10_000;
+        int iterationNumber = 10_000;
         int affineNumber = 5;
         double gamma = 0.5;
 
-        SingleThreadedRenderer renderer = new SingleThreadedRenderer();
-        List<AffineTransformation> affineTransformationList = renderer.generateAffineTransformations(affineNumber);
+        MultiThreadedRenderer renderer = new MultiThreadedRenderer();
+        List<AffineTransformation> affineTransformationList =
+            renderer.generateAffineTransformations(affineNumber, List.of(Color.RED, Color.WHITE));
 
         long startTime = System.nanoTime();
         FractalImage image = renderer.render(
@@ -29,11 +38,10 @@ public class Main {
             iterationNumber,
             1920,
             1080,
-            System.nanoTime(),
             affineTransformationList,
             new SphericalTransformation()
         );
-        System.out.println("Rendering time: " + (System.nanoTime() - startTime) / 1e9 + " seconds");
+        LOGGER.info("Rendering time: " + (System.nanoTime() - startTime) / 1e9 + " seconds");
 
         LogGammaCorrection correction = new LogGammaCorrection(gamma);
         correction.process(image);
@@ -46,9 +54,5 @@ public class Main {
         );
 
         Desktop.getDesktop().open(filename.toFile());
-    }
-
-    public static void main(String[] args) throws IOException {
-        generateWithSingleThreadedRenderer();
     }
 }

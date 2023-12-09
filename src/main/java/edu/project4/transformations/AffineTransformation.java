@@ -4,7 +4,6 @@ import edu.project4.colors.Color;
 import edu.project4.image.Point;
 import java.util.List;
 import java.util.Random;
-import java.util.concurrent.ThreadLocalRandom;
 import org.jetbrains.annotations.Range;
 
 /**
@@ -14,33 +13,30 @@ import org.jetbrains.annotations.Range;
  */
 @SuppressWarnings("MultipleVariableDeclarations")
 public class AffineTransformation implements Transformation {
-    private static final List<Color> COLORS = List.of(
-        Color.RED, Color.WHITE
-    );
     private static final double LINEAR_TRANSFORMATION_BOTTOM_EDGE = -1.0;
     private static final double LINEAR_TRANSFORMATION_UPPER_EDGE = 1.0;
     private static final double TRANSLATION_TRANSFORMATION_BOTTOM_EDGE = -1;
     private static final double TRANSLATION_TRANSFORMATION_UPPER_EDGE = 1;
-    private static final int COLOR_UPPER_EDGE = 256;
     @Range(from = 0, to = 255)
     private final int red, green, blue;
-    /**
-     * Coefficients for affine transformation
-     */
-    @Range(from = -1, to = 1)
-    private double a, b, c, d, e, f;
+    private final double c;
+    private final double f;
+    private double a;
+    private double b;
+    private double d;
+    private double e;
 
     /**
      * Generate random coefficients using randomizer with System.nanoTime() as seed
      */
     public AffineTransformation() {
-        this(ThreadLocalRandom.current().nextLong(-100_000, 100_000));
+        this(System.nanoTime(), List.of(Color.WHITE));
     }
 
     /**
      * Generate random coefficients using randomizer with given seed
      */
-    public AffineTransformation(long seed) {
+    public AffineTransformation(long seed, List<Color> colors) {
         Random random = new Random(seed);
 
         // Generate a, b, d, e
@@ -50,8 +46,7 @@ public class AffineTransformation implements Transformation {
             d = random.nextDouble(LINEAR_TRANSFORMATION_BOTTOM_EDGE, LINEAR_TRANSFORMATION_UPPER_EDGE);
             e = random.nextDouble(LINEAR_TRANSFORMATION_BOTTOM_EDGE, LINEAR_TRANSFORMATION_UPPER_EDGE);
         } while (
-            sqr(a) + sqr(d) >= 1 || sqr(b) + sqr(e) >= 1
-                || sqr(a) + sqr(b) + sqr(d) + sqr(e) >= 1 + sqr(a * e + b * d)
+            !isCoefficientValid()
         );
 
         // Generate c, f
@@ -59,14 +54,16 @@ public class AffineTransformation implements Transformation {
         this.f = random.nextDouble(TRANSLATION_TRANSFORMATION_BOTTOM_EDGE, TRANSLATION_TRANSFORMATION_UPPER_EDGE);
 
         // Generate rgb color
-        Color randomColor = COLORS.get(random.nextInt(COLORS.size()));
+        Color randomColor = colors.get(random.nextInt(colors.size()));
         this.red = randomColor.getRed();
         this.green = randomColor.getGreen();
         this.blue = randomColor.getBlue();
     }
 
-    private static double sqr(double value) {
-        return value * value;
+    private boolean isCoefficientValid() {
+        return a * a + d * d < 1
+            && b * b + e * e < 1
+            && a * b + d * e < 1 + (a * e + b * d) * (a * e + b * d);
     }
 
     @Override
