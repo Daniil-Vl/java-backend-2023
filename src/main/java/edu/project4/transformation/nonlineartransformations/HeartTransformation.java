@@ -1,6 +1,7 @@
-package edu.project4.transformations;
+package edu.project4.transformation.nonlineartransformations;
 
 import edu.project4.image.Point;
+import edu.project4.transformation.Transformation;
 
 public class HeartTransformation implements Transformation {
     @Override
