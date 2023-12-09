@@ -1,9 +1,9 @@
 package edu.project4.rendering;
 
+import edu.project4.colors.Color;
 import edu.project4.image.FractalImage;
 import edu.project4.transformations.AffineTransformation;
 import edu.project4.transformations.Transformation;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Stream;
 
@@ -15,12 +15,11 @@ public interface Renderer {
         int iterationNumber,
         int imageWidth,
         int imageHeight,
-        long seed,
         List<AffineTransformation> affineTransformations,
         Transformation nonLinearTransformation
     );
 
-    default List<AffineTransformation> generateAffineTransformations(int n) {
+    default List<AffineTransformation> generateAffineTransformations(int n, List<Color> colors) {
         return Stream.generate(AffineTransformation::new).limit(n).toList();
     }
 }
