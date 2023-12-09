@@ -10,11 +10,8 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.TimeUnit;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 public class MultiThreadedRenderer extends AbstractRenderer {
-    private static final Logger LOGGER = LogManager.getLogger();
     private static final int TIMEOUT = 5;
     private static final int RENDER_STEP_THRESHOLD = 20;
     private static final double X_MIN = -1.777;
@@ -63,8 +60,6 @@ public class MultiThreadedRenderer extends AbstractRenderer {
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
-        LOGGER.info("All tasks are completed...");
-        LOGGER.info("Executor service was shut down");
 
         return resultImage;
     }
@@ -101,7 +96,5 @@ public class MultiThreadedRenderer extends AbstractRenderer {
                 }
             }
         }
-
-        LOGGER.info("Finish task");
     }
 }
