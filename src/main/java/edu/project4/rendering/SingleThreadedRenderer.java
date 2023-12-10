@@ -1,6 +1,7 @@
 package edu.project4.rendering;
 
 import edu.project4.image.FractalImage;
+import edu.project4.image.Pixel;
 import edu.project4.image.Point;
 import edu.project4.image.Rect;
 import edu.project4.transformation.AffineTransformation;
@@ -34,21 +35,24 @@ public class SingleThreadedRenderer extends AbstractRenderer {
             Point point = new Point(newX, newY);
 
             for (int step = 0; step < iterationNumber; step++) {
-                AffineTransformation affineTransformation = affineTransformations.get(random.nextInt(
-                    affineTransformations.size()));
+                AffineTransformation affineTransformation =
+                    affineTransformations.get(random.nextInt(affineTransformations.size()));
 
                 point = affineTransformation.apply(point);
                 point = nonLinearTransformation.apply(point);
 
                 if (step > RENDER_STEP_THRESHOLD && biUnitRect.contains(point)) {
-                    int x1 = imageWidth - (int) Math.floor(
-                        imageWidth * ((X_MAX - point.x()) / (X_MAX - X_MIN))
-                    );
-                    int y1 = imageHeight - (int) Math.floor(
-                        imageHeight * ((Y_MAX - point.y()) / (Y_MAX - Y_MIN))
-                    );
+                    int x1 = imageWidth - (int) Math.floor(imageWidth * ((X_MAX - point.x()) / (X_MAX - X_MIN)));
+                    int y1 = imageHeight - (int) Math.floor(imageHeight * ((Y_MAX - point.y()) / (Y_MAX - Y_MIN)));
 
-                    changePixelColor(resultImage, affineTransformation, x1, y1);
+                    if (resultImage.contains(x1, y1)) {
+                        Pixel pixel = resultImage.pixel(x1, y1);
+                        resultImage.setPixel(
+                            x1,
+                            y1,
+                            changePixelColor(pixel, affineTransformation).incrementHitCountAndGet()
+                        );
+                    }
                 }
             }
         }
