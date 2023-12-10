@@ -15,6 +15,7 @@ public interface Renderer {
         int iterationNumber,
         int imageWidth,
         int imageHeight,
+        int symmetry,
         List<AffineTransformation> affineTransformations,
         Transformation nonLinearTransformation
     );

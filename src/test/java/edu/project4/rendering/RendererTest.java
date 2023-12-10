@@ -27,7 +27,7 @@ abstract class RendererTest {
         int pointsNumber = 100;
         int iterationNumber = 100;
         Color color = Color.BLUE;
-        FractalImage image = renderer.render(pointsNumber, iterationNumber, 10, 10,
+        FractalImage image = renderer.render(pointsNumber, iterationNumber, 10, 10, 1,
             List.of(new AffineTransformation(List.of(color))),
             NonLinearTransformationsFactory.createTransformation(NonLinearTransformationType.EXPONENTIAL)
         );
