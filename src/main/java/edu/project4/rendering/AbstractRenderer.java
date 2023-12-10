@@ -13,6 +13,7 @@ public abstract class AbstractRenderer implements Renderer {
         int iterationNumber,
         int imageWidth,
         int imageHeight,
+        int symmetry,
         List<AffineTransformation> affineTransformations,
         Transformation nonLinearTransformation
     );

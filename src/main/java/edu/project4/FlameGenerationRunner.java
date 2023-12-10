@@ -29,6 +29,7 @@ public class FlameGenerationRunner {
         int iterationNumber,
         int affineNumber,
         double gamma,
+        int symmetry,
         List<Color> colors,
         Transformation nonLinearTransformation,
         Path filename
@@ -47,6 +48,7 @@ public class FlameGenerationRunner {
             iterationNumber,
             1920,
             1080,
+            symmetry,
             affineTransformationList,
             nonLinearTransformation
         );
