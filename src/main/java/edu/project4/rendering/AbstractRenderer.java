@@ -17,25 +17,20 @@ public abstract class AbstractRenderer implements Renderer {
         Transformation nonLinearTransformation
     );
 
-    protected void changePixelColor(FractalImage image, AffineTransformation affineTransformation, int x, int y) {
-        if (image.contains(x, y)) {
-            Pixel pixel = image.pixel(x, y);
-
-            if (pixel.hitCount() == 0) {
-                pixel = pixel.updateColors(
-                    affineTransformation.getRed(),
-                    affineTransformation.getGreen(),
-                    affineTransformation.getBlue()
-                );
-            } else {
-                pixel = pixel.updateColors(
-                    (pixel.red() + affineTransformation.getRed()) / 2,
-                    (pixel.green() + affineTransformation.getGreen()) / 2,
-                    (pixel.blue() + affineTransformation.getBlue()) / 2
-                );
-            }
-
-            image.setPixel(x, y, pixel.incrementHitCountAndGet());
+    protected Pixel changePixelColor(Pixel pixel, AffineTransformation affineTransformation) {
+        if (pixel.hitCount() == 0) {
+            return pixel.updateColors(
+                affineTransformation.getRed(),
+                affineTransformation.getGreen(),
+                affineTransformation.getBlue()
+            );
         }
+
+        return pixel.updateColors(
+            (pixel.red() + affineTransformation.getRed()) / 2,
+            (pixel.green() + affineTransformation.getGreen()) / 2,
+            (pixel.blue() + affineTransformation.getBlue()) / 2
+        );
+
     }
 }
