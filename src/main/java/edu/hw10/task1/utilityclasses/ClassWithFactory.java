@@ -14,9 +14,9 @@ public class ClassWithFactory {
     }
 
     @Override public String toString() {
-        return "ClassWithFactory{" +
-            "stringParam='" + stringParam + '\'' +
-            ", intParam=" + intParam +
-            '}';
+        return "ClassWithFactory{"
+            + "stringParam='" + stringParam + '\''
+            + ", intParam=" + intParam
+            + '}';
     }
 }

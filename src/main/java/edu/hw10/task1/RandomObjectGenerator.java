@@ -74,6 +74,7 @@ public class RandomObjectGenerator {
         );
     }
 
+    @SuppressWarnings("MagicNumber")
     private Object[] generateRandomParams(Parameter[] parameters) {
         Object[] randomParameters = new Object[parameters.length];
         Random random = new Random();
