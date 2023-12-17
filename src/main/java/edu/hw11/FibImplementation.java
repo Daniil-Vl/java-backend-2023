@@ -8,9 +8,15 @@ import net.bytebuddy.jar.asm.Label;
 import net.bytebuddy.jar.asm.MethodVisitor;
 import net.bytebuddy.jar.asm.Opcodes;
 
+@SuppressWarnings("MagicNumber")
 public class FibImplementation {
 
-    private static final String fibClassName = "FibonacciCalculator";
+    private static final String FIB_CLASS_NAME = "FibonacciCalculator";
+    private static final String FIB_METHOD_NAME = "fib";
+    private static final String FIB_METHOD_BYTECODE_SIGNATURE = "(I)J";
+
+    private FibImplementation() {
+    }
 
     public static long fib(int n) {
         if (n < 3) {
@@ -23,8 +29,8 @@ public class FibImplementation {
     public static Class<?> buildClass() {
         return new ByteBuddy()
             .subclass(Object.class)
-            .name(fibClassName)
-            .defineMethod("fib", long.class, Opcodes.ACC_PUBLIC | Opcodes.ACC_STATIC)
+            .name(FIB_CLASS_NAME)
+            .defineMethod(FIB_METHOD_NAME, long.class, Opcodes.ACC_PUBLIC | Opcodes.ACC_STATIC)
             .withParameter(int.class, "number")
             .intercept(new Implementation.Simple(new FibonacciByteCodeAppender()))
             .make()
@@ -63,13 +69,25 @@ public class FibImplementation {
             methodVisitor.visitVarInsn(Opcodes.ILOAD, 0);
             methodVisitor.visitInsn(Opcodes.ICONST_2);
             methodVisitor.visitInsn(Opcodes.ISUB);
-            methodVisitor.visitMethodInsn(Opcodes.INVOKESTATIC, fibClassName, "fib", "(I)J", false);
+            methodVisitor.visitMethodInsn(
+                Opcodes.INVOKESTATIC,
+                FIB_CLASS_NAME,
+                FIB_METHOD_NAME,
+                FIB_METHOD_BYTECODE_SIGNATURE,
+                false
+            );
 
             // Invoke fib(n - 1)
             methodVisitor.visitVarInsn(Opcodes.ILOAD, 0);
             methodVisitor.visitInsn(Opcodes.ICONST_1);
             methodVisitor.visitInsn(Opcodes.ISUB);
-            methodVisitor.visitMethodInsn(Opcodes.INVOKESTATIC, fibClassName, "fib", "(I)J", false);
+            methodVisitor.visitMethodInsn(
+                Opcodes.INVOKESTATIC,
+                FIB_CLASS_NAME,
+                FIB_METHOD_NAME,
+                FIB_METHOD_BYTECODE_SIGNATURE,
+                false
+            );
 
             // Return fib(n - 2) + fib(n - 1) of previously calculated values
             methodVisitor.visitInsn(Opcodes.LADD);
