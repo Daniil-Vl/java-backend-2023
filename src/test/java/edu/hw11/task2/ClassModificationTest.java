@@ -3,6 +3,8 @@ package edu.hw11.task2;
 import net.bytebuddy.ByteBuddy;
 import net.bytebuddy.agent.ByteBuddyAgent;
 import net.bytebuddy.dynamic.loading.ClassReloadingStrategy;
+import net.bytebuddy.implementation.MethodDelegation;
+import net.bytebuddy.matcher.ElementMatchers;
 import org.junit.jupiter.api.Test;
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -14,24 +16,25 @@ class ClassModificationTest {
     void testClassChanging() {
         ByteBuddyAgent.install();
 
-        ArithmeticUtils utils = new ArithmeticUtils();
         new ByteBuddy()
-            .redefine(ArithmeticUtilsInterceptor.class)
-            .name(ArithmeticUtils.class.getName())
+            .redefine(ArithmeticUtils.class)
+            .method(ElementMatchers.named("sum"))
+            .intercept(MethodDelegation.to(ArithmeticUtilsInterceptor.class))
             .make()
-            .load(ArithmeticUtils.class.getClassLoader(), ClassReloadingStrategy.fromInstalledAgent());
+            .load(ClassLoader.getSystemClassLoader(), ClassReloadingStrategy.fromInstalledAgent())
+            .getLoaded();
 
-        assertThat(utils.sum(2, 3)).isEqualTo(6);
+        assertThat(ArithmeticUtils.sum(2, 3)).isEqualTo(6);
     }
 
-    static class ArithmeticUtils {
-        public int sum(int a, int b) {
+    public static class ArithmeticUtils {
+        public static int sum(int a, int b) {
             return a + b;
         }
     }
 
-    static class ArithmeticUtilsInterceptor {
-        public int sum(int a, int b) {
+    public static class ArithmeticUtilsInterceptor {
+        public static int sum(int a, int b) {
             return a * b;
         }
     }
