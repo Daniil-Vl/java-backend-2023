@@ -52,8 +52,8 @@ public class FixedThreadPool implements ThreadPool {
         }
 
         for (Thread thread : threads) {
-            thread.join(TIMEOUT);
             thread.interrupt();
+            thread.join(TIMEOUT);
         }
 
         LOGGER.info("FixedThreadPool stops...");
@@ -62,7 +62,7 @@ public class FixedThreadPool implements ThreadPool {
     private class Worker extends Thread {
         @Override
         public void run() {
-            while (true) {
+            while (!isInterrupted()) {
                 try {
                     Runnable task = tasksQueue.take();
                     LOGGER.info("Worker starts executing task");
