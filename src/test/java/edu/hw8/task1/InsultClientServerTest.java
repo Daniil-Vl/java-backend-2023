@@ -11,7 +11,7 @@ import org.junit.jupiter.api.Test;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class InsultClientServerTest {
-    private static final int PORT = 4000;
+    private static final int PORT = 4048;
     private static final String HOST = "127.0.0.1";
 
     private static final List<String> COMMANDS = List.of(
