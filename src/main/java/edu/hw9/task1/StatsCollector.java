@@ -2,6 +2,7 @@ package edu.hw9.task1;
 
 import java.util.Arrays;
 import java.util.DoubleSummaryStatistics;
+import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -13,16 +14,19 @@ public class StatsCollector {
     private double sum = 0;
     private double count = 0;
 
-    public void push(double[] nums) {
-        DoubleSummaryStatistics tempStats = Arrays.stream(nums).summaryStatistics();
+    public CompletableFuture<Void> push(double[] nums) {
+        return CompletableFuture.runAsync(() -> {
 
-        synchronized (this) {
-            min = Math.min(min, tempStats.getMin());
-            max = Math.max(max, tempStats.getMax());
-            count += tempStats.getCount();
-            sum += tempStats.getSum();
-            average = sum / count;
-        }
+            DoubleSummaryStatistics tempStats = Arrays.stream(nums).summaryStatistics();
+            synchronized (this) {
+                min = Math.min(min, tempStats.getMin());
+                max = Math.max(max, tempStats.getMax());
+                count += tempStats.getCount();
+                sum += tempStats.getSum();
+                average = sum / count;
+            }
+
+        }, executorService);
     }
 
     public synchronized double getMin() {
