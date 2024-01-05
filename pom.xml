@@ -45,10 +45,10 @@
 
         <jacoco-maven-plugin.version>0.8.10</jacoco-maven-plugin.version>
 
-        <jmh.version>1.37</jmh.version>
-
         <bytebuddy.version>1.14.8</bytebuddy.version>
         <asm.version>9.6</asm.version>
+      
+        <jmh.version>1.37</jmh.version>
     </properties>
 
     <dependencyManagement>
@@ -89,6 +89,7 @@
             <artifactId>log4j-core</artifactId>
         </dependency>
 
+        <!-- Assertions -->
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter</artifactId>
@@ -113,7 +114,6 @@
             <version>${jmh.version}</version>
             <scope>provided</scope>
         </dependency>
-        <!-- End of JMH-->
 
         <!-- ASM-->
         <dependency>
@@ -133,7 +133,6 @@
             <artifactId>byte-buddy</artifactId>
             <version>${bytebuddy.version}</version>
         </dependency>
-
     </dependencies>
 
 
