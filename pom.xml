@@ -44,6 +44,9 @@
         <maven-site-plugin.version>4.0.0-M9</maven-site-plugin.version>
 
         <jacoco-maven-plugin.version>0.8.10</jacoco-maven-plugin.version>
+
+        <!-- JMH-->
+        <jmh.version>1.37</jmh.version>
     </properties>
 
     <dependencyManagement>
@@ -97,14 +100,18 @@
             <scope>test</scope>
         </dependency>
 
-        <!-- https://mvnrepository.com/artifact/com.googlecode.multithreadedtc/multithreadedtc -->
+        <!-- JMH -->
         <dependency>
-            <groupId>com.googlecode.multithreadedtc</groupId>
-            <artifactId>multithreadedtc</artifactId>
-            <version>1.01</version>
-            <scope>test</scope>
+            <groupId>org.openjdk.jmh</groupId>
+            <artifactId>jmh-core</artifactId>
+            <version>${jmh.version}</version>
         </dependency>
-
+        <dependency>
+            <groupId>org.openjdk.jmh</groupId>
+            <artifactId>jmh-generator-annprocess</artifactId>
+            <version>${jmh.version}</version>
+            <scope>provided</scope>
+        </dependency>
     </dependencies>
 
     <build>
