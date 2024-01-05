@@ -1,12 +1,12 @@
 package edu.hw7.task4;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 public class MultiThreadedPIApproximator extends AbstractPIApproximator {
-    private final long numberOfThreads;
+    private final int numberOfThreads;
 
-    public MultiThreadedPIApproximator(long numberOfPoints, long numberOfThreads) {
+    public MultiThreadedPIApproximator(long numberOfPoints, int numberOfThreads) {
         super(numberOfPoints);
         this.numberOfThreads = numberOfThreads;
     }
@@ -18,8 +18,8 @@ public class MultiThreadedPIApproximator extends AbstractPIApproximator {
     @SuppressWarnings("MagicNumber")
     @Override
     public double approximate() {
-        Thread[] threads = new Thread[(int) numberOfThreads];
-        List<Long> circlePoints = new ArrayList<>();
+        Thread[] threads = new Thread[numberOfThreads];
+        List<Long> circlePoints = new CopyOnWriteArrayList<>();
 
         for (int i = 0; i < numberOfThreads; i++) {
             threads[i] = new Thread(() -> circlePoints.add(getCircleCount(numberOfPoints / numberOfThreads)));

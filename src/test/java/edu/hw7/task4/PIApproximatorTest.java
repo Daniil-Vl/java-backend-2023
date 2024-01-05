@@ -55,6 +55,7 @@ class PIApproximatorTest {
         } else {
             LOGGER.info("Number of threads - " + 1);
         }
+
         LOGGER.info("Result PI approximation - " + resultPI);
         LOGGER.info("Error rate - " + Math.abs(Math.PI - resultPI));
         LOGGER.info("Approximation time - %d milliseconds\n".formatted((endTime - startTIme) / 1000000));
