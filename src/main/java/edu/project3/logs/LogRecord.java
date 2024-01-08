@@ -5,7 +5,7 @@ import org.apache.logging.log4j.core.config.plugins.validation.constraints.NotBl
 import org.jetbrains.annotations.NotNull;
 
 public record LogRecord(
-    @NotNull String remoteAddr,
+    @NotBlank String remoteAddr,
     String remoteUser,
     @NotNull OffsetDateTime timeLocal,
     @NotBlank String request,

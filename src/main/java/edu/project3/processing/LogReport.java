@@ -28,42 +28,17 @@ public record LogReport(
             return true;
         }
 
-        if (!(obj instanceof LogReport)) {
+        if (!(obj instanceof LogReport other)) {
             return false;
         }
 
-        LogReport temp = (LogReport) obj;
-
-        boolean result = true;
-
-        // Compare PriorityQueues
-        PriorityQueue<Map.Entry<String, Integer>> tempRequestedSourcesOriginal =
-            new PriorityQueue<>(this.requestedSources);
-        PriorityQueue<Map.Entry<String, Integer>> tempRequestedSourcesOther =
-            new PriorityQueue<>(temp.requestedSources);
-
-        while (!tempRequestedSourcesOriginal.isEmpty()) {
-            if (!tempRequestedSourcesOriginal.poll().equals(tempRequestedSourcesOther.poll())) {
-                return false;
-            }
-        }
-        result = result && tempRequestedSourcesOther.isEmpty();
-
-        PriorityQueue<Map.Entry<String, Integer>> tempStatusCodeOriginal = new PriorityQueue<>(this.requestedSources);
-        PriorityQueue<Map.Entry<String, Integer>> tempStatusCodeOther = new PriorityQueue<>(temp.requestedSources);
-        while (!tempStatusCodeOriginal.isEmpty()) {
-            if (!tempStatusCodeOriginal.poll().equals(tempStatusCodeOther.poll())) {
-                return false;
-            }
-        }
-        result = result && tempStatusCodeOther.isEmpty();
-
-        return this.files.equals(temp.files)
-            && this.startDate.equals(temp.startDate)
-            && this.endDate.equals(temp.endDate)
-            && this.numberOfRequests.equals(temp.numberOfRequests)
-            && this.averageResponseSize.equals(temp.averageResponseSize)
-            && result;
+        return this.files.equals(other.files)
+            && this.startDate.equals(other.startDate)
+            && this.endDate.equals(other.endDate)
+            && this.numberOfRequests.equals(other.numberOfRequests)
+            && this.averageResponseSize.equals(other.averageResponseSize)
+            && areThePriorityQueuesEqual(this.requestedSources, other.requestedSources)
+            && areThePriorityQueuesEqual(this.statusCodes, other.statusCodes);
     }
 
     @Override
@@ -75,5 +50,27 @@ public record LogReport(
             + this.averageResponseSize.hashCode()
             + this.requestedSources.hashCode()
             + this.statusCodes.hashCode();
+    }
+
+    /**
+     * Checks that first pq contains all elements of second pq in same order and vice versa
+     *
+     * @param first  - first priority queue
+     * @param second - second priority queue
+     */
+    private <K, V> boolean areThePriorityQueuesEqual(
+        PriorityQueue<Map.Entry<K, V>> first,
+        PriorityQueue<Map.Entry<K, V>> second
+    ) {
+        PriorityQueue<Map.Entry<K, V>> firstTemp = new PriorityQueue<>(first);
+        PriorityQueue<Map.Entry<K, V>> secondTemp = new PriorityQueue<>(second);
+
+        while (!firstTemp.isEmpty()) {
+            if (!firstTemp.poll().equals(secondTemp.poll())) {
+                return false;
+            }
+        }
+
+        return secondTemp.isEmpty();
     }
 }

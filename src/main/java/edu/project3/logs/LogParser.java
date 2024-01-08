@@ -8,24 +8,23 @@ import java.util.regex.Pattern;
 
 public class LogParser {
 
-    private LogParser() {
-    }
-
     private static final String IPV_4_PATTERN = "(\\d{1,3}\\.){3}\\d{1,3}";
     private static final String IPV_6_PATTERN = "([a-f0-9]{0,4}:){2,7}([a-f0-9]{0,4})?";
-
     private static final DateTimeFormatter DATE_TIME_FORMATTER =
         DateTimeFormatter.ofPattern("dd/MMM/yyyy:HH:mm:ss Z", Locale.US);
+
+    private LogParser() {
+    }
 
     /**
      * Parses log string to LogRecord object
      *
-     * @param nginxLog - raw string containing one nginx lgo
+     * @param nginxLog - raw string containing one nginx log
      * @return parsed LogRecord
      */
     @SuppressWarnings("MagicNumber")
     public static LogRecord parseLog(String nginxLog) {
-        // ip, remoteUser, timeLocal, request, statusCode, bytesSend, httpReferer, httpUserAgent
+        // options = [ip, remoteUser, timeLocal, request, statusCode, bytesSend, httpReferer, httpUserAgent]
         String[] options = new String[8];
         int position = 0;
         for (PatternEnum patternENum : PatternEnum.values()) {
