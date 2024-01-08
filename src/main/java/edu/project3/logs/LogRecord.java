@@ -1,18 +1,16 @@
 package edu.project3.logs;
 
 import java.time.OffsetDateTime;
-import org.apache.logging.log4j.core.config.plugins.validation.constraints.NotBlank;
-import org.jetbrains.annotations.NotNull;
 
 public record LogRecord(
-    @NotBlank String remoteAddr,
+    String remoteAddr,
     String remoteUser,
-    @NotNull OffsetDateTime timeLocal,
-    @NotBlank String request,
+    OffsetDateTime timeLocal,
+    String request,
     int statusCode,
     int bytesSend,
     String httpReferer,
-    @NotNull String httpUserAgent) {
+    String httpUserAgent) {
 
     public String getRequestedResource() {
         return this.request.split(" ")[1];
