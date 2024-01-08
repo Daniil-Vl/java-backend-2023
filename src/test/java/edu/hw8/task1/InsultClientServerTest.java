@@ -7,13 +7,14 @@ import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class InsultClientServerTest {
     private static final int PORT = 8081;
     private static final String HOST = "127.0.0.1";
-
     private static final List<String> COMMANDS = List.of(
         "личности",
         "оскорбления",
@@ -21,11 +22,11 @@ public class InsultClientServerTest {
         "unsupported theme/command",
         "интеллект"
     );
+    private static InsultServer server;
 
-    @Test
-    void multipleClients() throws Exception {
-        // 1) Start server
-        InsultServer server = new InsultServer(PORT);
+    @BeforeAll
+    static void startServer() throws IOException {
+        server = new InsultServer(PORT);
         Thread serverThread = new Thread(() -> {
             try {
                 server.start();
@@ -34,8 +35,16 @@ public class InsultClientServerTest {
             }
         });
         serverThread.start();
+    }
 
-        // 2) Start and execute commands for 8 clients
+    @AfterAll
+    static void closeServer() throws Exception {
+        server.close();
+    }
+
+    @Test
+    void multipleClients() throws Exception {
+        // 1) Start and execute commands for 8 clients
         int numberOfClients = 8;
         ExecutorService executorService = Executors.newFixedThreadPool(numberOfClients);
         List<Callable<List<String>>> clients = new ArrayList<>();
@@ -48,32 +57,17 @@ public class InsultClientServerTest {
             List<String> actualResponses = futureClientResponses.get();
             assertClientCollectedResponses(actualResponses, COMMANDS);
         }
-
-        server.close();
     }
 
     @Test
     void singleClient() throws Exception {
-        // 1) Start server
-        InsultServer server = new InsultServer(PORT);
-        Thread serverThread = new Thread(() -> {
-            try {
-                server.start();
-            } catch (IOException | InterruptedException e) {
-                throw new RuntimeException(e);
-            }
-        });
-        serverThread.start();
-
-        // 2) Start & execute client
+        // 1) Start & execute client
         ExecutorService executorService = Executors.newSingleThreadExecutor();
         Future<List<String>> futureResponses = executorService.submit(new InsultClient(HOST, PORT, COMMANDS));
         List<String> actualResponses = futureResponses.get();
 
-        // 3) Compare actual and expected responses
+        // 2) Compare actual and expected responses
         assertClientCollectedResponses(actualResponses, COMMANDS);
-
-        server.close();
     }
 
     void assertClientCollectedResponses(List<String> responses, List<String> commands) {
