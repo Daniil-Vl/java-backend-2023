@@ -40,12 +40,12 @@ abstract class RendererTest {
     }
 
     private boolean isBlueOrBlack(Pixel pixel) {
-        return pixel.red() == Color.BLUE.getRed()
-            && pixel.green() == Color.BLUE.getGreen()
-            && pixel.blue() == Color.BLUE.getBlue()
-            || pixel.red() == Color.BLACK.getRed()
-            && pixel.green() == Color.BLACK.getGreen()
-            && pixel.blue() == Color.BLACK.getBlue();
+        return pixel.red() == Color.BLUE.red()
+            && pixel.green() == Color.BLUE.green()
+            && pixel.blue() == Color.BLUE.blue()
+            || pixel.red() == Color.BLACK.red()
+            && pixel.green() == Color.BLACK.green()
+            && pixel.blue() == Color.BLACK.blue();
 
     }
 

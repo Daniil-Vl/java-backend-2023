@@ -12,11 +12,11 @@ public final class FractalImage {
     }
 
     /**
-     * Create FractalImage with black background
+     * Create FractalImage with a black background
      *
      * @param width  - width of the image
      * @param height - height of the image
-     * @return fractal image with black background
+     * @return empty fractal image
      */
     public static FractalImage create(int width, int height) {
         Pixel[][] tempField = new Pixel[height][width];

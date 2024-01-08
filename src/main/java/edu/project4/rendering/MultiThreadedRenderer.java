@@ -31,7 +31,8 @@ public class MultiThreadedRenderer extends AbstractRenderer {
         this.executorService = Executors.newFixedThreadPool(nThreads);
     }
 
-    @Override public FractalImage render(
+    @Override
+    public FractalImage render(
         int pointsNumber,
         int iterationNumber,
         int imageWidth,
@@ -90,29 +91,30 @@ public class MultiThreadedRenderer extends AbstractRenderer {
                 point = affineTransformation.apply(point);
                 point = nonLinearTransformation.apply(point);
 
-                if (step > RENDER_STEP_THRESHOLD && biUnitRect.contains(point)) {
+                if (step <= RENDER_STEP_THRESHOLD || !biUnitRect.contains(point)) {
+                    continue;
+                }
 
-                    Point rotatedPoint;
-                    double angle = 0.0;
+                Point rotatedPoint;
+                double angle = 0.0;
 
-                    for (int s = 0; s < symmetry; s++, angle += Math.PI * 2 / symmetry) {
-                        rotatedPoint = point.rotate(angle);
-                        int x1 = imageWidth - (int) (imageWidth * ((X_MAX - rotatedPoint.x()) / (X_MAX - X_MIN)));
-                        int y1 = imageHeight - (int) (imageHeight * ((Y_MAX - rotatedPoint.y()) / (Y_MAX - Y_MIN)));
+                for (int s = 0; s < symmetry; s++, angle += Math.PI * 2 / symmetry) {
+                    rotatedPoint = Point.rotate(point, angle);
+                    int x1 = imageWidth - (int) (imageWidth * ((X_MAX - rotatedPoint.x()) / (X_MAX - X_MIN)));
+                    int y1 = imageHeight - (int) (imageHeight * ((Y_MAX - rotatedPoint.y()) / (Y_MAX - Y_MIN)));
 
-                        if (resultImage.contains(x1, y1)) {
-                            Pixel pixel = resultImage.pixel(x1, y1);
-                            synchronized (pixel) {
-                                resultImage.setPixel(
-                                    x1,
-                                    y1,
-                                    changePixelColor(pixel, affineTransformation).incrementHitCountAndGet()
-                                );
-                            }
-                        }
-
+                    if (!resultImage.contains(x1, y1)) {
+                        continue;
                     }
 
+                    Pixel pixel = resultImage.pixel(x1, y1);
+                    synchronized (pixel) {
+                        resultImage.setPixel(
+                            x1,
+                            y1,
+                            changePixelColor(pixel, affineTransformation).hit()
+                        );
+                    }
                 }
             }
         }

@@ -59,9 +59,9 @@ public class AffineTransformation implements Transformation {
 
         // Generate rgb color
         Color randomColor = colors.get(random.nextInt(colors.size()));
-        this.red = randomColor.getRed();
-        this.green = randomColor.getGreen();
-        this.blue = randomColor.getBlue();
+        this.red = randomColor.red();
+        this.green = randomColor.green();
+        this.blue = randomColor.blue();
     }
 
     private boolean isCoefficientValid() {

@@ -20,14 +20,14 @@ public abstract class AbstractRenderer implements Renderer {
 
     protected Pixel changePixelColor(Pixel pixel, AffineTransformation affineTransformation) {
         if (pixel.hitCount() == 0) {
-            return pixel.updateColors(
+            return pixel.update(
                 affineTransformation.getRed(),
                 affineTransformation.getGreen(),
                 affineTransformation.getBlue()
             );
         }
 
-        return pixel.updateColors(
+        return pixel.update(
             (pixel.red() + affineTransformation.getRed()) / 2,
             (pixel.green() + affineTransformation.getGreen()) / 2,
             (pixel.blue() + affineTransformation.getBlue()) / 2

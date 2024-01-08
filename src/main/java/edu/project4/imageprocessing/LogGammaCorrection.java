@@ -30,7 +30,7 @@ public class LogGammaCorrection implements ImageProcessor {
                 Pixel pixel = image.pixel(x, y);
                 normals[y][x] /= max;
 
-                pixel = pixel.updateColors(
+                pixel = pixel.update(
                     (int) (pixel.red() * Math.pow(normals[y][x], 1.0 / gamma)),
                     (int) (pixel.green() * Math.pow(normals[y][x], 1.0 / gamma)),
                     (int) (pixel.blue() * Math.pow(normals[y][x], 1.0 / gamma))

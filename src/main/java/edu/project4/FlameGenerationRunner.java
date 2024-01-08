@@ -13,6 +13,7 @@ import edu.project4.utils.ImageUtils;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -38,6 +39,10 @@ public class FlameGenerationRunner {
             throw new IllegalArgumentException("Number of threads must be positive");
         }
 
+        if (symmetry <= 0) {
+            throw new IllegalArgumentException("Symmetry must be positive");
+        }
+
         Renderer renderer = nThreads == 1 ? new SingleThreadedRenderer() : new MultiThreadedRenderer(nThreads);
         List<AffineTransformation> affineTransformationList =
             renderer.generateAffineTransformations(affineNumber, colors);
@@ -54,7 +59,7 @@ public class FlameGenerationRunner {
         );
         long endTime = System.nanoTime();
 
-        LOGGER.info("Rendering time: " + (endTime - startTime) / 1e9 + " seconds");
+        LOGGER.info("Rendering time: " + TimeUnit.NANOSECONDS.toSeconds(endTime - startTime) + " seconds");
 
         LogGammaCorrection correction = new LogGammaCorrection(gamma);
         correction.process(image);
